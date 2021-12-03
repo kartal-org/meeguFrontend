@@ -52,7 +52,7 @@ export const institutionSlice = createSlice({
 		editCurrentInstitutionSuccess: (state, action) => {
 			state.currentInstitution = action.payload;
 			toast.update(toastId, {
-				render: 'Changes Saved!',
+				render: 'Edited successfully',
 				type: 'success',
 				autoClose: 3000,
 				isLoading: false,
@@ -61,12 +61,12 @@ export const institutionSlice = createSlice({
 		},
 		editCurrentInstitutionFailed: (state, action) => {
 			toast.update(toastId, {
-				render: 'Changes Save Failed!',
+				render: 'Failed to edit',
 				type: 'error',
 				autoClose: 3000,
 				isLoading: false,
 			});
-			alert('Current Institution Edit Failed!');
+			// alert('Current Institution Edit Failed!');
 		},
 		deleteCurrentInstitutionRequest: (state, action) => {
 			toastId = toast.loading('Saving Changes...');
@@ -106,7 +106,7 @@ export const institutionSlice = createSlice({
 				autoClose: 2000,
 				isLoading: false,
 			});
-			alert('Create Institution Success!');
+			// alert('Create Institution Success!');
 		},
 		addFailed: (state, action) => {
 			toast.update(toastId, {
@@ -115,7 +115,7 @@ export const institutionSlice = createSlice({
 				autoClose: 3000,
 				isLoading: false,
 			});
-			alert('Create Institution Failed!');
+			// alert('Create Institution Failed!');
 		},
 		addRequest: (state, action) => {
 			toastId = toast.loading('Adding Institution...');

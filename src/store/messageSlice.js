@@ -1,9 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { apiCallBegan } from './actions/api';
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+let toastId;
 
 export const messageSlice = createSlice({
-	name: 'messages',
+	name: "messages",
 	initialState: {
 		messages: [],
 		rooms: [],
@@ -15,22 +19,22 @@ export const messageSlice = createSlice({
 		},
 		messagesLoadSuccess: (state, action) => {
 			state.isLoading = false;
-			state.messages = action.payload; 
+			state.messages = action.payload;
 		},
 		messagesLoadFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Load Message Failed!');
+			alert("Load Message Failed!");
 		},
 		roomsLoadRequest: (state, action) => {
 			state.isLoading = true;
 		},
 		roomsLoadSuccess: (state, action) => {
 			state.isLoading = false;
-			state.rooms = action.payload; 
+			state.rooms = action.payload;
 		},
 		roomsLoadFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Load Message Failed!');
+			alert("Load Message Failed!");
 		},
 		roomCreateRequest: (state, action) => {
 			state.isLoading = true;
@@ -39,25 +43,49 @@ export const messageSlice = createSlice({
 			state.isLoading = false;
 			state.rooms.unshift({
 				id: action.payload.id.id,
-				messages: '',
+				messages: "",
 				title: action.payload.title,
 			});
-			alert('Create Message Success!');
+			// alert('Create Message Success!');
+			toast.update(toastId, {
+				render: "Created successfully",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		roomCreateFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Create Message Failed!');
+			// alert('Create Message Failed!');
+			toast.update(toastId, {
+				render: "Failed to create",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		sendMessageRequest: (state, action) => {
 			state.isLoading = true;
 		},
 		sendMessageSuccess: (state, action) => {
 			state.isLoading = false;
-			alert('Sending Message Success!');
+			// alert('Sending Message Success!');
+			toast.update(toastId, {
+				render: "Message Sent",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		sendMessageFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Sending Message Failed!');
+			// alert('Sending Message Failed!');
+			toast.update(toastId, {
+				render: "Failed to send message",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 	},
 });
@@ -83,58 +111,58 @@ export default messageSlice.reducer;
 
 export const getMessages = (room) =>
 	apiCallBegan({
-		url: '/chat/fetchMessage/' + room,
-		method: 'get',
+		url: "/chat/fetchMessage/" + room,
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: messagesLoadRequest.type,
 		onSuccess: messagesLoadSuccess.type,
 		onError: messagesLoadFailed.type,
 	});
 export const getRooms = () =>
 	apiCallBegan({
-		url: '/chat/fetchRoom',
-		method: 'get',
+		url: "/chat/fetchRoom",
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: roomsLoadRequest.type,
 		onSuccess: roomsLoadSuccess.type,
 		onError: roomsLoadFailed.type,
 	});
 export const sendMessage = (content, room) =>
 	apiCallBegan({
-		url: '/chat/sendMessage',
-		method: 'post',
+		url: "/chat/sendMessage",
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
 		data: { content, room },
-		type: 'regular',
+		type: "regular",
 		onStart: sendMessageRequest.type,
 		onSuccess: sendMessageSuccess.type,
 		onError: sendMessageFailed.type,
 	});
 export const createRoom = (receiver) =>
 	apiCallBegan({
-		url: '/chat/createRoom',
-		method: 'post',
+		url: "/chat/createRoom",
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
 		data: { receiver },
-		type: 'regular',
+		type: "regular",
 		onStart: roomCreateRequest.type,
 		onSuccess: roomCreateSuccess.type,
 		onError: roomCreateFailed.type,

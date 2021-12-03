@@ -1,8 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { apiCallBegan } from './actions/api';
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+let toastId;
 
 export const staffSlice = createSlice({
-	name: 'Staffs',
+	name: "Staffs",
 	initialState: {
 		currentStaff: null,
 		staffs: [],
@@ -12,40 +16,52 @@ export const staffSlice = createSlice({
 	},
 	reducers: {
 		loadStaffRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		loadStaffSuccess: (state, action) => {
-			state.status = 'staff load success';
+			state.status = "staff load success";
 			state.staffs = action.payload;
 		},
 		loadStaffFailed: (state, action) => {
-			state.status = 'staff load failed';
+			state.status = "staff load failed";
 			state.staffs = [];
-			alert('Staffs Load Failed!');
+			alert("Staffs Load Failed!");
 		},
 		loadStaffTypeRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		loadStaffTypeSuccess: (state, action) => {
-			state.status = 'staff type load success';
+			state.status = "staff type load success";
 			state.staffTypes = action.payload;
 		},
 		loadStaffTypeFailed: (state, action) => {
-			state.status = 'staff type load failed';
+			state.status = "staff type load failed";
 			state.staffTypes = [];
-			alert('Staff type Load Failed!');
+			alert("Staff type Load Failed!");
 		},
 		addStaffRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		addStaffSuccess: (state, action) => {
-			state.status = 'staff add success';
+			state.status = "staff add success";
 			state.staffs.unshift(action.payload);
-			alert('Staff add Success!');
+			// alert('Staff add Success!');
+			toast.update(toastId, {
+				render: "Successfully added",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		addStaffFailed: (state, action) => {
-			state.status = 'staff add failed';
-			alert('Staff add Failed!');
+			state.status = "staff add failed";
+			// alert('Staff add Failed!');
+			toast.update(toastId, {
+				render: "Failed to add",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 	},
 });
@@ -69,13 +85,13 @@ export default staffSlice.reducer;
 export const getStaffs = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: loadStaffRequest.type,
 		onSuccess: loadStaffSuccess.type,
 		onError: loadStaffFailed.type,
@@ -83,13 +99,13 @@ export const getStaffs = (link) =>
 export const getStaffTypes = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: loadStaffTypeRequest.type,
 		onSuccess: loadStaffTypeSuccess.type,
 		onError: loadStaffTypeFailed.type,
@@ -97,13 +113,13 @@ export const getStaffTypes = (link) =>
 export const addStaff = (link, formdata) =>
 	apiCallBegan({
 		url: link,
-		method: 'post',
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: formdata,
 		onStart: addStaffRequest.type,
 		onSuccess: addStaffSuccess.type,

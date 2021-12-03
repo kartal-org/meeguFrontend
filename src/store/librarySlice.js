@@ -1,8 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { apiCallBegan } from './actions/api';
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+let toastId;
 
 export const librarySlice = createSlice({
-	name: 'library',
+	name: "library",
 	initialState: {
 		currentArticle: null,
 		articles: [],
@@ -14,22 +18,36 @@ export const librarySlice = createSlice({
 		},
 		articleLoadSuccess: (state, action) => {
 			state.isLoading = false;
-			state.articles = action.payload; 
+			state.articles = action.payload;
 		},
 		articleLoadFailed: (state, action) => {
-			alert('Articles Load Failed!');
+			alert("Articles Load Failed!");
 		},
 		articleDeleteRequest: (state, action) => {
 			state.isLoading = true;
 		},
 		articleDeleteSuccess: (state, action) => {
 			state.isLoading = false;
-			const filtered = state.articles.filter((val) => val.id == action.payload.id);
+			const filtered = state.articles.filter(
+				(val) => val.id == action.payload.id
+			);
 			state.articles = filtered;
-			alert('Articles Delete Success!');
+			// alert('Articles Delete Success!');
+			toast.update(toastId, {
+				render: "Deleted successfully",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		articleDeleteFailed: (state, action) => {
-			alert('Articles Delete Failed!');
+			// alert('Articles Delete Failed!');
+			toast.update(toastId, {
+				render: "Failed to delete",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 	},
 });
@@ -49,43 +67,43 @@ export default librarySlice.reducer;
 
 export const getArticles = () =>
 	apiCallBegan({
-		url: '/library',
-		method: 'get',
+		url: "/library",
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
 	});
 export const addArticle = (content) =>
 	apiCallBegan({
-		url: '/library/add',
-		method: 'post',
+		url: "/library/add",
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
 		data: { content },
-		type: 'regular',
+		type: "regular",
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
 	});
 export const removeArticle = (id) =>
 	apiCallBegan({
-		url: '/library/' + id,
-		method: 'delete',
+		url: "/library/" + id,
+		method: "delete",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: articleDeleteRequest.type,
 		onSuccess: articleDeleteSuccess.type,
 		onError: articleDeleteFailed.type,
