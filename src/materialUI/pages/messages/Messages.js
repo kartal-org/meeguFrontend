@@ -311,7 +311,7 @@ export default function Messages(props) {
 								</div>
 
 								<IconButton color="primary" aria-label="send message">
-									<RiSendPlaneFill />
+									{/* <RiSendPlaneFill /> */}
 								</IconButton>
 							</div>
 						</div>
