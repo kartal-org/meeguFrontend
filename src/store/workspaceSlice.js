@@ -4,7 +4,6 @@ import { apiCallBegan } from './actions/api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-let toastId2;
 let toastId;
 
 export const workspaceSlice = createSlice({
@@ -51,27 +50,63 @@ export const workspaceSlice = createSlice({
 			}
 
 			state.currentWorkspace = action.payload;
-			alert('Workspace Create Success!');
+			// alert('Workspace Create Success!');
+			toast.update(toastId, {
+				render: 'Created successfully',
+				autoClose: 3000,
+				type: 'success',
+				isLoading: false,
+			});
 		},
 		workspaceAddFailed: (state, action) => {
-			alert('Workspace Create Failed!');
+			// alert('Workspace Create Failed!');
+			toast.update(toastId, {
+				render: 'Failed to create',
+				autoClose: 3000,
+				type: 'error',
+				isLoading: false,
+			});
 		},
 
 		worksUpdateRequest: (state, action) => {},
 		worksUpdateSuccess: (state, action) => {
 			state.currentWorkspace = action.payload;
-			alert('Workspace Update Success!');
+			// alert('Workspace Update Success!');
+			toast.update(toastId, {
+				render: 'Successfully updated',
+				autoClose: 3000,
+				type: 'success',
+				isLoading: false,
+			});
 		},
 		worksUpdateFailed: (state, action) => {
-			alert('Workspace Update Failed!');
+			// alert('Workspace Update Failed!');
+			toast.update(toastId, {
+				render: 'Failed to update',
+				autoClose: 3000,
+				type: 'error',
+				isLoading: false,
+			});
 		},
 		worksDeleteRequest: (state, action) => {},
 		worksDeleteSuccess: (state, action) => {
 			state.currentWorkspace = null;
-			alert('Workspace Delete Success!');
+			// alert('Workspace Delete Success!');
+			toast.update(toastId, {
+				render: 'Deleted successfully',
+				autoClose: 3000,
+				type: 'success',
+				isLoading: false,
+			});
 		},
 		worksDeleteFailed: (state, action) => {
-			alert('Workspace Update Failed!');
+			// alert('Workspace Update Failed!');
+			toast.update(toastId, {
+				render: 'Failed to delete',
+				autoClose: 3000,
+				type: 'error',
+				isLoading: false,
+			});
 		},
 
 		worksDeleted: (state, action) => {},

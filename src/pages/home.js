@@ -66,6 +66,12 @@ const Home = ({ item, feed }) => {
 
 	const [tabs, setTabs] = useState([
 		{
+			label: 'Feed',
+			link: `/home/${id}?tab=feed`,
+			value: 'feed',
+			component: 'feed',
+		},
+		{
 			label: 'All',
 			link: `/home/${id}?tab=all`,
 			value: 'all',
@@ -184,17 +190,12 @@ const Home = ({ item, feed }) => {
 
 						<Divider sx={{ m: 2 }} />
 
-						<div className='ml-12 mt-4 mr-4 flex flex-row items-center w-full'>
-							<div className='w-1/2 flex flex-row items-center'>
-								<Button variant='outlined'>Request full text</Button>
+						<div className='flex flex-row justify-between'>
+							<Button variant='contained' sx={{ ml: 2 }}>
+								open article
+							</Button>
 
-								<p className='text-base text-gray-600 ml-5'>Save</p>
-							</div>
-							<div className='w-1/2 flex flex-row items-center ml-36'>
-								<Button variant='text'>Follow</Button>
-								<Button variant='text'>Recommend</Button>
-								<Button variant='text'>Share</Button>
-							</div>
+							<Button variant='text'>Add to Library</Button>
 						</div>
 					</Card>
 					{/* ))}

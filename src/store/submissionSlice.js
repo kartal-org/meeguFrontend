@@ -1,70 +1,114 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { apiCallBegan } from './actions/api';
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+let toastId;
 
 export const submissionSlice = createSlice({
-	name: 'submission',
+	name: "submission",
 	initialState: {
 		currentSubmission: null,
 		submissions: [],
-		status: 'idle',
+		status: "idle",
 	},
 	reducers: {
 		loadSubmissionRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		loadSubmissionSuccess: (state, action) => {
-			state.status = 'submission load success';
+			state.status = "submission load success";
 			state.submissions = action.payload;
 		},
 		loadSubmissionFailed: (state, action) => {
-			state.status = 'submission load failed';
+			state.status = "submission load failed";
 			state.submissions = [];
 		},
 		addSubmissionRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		addSubmissionSuccess: (state, action) => {
-			state.status = 'submission add success';
+			state.status = "submission add success";
 			state.submissions.unshift(action.payload);
+			toast.update(toastId, {
+				render: "Succesfully added",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		addSubmissionFailed: (state, action) => {
-			state.status = 'submission add failed';
-			alert('Adding submission failed');
+			state.status = "submission add failed";
+			// alert('Adding submission failed');
+			toast.update(toastId, {
+				render: "Failed to add",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		editSubmissionRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		editSubmissionSuccess: (state, action) => {
-			const index = state.submissions.findIndex((item) => item.id === action.payload.id);
+			const index = state.submissions.findIndex(
+				(item) => item.id === action.payload.id
+			);
 			state.submissions[index] = action.payload;
-			state.status = 'submission edit success';
+			state.status = "submission edit success";
+			toast.update(toastId, {
+				render: "Edited successfully",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		editSubmissionFailed: (state, action) => {
-			state.status = 'submission edit failed';
-			alert('Editing submission failed');
+			state.status = "submission edit failed";
+			// alert('Editing submission failed');
+			toast.update(toastId, {
+				render: "Failed to edit",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		deleteSubmissionRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		deleteSubmissionSuccess: (state, action) => {
-			const filtered = state.submissions.filter((item) => item.id !== action.payload.id);
+			const filtered = state.submissions.filter(
+				(item) => item.id !== action.payload.id
+			);
 			state.submissions = filtered;
-			state.status = 'submission delete success';
+			state.status = "submission delete success";
+			toast.update(toastId, {
+				render: "Deleted successfully",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		deleteSubmissionFailed: (state, action) => {
-			state.status = 'submission delete failed';
-			alert('Delete submission failed');
+			state.status = "submission delete failed";
+			// alert('Delete submission failed');
+			toast.update(toastId, {
+				render: "Failed to delete",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		retrieveSubmissionRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		retrieveSubmissionSuccess: (state, action) => {
 			state.currentSubmission = action.payload;
-			state.status = 'submission retrieve success';
+			state.status = "submission retrieve success";
 		},
 		retrieveSubmissionFailed: (state, action) => {
-			state.status = 'submission retrieve failed';
-			alert('retrieve submission failed');
+			state.status = "submission retrieve failed";
+			alert("Retrieval failed");
 		},
 	},
 });
@@ -94,13 +138,13 @@ export default submissionSlice.reducer;
 export const createSubmission = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: 'post',
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: formData,
 		onStart: addSubmissionRequest.type,
 		onSuccess: addSubmissionSuccess.type,
@@ -110,13 +154,13 @@ export const createSubmission = (link, formData) =>
 export const getSubmissions = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: loadSubmissionRequest.type,
 		onSuccess: loadSubmissionSuccess.type,
 		onError: loadSubmissionFailed.type,
@@ -124,14 +168,14 @@ export const getSubmissions = (link) =>
 export const editSubmission = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: 'patch',
+		method: "patch",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
 		data: formData,
-		type: 'regular',
+		type: "regular",
 		onStart: editSubmissionRequest.type,
 		onSuccess: editSubmissionSuccess.type,
 		onError: editSubmissionFailed.type,
@@ -139,13 +183,13 @@ export const editSubmission = (link, formData) =>
 export const deleteSubmission = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'delete',
+		method: "delete",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: deleteSubmissionRequest.type,
 		onSuccess: deleteSubmissionSuccess.type,
 		onError: deleteSubmissionFailed.type,
@@ -153,16 +197,17 @@ export const deleteSubmission = (link) =>
 export const retrieveSubmission = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: retrieveSubmissionRequest.type,
 		onSuccess: retrieveSubmissionSuccess.type,
 		onError: retrieveSubmissionFailed.type,
 	});
 
-export const selectSubmission = (submission) => retrieveSubmissionSuccess(submission);
+export const selectSubmission = (submission) =>
+	retrieveSubmissionSuccess(submission);

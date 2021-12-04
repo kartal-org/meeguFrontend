@@ -1,14 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { apiCallBegan } from './actions/api';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-let toastId2;
 let toastId;
 
 export const workspaceMemberSlice = createSlice({
-	name: 'worksMember',
+	name: "worksMember",
 	initialState: {
 		currentMember: null,
 		members: [],
@@ -25,7 +24,7 @@ export const workspaceMemberSlice = createSlice({
 		},
 		memberLoadFailed: (state, action) => {
 			console.log(action.error);
-			alert('Member Load Failed!');
+			alert("Member Load Failed!");
 		},
 
 		memberJoinRequest: (state, action) => {
@@ -34,10 +33,22 @@ export const workspaceMemberSlice = createSlice({
 		memberJoinSuccess: (state, action) => {
 			state.isLoading = false;
 			state.sharedWorkspace.unshift(action.payload);
-			alert('Member Join Success!');
+			// alert('Member Join Success!');
+			toast.update(toastId, {
+				render: "Successfully joined",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		memberJoinFailed: (state, action) => {
-			alert('Member Join Failed!');
+			// alert('Member Join Failed!');
+			toast.update(toastId, {
+				render: "Failed to join",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		sharedWorkspaceRequest: (state, action) => {
 			state.isLoading = true;
@@ -45,11 +56,23 @@ export const workspaceMemberSlice = createSlice({
 		sharedWorkspaceSuccess: (state, action) => {
 			state.isLoading = false;
 			state.sharedWorkspace = action.payload;
-			alert('Shared Workspace Load Success!');
+			alert("Shared Workspace Load Success!");
+			// toast.update(toastId, {
+			// 	render: "Successfully shared",
+			// 	autoClose: 3000,
+			// 	type: "success",
+			// 	isLoading: false,
+			// });
 		},
 		sharedWorkspaceFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Shared Workspace Load Failed!');
+			alert("Shared Workspace Load Failed!");
+			// toast.update(toastId, {
+			// 	render: "Failed to share",
+			// 	autoClose: 3000,
+			// 	type: "error",
+			// 	isLoading: false,
+			// });
 		},
 	},
 });
@@ -72,28 +95,28 @@ export default workspaceMemberSlice.reducer;
 
 export const getMembers = (workspace) =>
 	apiCallBegan({
-		url: '/workspace/members/' + workspace,
-		method: 'get',
+		url: "/workspace/members/" + workspace,
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: memberLoadRequest.type,
 		onSuccess: memberLoadSuccess.type,
 		onError: memberLoadFailed.type,
 	});
 export const joinWorkspace = (workspace) =>
 	apiCallBegan({
-		url: '/workspace/join',
-		method: 'post',
+		url: "/workspace/join",
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: { workspace },
 		onStart: memberJoinRequest.type,
 		onSuccess: memberJoinSuccess.type,
@@ -102,14 +125,14 @@ export const joinWorkspace = (workspace) =>
 
 export const getSharedWorkspace = () =>
 	apiCallBegan({
-		url: '/workspace/shared',
-		method: 'get',
+		url: "/workspace/shared",
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: sharedWorkspaceRequest.type,
 		onSuccess: sharedWorkspaceSuccess.type,
 		onError: sharedWorkspaceFailed.type,
@@ -117,14 +140,14 @@ export const getSharedWorkspace = () =>
 
 export const getAvailableMember = (classroom) =>
 	apiCallBegan({
-		url: '/workspace/members/available/' + classroom,
-		method: 'get',
+		url: "/workspace/members/available/" + classroom,
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: memberLoadRequest.type,
 		onSuccess: memberLoadSuccess.type,
 		onError: memberLoadFailed.type,
@@ -132,15 +155,15 @@ export const getAvailableMember = (classroom) =>
 
 export const addWorkspaceMember = (workspace, user) =>
 	apiCallBegan({
-		url: '/workspace/members/' + workspace,
-		method: 'post',
+		url: "/workspace/members/" + workspace,
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
 		data: { user },
-		type: 'regular',
+		type: "regular",
 		onStart: memberJoinRequest.type,
 		onSuccess: memberJoinSuccess.type,
 		onError: memberJoinFailed.type,

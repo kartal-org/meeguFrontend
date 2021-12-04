@@ -1,26 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { apiCallBegan } from './actions/api';
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+let toastId;
 
 export const fileSlice = createSlice({
-	name: 'file',
+	name: "file",
 	initialState: {
 		currentFile: null,
 		files: [],
 		uploadFiles: [],
-		status: 'idle',
+		status: "idle",
 	},
 	reducers: {
 		loadFileRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		loadFileSuccess: (state, action) => {
-			state.status = 'file load success';
+			state.status = "file load success";
 			const test = action.payload;
 			if (test[0]) {
-				if (test[0].hasOwnProperty('content')) {
+				if (test[0].hasOwnProperty("content")) {
 					state.files = action.payload;
 				}
-				if (test[0].hasOwnProperty('file')) {
+				if (test[0].hasOwnProperty("file")) {
 					state.uploadFiles = action.payload;
 				}
 			}
@@ -28,63 +32,117 @@ export const fileSlice = createSlice({
 		loadFileFailed: (state, action) => {
 			// state.files = [];
 			// state.uploadFiles = [];
-			alert('Files Load Failed!');
+			alert("Files Load Failed!");
 		},
 		retrieveFileRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		retrieveFileSuccess: (state, action) => {
-			state.status = 'file retrieve success';
+			state.status = "file retrieve success";
 			state.currentFile = action.payload;
+			toast.update(toastId, {
+				render: "Successfully retreived files",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		retrieveFileFailed: (state, action) => {
-			alert('Files Retrieve Failed!');
+			// alert('Files Retrieve Failed!');
+			toast.update(toastId, {
+				render: "Failed to retreive files",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		addFileRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		addFileSuccess: (state, action) => {
-			state.status = 'file add success';
+			state.status = "file add success";
 			state.files.push(action.payload);
-			alert('Files Add Success!');
+			// alert('Files Add Success!');
+			toast.update(toastId, {
+				render: "Sucessfully added",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		addFileFailed: (state, action) => {
-			state.status = 'file add failed';
-			alert('Files Add Failed!');
+			state.status = "file add failed";
+			// alert('Files Add Failed!');
+			toast.update(toastId, {
+				render: "Failed to add",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		editFileRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		editFileSuccess: (state, action) => {
-			const index = state.files.findIndex((item) => item.id === action.payload.id);
+			const index = state.files.findIndex(
+				(item) => item.id === action.payload.id
+			);
 			state.files[index] = action.payload;
-			state.status = 'file edit success';
+			state.status = "file edit success";
 			// alert('Files Edit Success!');
+			toast.update(toastId, {
+				render: "Edited successfully",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		editFileFailed: (state, action) => {
-			state.status = 'file edit failed';
-			alert('Files Edit Failed!');
+			state.status = "file edit failed";
+			// alert('Files Edit Failed!');
+			toast.update(toastId, {
+				render: "Failed to edit",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 		deleteFileRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		deleteFileSuccess: (state, action) => {
-			if (action.payload.hasOwnProperty('content')) {
-				const filtered = state.files.filter((item) => item.id !== action.payload.id);
+			if (action.payload.hasOwnProperty("content")) {
+				const filtered = state.files.filter(
+					(item) => item.id !== action.payload.id
+				);
 				state.files = filtered;
 			}
-			if (action.payload.hasOwnProperty('file')) {
-				const filtered = state.uploadFiles.filter((item) => item.id !== action.payload.id);
+			if (action.payload.hasOwnProperty("file")) {
+				const filtered = state.uploadFiles.filter(
+					(item) => item.id !== action.payload.id
+				);
 				state.files = filtered;
 			}
 
-			state.status = 'file delete success';
-			alert('Files Delete Success!');
+			state.status = "file delete success";
+			// alert('Files Delete Success!');
+			toast.update(toastId, {
+				render: "Deleted successfully",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
 		},
 		deleteFileFailed: (state, action) => {
-			state.status = 'file delete failed';
-			alert('files delete failed');
-			alert('Files Delete Failed!');
+			state.status = "file delete failed";
+			// alert('files delete failed');
+			// alert('Files Delete Failed!');
+			toast.update(toastId, {
+				render: "Failed to delete",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
 		},
 	},
 });
@@ -114,13 +172,13 @@ export default fileSlice.reducer;
 export const getfiles = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: loadFileRequest.type,
 		onSuccess: loadFileSuccess.type,
 		onError: loadFileFailed.type,
@@ -128,13 +186,13 @@ export const getfiles = (link) =>
 export const addFile = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: 'post',
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: formData,
 		onStart: addFileRequest.type,
 		onSuccess: addFileSuccess.type,
@@ -143,13 +201,13 @@ export const addFile = (link, formData) =>
 export const retrieveFile = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: retrieveFileRequest.type,
 		onSuccess: retrieveFileSuccess.type,
 		onError: retrieveFileFailed.type,
@@ -157,13 +215,13 @@ export const retrieveFile = (link) =>
 export const editfile = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: 'patch',
+		method: "patch",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: formData,
 		onStart: editFileRequest.type,
 		onSuccess: editFileSuccess.type,
@@ -172,13 +230,13 @@ export const editfile = (link, formData) =>
 export const deletefile = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'delete',
+		method: "delete",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: deleteFileRequest.type,
 		onSuccess: deleteFileSuccess.type,
 		onError: deleteFileFailed.type,

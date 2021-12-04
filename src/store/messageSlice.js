@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { apiCallBegan } from './actions/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+let toastId;
 
 export const messageSlice = createSlice({
 	name: 'messages',
@@ -42,22 +46,46 @@ export const messageSlice = createSlice({
 				messages: '',
 				title: action.payload.title,
 			});
-			alert('Create Message Success!');
+			// alert('Create Message Success!');
+			toast.update(toastId, {
+				render: 'Created successfully',
+				autoClose: 3000,
+				type: 'success',
+				isLoading: false,
+			});
 		},
 		roomCreateFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Create Message Failed!');
+			// alert('Create Message Failed!');
+			toast.update(toastId, {
+				render: 'Failed to create',
+				autoClose: 3000,
+				type: 'error',
+				isLoading: false,
+			});
 		},
 		sendMessageRequest: (state, action) => {
 			state.isLoading = true;
 		},
 		sendMessageSuccess: (state, action) => {
 			state.isLoading = false;
-			alert('Sending Message Success!');
+			// alert('Sending Message Success!');
+			toast.update(toastId, {
+				render: 'Message Sent',
+				autoClose: 3000,
+				type: 'success',
+				isLoading: false,
+			});
 		},
 		sendMessageFailed: (state, action) => {
 			state.isLoading = false;
-			alert('Sending Message Failed!');
+			// alert('Sending Message Failed!');
+			toast.update(toastId, {
+				render: 'Failed to send message',
+				autoClose: 3000,
+				type: 'error',
+				isLoading: false,
+			});
 		},
 	},
 });
