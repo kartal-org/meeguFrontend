@@ -5,6 +5,7 @@ export const articleSlice = createSlice({
 	name: 'article',
 	initialState: {
 		currentArticle: null,
+		categories: [],
 		articles: [],
 		status: 'idle',
 		isLoading: false,
@@ -43,6 +44,17 @@ export const articleSlice = createSlice({
 			state.status = 'article failed success';
 			alert('Article publish Failed!');
 		},
+		loadCategoryRequest: (state, action) => {
+			state.status = 'loading';
+		},
+		loadCategorySuccess: (state, action) => {
+			state.status = 'article category load success';
+			state.categories = action.payload;
+		},
+		loadCategoryFailed: (state, action) => {
+			state.status = 'article failed success';
+			alert('Article category load Failed!');
+		},
 	},
 });
 
@@ -56,6 +68,9 @@ const {
 	publishArticleRequest,
 	publishArticleSuccess,
 	publishArticleFailed,
+	loadCategoryRequest,
+	loadCategorySuccess,
+	loadCategoryFailed,
 } = articleSlice.actions;
 
 export default articleSlice.reducer;
@@ -75,6 +90,20 @@ export const getArticles = () =>
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
+	});
+export const getCategories = (link) =>
+	apiCallBegan({
+		url: link,
+		method: 'get',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		onStart: loadCategoryRequest.type,
+		onSuccess: loadCategorySuccess.type,
+		onError: loadCategoryFailed.type,
 	});
 export const getnewArticles = (link) =>
 	apiCallBegan({

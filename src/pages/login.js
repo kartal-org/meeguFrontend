@@ -57,7 +57,7 @@ const Login = () => {
 	const { loading } = useStatus(status);
 	useEffect(() => {
 		if (isAuthenticated) {
-			history.push('/home');
+			history.replace('/activation/guard');
 		}
 	}, [isAuthenticated]);
 	const handleRedirect = () => {

@@ -143,6 +143,17 @@ export const userSlice = createSlice({
 			alert('Sorry the verification failed.\n' + action.payload);
 			state.status = 'failed';
 		},
+		resendLinkRequest: (state, action) => {
+			state.status = 'loading';
+		},
+		resendLinkSuccess: (state, action) => {
+			alert('Send Link Success!');
+			state.status = 'success';
+		},
+		resendLinkFailed: (state, action) => {
+			alert('Send Link failed');
+			state.status = 'failed';
+		},
 	},
 });
 
@@ -168,6 +179,9 @@ const {
 	verifyUserRequest,
 	verifyUserSuccess,
 	verifyUserFailed,
+	resendLinkRequest,
+	resendLinkSuccess,
+	resendLinkFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer;
@@ -187,6 +201,20 @@ export const verifyUser = (token) =>
 		onStart: verifyUserRequest.type,
 		onSuccess: verifyUserSuccess.type,
 		onError: verifyUserFailed.type,
+	});
+export const resendLink = (link) =>
+	apiCallBegan({
+		url: link,
+		method: 'get',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		onStart: resendLinkRequest.type,
+		onSuccess: resendLinkSuccess.type,
+		onError: resendLinkFailed.type,
 	});
 
 export const login = (email, password) =>

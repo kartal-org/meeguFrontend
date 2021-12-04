@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 import queryString from 'query-string';
 
-import { getArticles } from '../store/articleSlice';
+import { getArticles, getCategories } from '../store/articleSlice';
 import { addArticle } from '../store/librarySlice';
 
 //material ui
@@ -16,6 +16,7 @@ import ArticleCards from '../materialUI/components/articlecards';
 import PageManagerComponent from '../materialUI/components/reuseableComponents/pageManagerComponent';
 import CardComponent from '../materialUI/components/reuseableComponents/cardComponent';
 import CardHolder from '../materialUI/components/reuseableComponents/cardHolder';
+import useFetch from '../hooks/useFetch';
 
 const items = [
 	{
@@ -39,31 +40,8 @@ const feeds = [
 const Home = ({ item, feed }) => {
 	// hooks
 	const dispatch = useDispatch();
-
-	// states
-	const [articles, setArticles] = useState([]);
-
-	// get states
-	const fetchedArticles = useSelector((state) => state.article.articles);
-
-	// fetch states
-	useEffect(() => {
-		dispatch(getArticles());
-	}, []);
-
-	// set states
-
-	useEffect(() => {
-		if (fetchedArticles) {
-			setArticles(fetchedArticles);
-		}
-	}, [fetchedArticles]);
-
-	const addToLibrary = (id) => {
-		dispatch(addArticle(id));
-	};
-
-	//tabs
+	const categoryStates = useFetch;
+	const articlesStates = useFetch;
 	const location = useLocation();
 	const { id } = useParams();
 	// const dispatch = useDispatch();
@@ -71,11 +49,22 @@ const Home = ({ item, feed }) => {
 
 	const [value, setValue] = useState(tab);
 
-	const handleChange = (event, newValue) => {
-		setValue(newValue);
+	// fetch states
+	useEffect(() => {
+		dispatch(getArticles());
+		dispatch(getCategories(`/post/category`));
+	}, []);
+	// get states
+	const fetchedArticles = useSelector((state) => state.article.articles);
+	const fetchedCategories = useSelector((state) => state.article.categories);
+	// set states
+	const { items: articles, setItems: setArticles } = articlesStates(fetchedArticles);
+
+	const addToLibrary = (id) => {
+		dispatch(addArticle(id));
 	};
 
-	const tabs = [
+	const [tabs, setTabs] = useState([
 		{
 			label: 'All',
 			link: `/home/${id}?tab=all`,
@@ -262,29 +251,53 @@ const Home = ({ item, feed }) => {
 				</>
 			),
 		},
-		{
-			label: 'Science',
-			link: `/home/${id}?tab=science`,
-			value: 'science',
-			component: 'science',
-		},
-		{
-			label: 'Political Science',
-			link: `/home/${id}?tab=political-science`,
-			value: 'political science',
-			component: (
-				<>
-					<p>Political Science</p>
-				</>
-			),
-		},
-		{
-			label: 'Technology',
-			link: `/home/${id}?tab=technology`,
-			value: 'technology',
-			component: 'institutions cards diri ibutang',
-		},
-	];
+	]);
+
+	//tabs
+	useEffect(() => {
+		if (fetchedCategories) {
+			let combine = [];
+			fetchedCategories.map((val) => {
+				combine.push({
+					label: val.name,
+					link: `/home/${id}?tab=${val.name.toLowerCase()}`,
+					value: val.name.toLowerCase(),
+					component: val.name,
+				});
+			});
+			setTabs(tabs.concat(combine));
+		}
+	}, [fetchedCategories]);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	// const tabs = [
+
+	// 	{
+	// 		label: 'Science',
+	// 		link: `/home/${id}?tab=science`,
+	// 		value: 'science',
+	// 		component: 'science',
+	// 	},
+	// 	{
+	// 		label: 'Political Science',
+	// 		link: `/home/${id}?tab=political-science`,
+	// 		value: 'political science',
+	// 		component: (
+	// 			<>
+	// 				<p>Political Science</p>
+	// 			</>
+	// 		),
+	// 	},
+	// 	{
+	// 		label: 'Technology',
+	// 		link: `/home/${id}?tab=technology`,
+	// 		value: 'technology',
+	// 		component: 'institutions cards diri ibutang',
+	// 	},
+	// ];
 
 	return (
 		<>

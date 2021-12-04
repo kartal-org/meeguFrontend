@@ -29,9 +29,27 @@ import MessagesList from './messagesList';
 import { useLocation, Link } from 'react-router-dom';
 import queryString from 'query-string';
 
+import Pusher from 'pusher-js';
+
 export default function NewMesssages() {
 	const [message, setMessage] = useState('');
 	const location = useLocation();
+
+	// pusher
+	let allMessages = [];
+	useEffect(() => {
+		Pusher.logToConsole = true;
+
+		const pusher = new Pusher('', {
+			cluster: '',
+		});
+
+		const channel = pusher.subscribe('chat'); //change this to code
+		channel.bind('message', function (data) {
+			allMessages.push(data);
+			// setMessages(allMessages);
+		});
+	}, []);
 
 	const [user, setUser] = useState({
 		username: '',

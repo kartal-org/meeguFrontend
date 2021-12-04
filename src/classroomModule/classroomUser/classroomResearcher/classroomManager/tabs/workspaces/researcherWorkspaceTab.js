@@ -9,7 +9,7 @@ import CardComponent from '../../../../../../materialUI/components/reuseableComp
 import CardHolder from '../../../../../../materialUI/components/reuseableComponents/cardHolder';
 import DialogComponent from '../../../../../../materialUI/components/reuseableComponents/dialogComponent';
 import DialogStepperComponent from '../../../../../../materialUI/components/reuseableComponents/dialogStepperComponent';
-import { getWorkspaces } from '../../../../../../store/workspaceSlice';
+import { createWorkspace, getWorkspaces } from '../../../../../../store/workspaceSlice';
 
 import AddMember from './createSteps/addMember';
 import WorkspaceDetail from './createSteps/workspaceDetails';
@@ -36,7 +36,7 @@ const ResearcherWorkspaceTab = () => {
 	const fetchedWorkspace = useSelector((state) => state.works.workspaces);
 	const { items: workspaces, setItems: setWorkspaces } = workspaceState(fetchedWorkspace);
 	const createProject = () => {};
-	const handleJoinProject = () => {};
+
 	const [formData, setFormData] = useState({
 		name: '',
 		description: '',
@@ -72,7 +72,10 @@ const ResearcherWorkspaceTab = () => {
 	});
 
 	const onSubmit = (data) => {
-		console.log(JSON.stringify(data, null, 2));
+		console.log(data);
+	};
+	const handleJoinProject = (data) => {
+		dispatch(createWorkspace(`/workspace/student/${id}`, { workspace: data.code }));
 	};
 
 	//tour
@@ -137,7 +140,10 @@ const ResearcherWorkspaceTab = () => {
 							maxWidth='sm'
 							// action={{ label: 'Join', handler: handleJoinProject }}
 						>
-							<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-4'>
+							<form
+								onSubmit={handleSubmit(handleJoinProject)}
+								className='flex flex-col space-y-4'
+							>
 								<div class='flex flex-col p-4 space-y-4'>
 									<TextField
 										label='Workspace Code'
@@ -164,6 +170,7 @@ const ResearcherWorkspaceTab = () => {
 						</DialogComponent>
 					</div>
 				</BannerComponent>
+
 				<CardHolder tourIdentifier='cards'>
 					{workspaces.map((item) => (
 						<CardComponent

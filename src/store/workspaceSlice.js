@@ -20,7 +20,15 @@ export const workspaceSlice = createSlice({
 		},
 		workspaceLoadSuccess: (state, action) => {
 			state.status = 'workspace load success';
-			state.workspaces = action.payload;
+			state.workspaces = [];
+			action.payload.map((val) => {
+				if (val.hasOwnProperty('workspace')) {
+					state.workspaces.push(val.workspace);
+				} else {
+					state.workspaces.push(val);
+				}
+			});
+			// state.workspaces = action.payload;
 		},
 		workspaceLoadFailed: (state, action) => {
 			state.status = 'workspace load failed';
@@ -35,7 +43,13 @@ export const workspaceSlice = createSlice({
 		},
 		workspaceAddRequest: (state, action) => {},
 		workspaceAddSuccess: (state, action) => {
-			state.workspaces.unshift(action.payload);
+			// state.workspaces.unshift(action.payload);
+			if (action.payload.hasOwnProperty('workspace')) {
+				state.workspaces.unshift(action.payload.workspace);
+			} else {
+				state.workspaces.unshift(action.payload);
+			}
+
 			state.currentWorkspace = action.payload;
 			alert('Workspace Create Success!');
 		},

@@ -48,7 +48,8 @@ const ResearcherWorkspaceFiles = () => {
 			console.log(item);
 		}
 		if (item.file) {
-			alert('Is an upload File');
+			history.push(`/classroom/researcher/workspace/upload-file/${item.id}`);
+			// alert('Is an upload File');
 		}
 	};
 	const handleSubmit = (item) => {

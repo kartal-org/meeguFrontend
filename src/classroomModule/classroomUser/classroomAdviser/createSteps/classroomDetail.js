@@ -87,18 +87,17 @@ const ClassroomDetail = () => {
 	});
 
 	const handleClassroomDetail = (data) => {
-		console.log(JSON.stringify(data, null, 2));
-
 		let form_data = new FormData();
 		const { description, privacy, cover, coverFile } = inputForm;
 		if (coverFile != defaultImage) {
 			form_data.append('cover', coverFile, coverFile.name);
 		}
 		form_data.append('name', data.name);
-		form_data.append('description', description);
+		form_data.append('description', data.description);
 		form_data.append('privacy', privacy);
 		form_data.append('subject', data.subject);
 		form_data.append('creator', user.id);
+
 		dispatch(addClassroom(`/classroom/create/`, form_data));
 	};
 
@@ -148,8 +147,6 @@ const ClassroomDetail = () => {
 							label='Classroom Name'
 							variant='outlined'
 							name='name'
-							// value={inputForm.name}
-							// onChange={(e) => onChange(e)}
 							{...register('name')}
 							error={errors.name ? true : false}
 						/>
@@ -162,8 +159,6 @@ const ClassroomDetail = () => {
 							label='Subject'
 							variant='outlined'
 							name='subject'
-							// value={inputForm.subject}
-							// onChange={(e) => onChange(e)}
 							{...register('subject')}
 							error={errors.subject ? true : false}
 						/>
@@ -189,10 +184,11 @@ const ClassroomDetail = () => {
 							label='Description'
 							variant='outlined'
 							name='description'
-							value={inputForm.description}
-							onChange={(e) => onChange(e)}
+							// value={inputForm.description}
+							// onChange={(e) => onChange(e)}
 							multiline
 							minRows={4}
+							{...register('description')}
 						/>
 						<div className='flex justify-end'>
 							<Button type='submit' variant='contained'>
