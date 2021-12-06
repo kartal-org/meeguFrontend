@@ -39,6 +39,7 @@ import ModeratorSubmissionViewerFile from '../institutionModule/institutionModer
 import ModeratorInstitutionArticleViewer from '../institutionModule/institutionModerator/pageManager/tabs/wall/moderatorInstitutionArticleViewer';
 import ResearcherWorkspaceUploadFileViewer from '../classroomModule/classroomUser/classroomResearcher/classroomManager/tabs/workspaces/pageManager/tabs/files/fileViewer/uploadFile/workspaceUploadFileViewer';
 import AdviserSubmissionPDFViewer from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/submissions/fileViewer/adviserSubmissionViewerPDF';
+import DepartmentRecommendationPDFViewer from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/submissions/fileViewers/departmentFileViewerPDF';
 
 export default [
 	<Route
@@ -52,6 +53,11 @@ export default [
 		exact
 		path='/classroom/adviser/submission/pdf/:id'
 		component={AdviserSubmissionPDFViewer}
+	/>,
+	<Route
+		exact
+		path='/institutions/moderator/department/submission/pdf/:id'
+		component={DepartmentRecommendationPDFViewer}
 	/>,
 	<Route
 		exact

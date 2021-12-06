@@ -18,7 +18,7 @@ const PublicationDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(getDepartments(id));
+		dispatch(getDepartments(`/institution/department/${id}`));
 	}, []);
 	const submissionDetail = useSelector((state) => state.submission.currentSubmission);
 	const fetchedDepartment = useSelector((state) => state.department.departments);
@@ -131,12 +131,30 @@ const PublicationDetail = () => {
 						/>
 					) : (
 						<div className='flex items-start justify-start'>
-							<DialogComponent
+							<FormControl fullWidth>
+								<InputLabel id='demo-simple-select-label'>
+									Select From Accepted Submissions
+								</InputLabel>
+								<Select
+									labelId='demo-simple-select-label'
+									id='demo-simple-select'
+									// value={article}
+									label='Select From Accepted Submissions'
+									// onChange={handleSelectArticle}
+								>
+									{/* {submissions.map((val) => {
+										if (val.responseStatus === 'accepted') {
+											return <MenuItem value={val.id}>{val.title}</MenuItem>;
+										}
+									})} */}
+								</Select>
+							</FormControl>
+							{/* <DialogComponent
 								button={<Button>Select Submission</Button>}
 								title='Select Submission To Publish'
 							>
 								Hello
-							</DialogComponent>
+							</DialogComponent> */}
 						</div>
 					)}
 

@@ -29,7 +29,7 @@ const ModeratorInstitutionDepartmentTab = () => {
 	const dispatch = useDispatch();
 	const departmentState = useFetch;
 	useEffect(() => {
-		dispatch(getDepartments(id));
+		dispatch(getDepartments(`/institution/department/${id}`));
 	}, []);
 	const fetchedDepartments = useSelector((state) => state.department.departments);
 	const { items: departments, setItems: setDepartments } = departmentState(fetchedDepartments);
@@ -218,7 +218,7 @@ const ModeratorInstitutionDepartmentTab = () => {
 				<CardHolder tourIdentifier='cards'>
 					{departments.map((item) => (
 						<CardComponent
-							link={`/institutions/moderator/department/${item.id}`}
+							link={`/institutions/moderator/department/${item.id}?tab=wall`}
 							image={item.image}
 							item={item}
 						></CardComponent>

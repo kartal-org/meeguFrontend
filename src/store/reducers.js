@@ -17,6 +17,7 @@ import subscriptionReducer from './subscriptionSlice';
 import folderReducer from './newFolderSlice';
 import fileReducer from './newFileSlice';
 import submissionReducer from './submissionSlice';
+import recommendationReducer from './recommendationSlice';
 import departmentReducer from './departmentSlice';
 import staffReducer from './staffSlice';
 import memberReducer from './memberSlice';
@@ -41,6 +42,7 @@ export default combineReducers({
 	institution: institutionReducer,
 	subscription: subscriptionReducer,
 	submission: submissionReducer,
+	recommendation: recommendationReducer,
 	department: departmentReducer,
 	staff: staffReducer,
 	member: memberReducer,
