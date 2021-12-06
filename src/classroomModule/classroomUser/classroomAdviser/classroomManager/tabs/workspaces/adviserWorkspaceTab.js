@@ -14,7 +14,7 @@ const AdviserWorkspaceTab = () => {
 	const workspaceState = useFetch;
 
 	useEffect(() => {
-		dispatch(getWorkspaces(`/workspace/adviser?search=${id}`));
+		dispatch(getWorkspaces(`/workspace/?search=${id}`));
 	}, []);
 	const fetchedWorkspace = useSelector((state) => state.works.workspaces);
 	const { items: workspaces, setItems: setWorkspaces } = workspaceState(fetchedWorkspace);
