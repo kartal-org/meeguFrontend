@@ -4,10 +4,33 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Button, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ApprovedSubmissions from './approvedSubmissions';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setFileToUpload } from '../../../../../../store/articleSlice';
 const Input = styled('input')({
 	display: 'flex',
 });
 const PublicationType = () => {
+	const [file, setFile] = useState();
+	const dispatch = useDispatch();
+	function onChange(e) {
+		e.preventDefault();
+		let reader = new FileReader();
+		let file = e.target.files[0];
+		reader.onloadend = () => {
+			setFile(file);
+		};
+		reader.readAsDataURL(file);
+	}
+	function handleUploadFile() {
+		console.log(file);
+		if (file) {
+			dispatch(setFileToUpload(file));
+			localStorage.setItem('file', JSON.stringify(file));
+		} else {
+			alert('No file selected');
+		}
+	}
 	return (
 		<>
 			<div className='flex flex-col justify-center items-center w-full h-56  space-y-8'>
@@ -39,12 +62,13 @@ const PublicationType = () => {
 						title='Upload File'
 						noAction={true}
 						button={<Button variant='outlined'>Upload File Archive</Button>}
+						action={{ label: 'Ok', handler: handleUploadFile }}
 					>
 						<div className='flex min-h-full w-full justify-center items-center'>
 							<label htmlFor='contained-button-file'>
 								<input
 									accept='application/pdf'
-									// onChange={onChange}
+									onChange={onChange}
 									name='file'
 									id='icon-button-file'
 									type='file'

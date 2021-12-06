@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import useFetch from '../../../../../../hooks/useFetch';
 import { getSubmissions } from '../../../../../../store/submissionSlice';
 
+import DialogComponent from '../../../../../../materialUI/components/reuseableComponents/dialogComponent';
+
 const items = [
 	{
 		id: 1,
@@ -58,8 +60,12 @@ const ClassroomSubmission = () => {
 	const fetchedSubmissions = useSelector((state) => state.submission.submissions);
 	const { items: submissions, setItems: setSubmissions } = submissionsState(fetchedSubmissions);
 
-	const handleClickOpen = (id) => {
-		history.push(`/classroom/adviser/submission/${id}`);
+	const handleClickOpen = (item) => {
+		if (item.isPdf) {
+			history.push(`/classroom/adviser/submission/pdf/${item.id}`);
+		} else {
+			history.push(`/classroom/adviser/submission/${item.id}`);
+		}
 	};
 
 	const handleClose = () => {
@@ -83,9 +89,17 @@ const ClassroomSubmission = () => {
 						}}
 					>
 						<div className='flex justify-end'>
-							<Button variant='contained' onClick={() => handleClickOpen(item.id)}>
-								View Submission
-							</Button>
+							<DialogComponent
+								title='Submission Detail Preview'
+								button={<Button variant='contained'>Check Submission</Button>}
+							>
+								{/* Thania Please ko butang ug mga read only textfields for submission title, description, dateCreated, workspace name, then responds dropdown for accept, reject, and revise. Finally comment for the submission.  */}
+								{/* Note: Please use real data kay gi map mani sila gamita ang item.title etc sa mga text fields. */}
+								{/* Why this?: Even though redundant siya mao rani ang ato way for responding for PDF File */}
+								<Button variant='contained' onClick={() => handleClickOpen(item)}>
+									View File
+								</Button>
+							</DialogComponent>
 						</div>
 						<div className='flex justify-between items-center'>
 							<p className='text-3xl tracking-wider font-semibold'>{item.title}</p>

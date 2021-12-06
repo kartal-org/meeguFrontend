@@ -33,12 +33,18 @@ const Wall = ({ item, department }) => {
 	const location = useLocation();
 
 	useEffect(() => {
-		// dispatch(getDepartments(id));
-		// dispatch(newGetArticles(`post/${id}`));
+		dispatch(getDepartments(`/institution/department/${id}`));
 	}, []);
 
 	const fetchedDepartments = useSelector((state) => state.department.departments);
 	const fetchedArticles = useSelector((state) => state.article.articles);
+	const fetchedInstitution = useSelector((state) => state.institution.currentInstitution);
+
+	useEffect(() => {
+		if (fetchedInstitution) {
+			dispatch(newGetArticles(`/post/?search=${fetchedInstitution.name}`));
+		}
+	}, [fetchedInstitution]);
 
 	const { items: departments } = departmentStates(fetchedDepartments);
 	const { items: articles } = articleStates(fetchedArticles);
@@ -100,13 +106,19 @@ const Wall = ({ item, department }) => {
 			/>
 
 			<div className='flex w-full justify-end'>
-				<DialogStepperComponent
+				<DialogComponent
+					title='Publish'
+					button={<Button variant='outlined'>Add Publishing</Button>}
+				>
+					<PublicationDetail />
+				</DialogComponent>
+				{/* <DialogStepperComponent
 					title='Publish'
 					steps={steps}
 					button='Add Publishing'
 					maxWidth='md'
 					tourIdentifier='publish'
-				/>
+				/> */}
 			</div>
 
 			<div class='grid grid-cols-3 gap-4'>
@@ -161,7 +173,9 @@ const Wall = ({ item, department }) => {
 										<BsBuilding className='text-gray-500' />
 										<p className='text-sm text-gray-500'>Department</p>
 										<p className='text-xs text-gray-500'>●</p>
-										<p className='text-sm text-purple-500'>{item.department} </p>
+										<p className='text-sm text-purple-500'>
+											{item.department && item.department.name}{' '}
+										</p>
 									</div>
 								</div>
 							</CardActionArea>

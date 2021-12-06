@@ -7,6 +7,9 @@ import ClassroomDashboard from './tabs/dashboard/classroomAdviserDashboard';
 import PageManagerComponent from '../../../../materialUI/components/reuseableComponents/pageManagerComponent';
 import ProductDetailComponent from '../../../../materialUI/components/reuseableComponents/dashboardComponent';
 import ClassroomSubmission from './tabs/submissions/classroomAdviserSubmission';
+import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 
 import {
 	deleteAdviserClassroom,
@@ -143,8 +146,33 @@ const AdviserClassroomManager = () => {
 		},
 	];
 
+	// console.log(location.pathname.split('/'), location.pathname);
+	const [paths, setPaths] = useState(location.pathname.split('/'));
+	console.log(paths);
+
+	function handleClick(event) {
+		event.preventDefault();
+		console.info('You clicked a breadcrumb.');
+	}
 	return (
 		<>
+			<div role='presentation' onClick={handleClick}>
+				<Breadcrumbs aria-label='breadcrumb'>
+					{paths.map((val) => {
+						console.log(val);
+						// if (val !== '' || Number(val)) {
+						<Link underline='hover' color='inherit' href='/'>
+							{val}
+						</Link>;
+						// }
+					})}
+
+					{/* <Link underline='hover' color='inherit' href='/getting-started/installation/'>
+						Core
+					</Link>
+					<Typography color='text.primary'>Breadcrumbs</Typography> */}
+				</Breadcrumbs>
+			</div>
 			<div className='flex flex-col space-y-4'>
 				<ProductDetailComponent
 					dialogTitle='Edit Classroom Detail'

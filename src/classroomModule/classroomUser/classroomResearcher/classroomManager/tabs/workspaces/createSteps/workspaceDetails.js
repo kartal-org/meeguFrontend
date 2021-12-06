@@ -105,7 +105,8 @@ const WorkspaceDetail = () => {
 		form_data.append('description', description);
 		form_data.append('privacy', privacy);
 		form_data.append('subject', subject);
-		dispatch(createWorkspace(`/workspace/student/${id}`, form_data));
+		form_data.append('classroom', id);
+		dispatch(createWorkspace(`/workspace/`, form_data));
 	};
 
 	return (

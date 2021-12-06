@@ -5,6 +5,7 @@ export const articleSlice = createSlice({
 	name: 'article',
 	initialState: {
 		currentArticle: null,
+		fileToUpload: null,
 		categories: [],
 		articles: [],
 		status: 'idle',
@@ -55,6 +56,10 @@ export const articleSlice = createSlice({
 			state.status = 'article failed success';
 			alert('Article category load Failed!');
 		},
+		setFileToUpload: (state, action) => {
+			console.log(action.payload);
+			state.fileToUpload = action.payload;
+		},
 	},
 });
 
@@ -72,6 +77,8 @@ const {
 	loadCategorySuccess,
 	loadCategoryFailed,
 } = articleSlice.actions;
+
+export const { setFileToUpload } = articleSlice.actions;
 
 export default articleSlice.reducer;
 

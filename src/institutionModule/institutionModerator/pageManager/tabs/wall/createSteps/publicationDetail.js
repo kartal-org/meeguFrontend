@@ -11,6 +11,8 @@ import Checkbox from '@mui/material/Checkbox';
 import { useParams } from 'react-router';
 import { getDepartments } from '../../../../../../store/departmentSlice';
 import { publishArticle } from '../../../../../../store/articleSlice';
+import Switch from '@mui/material/Switch';
+import DialogComponent from '../../../../../../materialUI/components/reuseableComponents/dialogComponent';
 
 const PublicationDetail = () => {
 	const { id } = useParams();
@@ -67,6 +69,8 @@ const PublicationDetail = () => {
 
 		return authorCombine;
 	}
+	const [checked, setChecked] = useState(true);
+	const [file, setFile] = useState();
 	function handlePublish() {
 		console.log(inputForm);
 		let formData = new FormData();
@@ -74,17 +78,68 @@ const PublicationDetail = () => {
 		formData.append('abstract', inputForm.abstract);
 		formData.append('department', inputForm.department);
 		formData.append('isFeatured', inputForm.isFeatured);
-		if (submissionDetail.uploadFile) {
-			formData.append('file', submissionDetail.uploadFile);
-		}
+		formData.append('archiveFile', file, file.name);
+		// if (submissionDetail.uploadFile) {
+		// 	formData.append('file', submissionDetail.uploadFile);
+		// }
 
-		dispatch(publishArticle(`post/${id}`, formData));
+		dispatch(publishArticle(`/post/`, formData));
+		// const file = localStorage.getItem('file');
+		// console.log(file.name);
+	}
+
+	const handleChange = (event) => {
+		setChecked(event.target.checked);
+	};
+
+	function onFileChange(e) {
+		e.preventDefault();
+		let reader = new FileReader();
+		let file = e.target.files[0];
+		reader.onloadend = () => {
+			setFile(file);
+			let filename = file.name;
+			console.log(file);
+			filename.replace('.pdf', '');
+			console.log(filename);
+			setInputForm({ ...inputForm, title: filename });
+		};
+		reader.readAsDataURL(file);
 	}
 
 	return (
 		<>
 			<div className='flex  w-full justify-center items-center'>
 				<div className='flex flex-col w-4/5 space-y-4 '>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={checked}
+								onChange={handleChange}
+								inputProps={{ 'aria-label': 'controlled' }}
+							/>
+						}
+						label={checked ? 'Upload File' : 'Select From Submission'}
+					/>
+					{checked ? (
+						<input
+							accept='application/pdf'
+							onChange={onFileChange}
+							name='file'
+							id='icon-button-file'
+							type='file'
+						/>
+					) : (
+						<div className='flex items-start justify-start'>
+							<DialogComponent
+								button={<Button>Select Submission</Button>}
+								title='Select Submission To Publish'
+							>
+								Hello
+							</DialogComponent>
+						</div>
+					)}
+
 					<TextField
 						fullWidth
 						label='Article Title'
