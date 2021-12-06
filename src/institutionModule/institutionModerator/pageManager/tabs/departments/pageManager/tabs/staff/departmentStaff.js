@@ -37,11 +37,9 @@ const DepartmentStaff = () => {
 	const dispatch = useDispatch();
 	const staffsState = useFetch;
 	const staffTypeState = useFetch;
-	// const staffDepartmentState = useFetch;
 	useEffect(() => {
 		dispatch(getStaffs(`/institution/staff?search=${id}`));
 		dispatch(getStaffTypes(`/institution/staff-type`));
-		// dispatch(getDepartments(id));
 	}, []);
 	const fetchedStaffs = useSelector((state) => state.staff.staffs);
 	const fetchedStaffTypes = useSelector((state) => state.staff.staffTypes);
@@ -86,22 +84,7 @@ const DepartmentStaff = () => {
 		formData.append("user", inputForm.username);
 		dispatch(addStaff(`/institution/staff`, formData));
 	}
-
-	// const validationMsg = Yup.object().shape({
-	// 	username: Yup.string().required("Staff username is required."),
-	// });
-
-	// const {
-	// 	register, // register inputs
-	// 	handleSubmit, // handle form submit
-	// 	formState: { errors },
-	// } = useForm({
-	// 	resolver: yupResolver(validationMsg),
-	// });
-
-	// const onSubmit = (data) => {
-	// 	console.log(JSON.stringify(data, null, 2));
-	// };
+	const handleRemoveStaff = () => {};
 
 	return (
 		<>
@@ -114,7 +97,6 @@ const DepartmentStaff = () => {
 								Add Staff
 							</Button>
 						}
-						// action={{ label: "Add Staff", handler: handleAddStaff }}
 					>
 						<div className="flex flex-col w-full space-y-4 mt-4">
 							<TextField
@@ -124,14 +106,7 @@ const DepartmentStaff = () => {
 								name="username"
 								value={inputForm.username}
 								onChange={(e) => onChange(e)}
-								// {...register("username")}
-								// error={errors.username ? true : false}
 							/>
-							{/* <Typography
-								sx={{ fontSize: "12px", color: "red", fontStyle: "italic" }}
-							>
-								{errors.username?.message}
-							</Typography> */}
 
 							<FormControl fullWidth>
 								<InputLabel id="demo-simple-select-label">
@@ -155,25 +130,6 @@ const DepartmentStaff = () => {
 									))}
 								</Select>
 							</FormControl>
-
-							{/* <FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">
-									Department
-								</InputLabel>
-
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={inputForm.department}
-									label="Department"
-									onChange={onChange}
-									name="department"
-								>
-									{departments.map((val) => (
-										<MenuItem value={val.id}>{val.name}</MenuItem>
-									))}
-								</Select>
-							</FormControl> */}
 						</div>
 						<div className="mt-5">
 							<Button
@@ -187,7 +143,7 @@ const DepartmentStaff = () => {
 					</DialogComponent>
 				</div>
 
-				<div className="cards flex flex-row space-x-4 w-full mt-2 bg-green-50">
+				<div className="cards flex flex-row space-x-4 w-full mt-2">
 					{staffs.map((item) => (
 						<Card raised sx={{ width: "200px", borderRadius: "1rem" }}>
 							<CardContent className="flex flex-col w-full justify-center items-center space-y-3 ">
@@ -195,7 +151,7 @@ const DepartmentStaff = () => {
 									<MoreVertIcon
 										className="cursor-pointer"
 										aria-expanded={open ? "true" : undefined}
-										// onClick={handleClick}
+										onClick={handleClick}
 									/>
 								</div>
 
