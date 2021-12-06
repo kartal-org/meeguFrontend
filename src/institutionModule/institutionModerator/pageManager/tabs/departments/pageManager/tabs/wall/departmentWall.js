@@ -10,8 +10,10 @@ import { newGetArticles } from '../../../../../../../../store/articleSlice';
 import DialogComponent from '../../../../../../../../materialUI/components/reuseableComponents/dialogComponent';
 import PublicationDetail from '../../../../wall/createSteps/publicationDetail';
 
-import { Button, Chip, Card, CardActionArea } from '@mui/material';
-import { CgFileDocument } from 'react-icons/cg';
+
+import { Button, Chip, Card, CardActionArea } from "@mui/material";
+import { CgFileDocument } from "react-icons/cg";
+import DepartmentPublicationDetail from "./components/departmentPublicationDetail";
 
 const DepartmentWall = () => {
 	const { id } = useParams();
@@ -50,7 +52,7 @@ const DepartmentWall = () => {
 					title='Publish'
 					button={<Button variant='outlined'>Add Publishing</Button>}
 				>
-					<PublicationDetail />
+					<DepartmentPublicationDetail />
 				</DialogComponent>
 			</div>
 
