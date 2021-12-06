@@ -25,12 +25,11 @@ import {
 	Card,
 	CardContent,
 	Avatar,
+	IconButton,
+	Tooltip,
 } from "@mui/material";
 
-//validation
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
+import { HiPlus } from "react-icons/hi";
 
 const DepartmentStaff = () => {
 	const { id } = useParams();
@@ -98,7 +97,7 @@ const DepartmentStaff = () => {
 							</Button>
 						}
 					>
-						<div className="flex flex-col w-full space-y-4 mt-4">
+						<div className="w-11/12 mt-4 mb-4">
 							<TextField
 								fullWidth
 								label="Staff Username"
@@ -107,29 +106,45 @@ const DepartmentStaff = () => {
 								value={inputForm.username}
 								onChange={(e) => onChange(e)}
 							/>
-
-							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">
-									Staff Type
-								</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={inputForm.type}
-									label="Staff Type"
-									onChange={(e) => onChange(e)}
-									name="type"
-								>
-									<MenuItem value="">
-										<em>None</em>
-									</MenuItem>
-									{staffTypes.map((val) => (
-										<MenuItem key={val.id} value={val.name}>
-											{val.name}
+						</div>
+						<div>
+							<div className="flex flex-row w-full">
+								<FormControl fullWidth>
+									<InputLabel id="demo-simple-select-label">
+										Staff Type
+									</InputLabel>
+									<Select
+										labelId="demo-simple-select-label"
+										id="demo-simple-select"
+										value={inputForm.type}
+										label="Staff Type"
+										onChange={(e) => onChange(e)}
+										name="type"
+										sx={{ width: "505px" }}
+									>
+										<MenuItem value="">
+											<em>None</em>
 										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
+										{staffTypes.map((val) => (
+											<MenuItem key={val.id} value={val.name}>
+												{val.name}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<div className="flex items-center">
+									<DialogComponent
+										title="Add Custom Type"
+										button={
+											<Tooltip title="Add custom staff type">
+												<IconButton>
+													<HiPlus className="text-gray-400" />
+												</IconButton>
+											</Tooltip>
+										}
+									></DialogComponent>
+								</div>
+							</div>
 						</div>
 						<div className="mt-5">
 							<Button
