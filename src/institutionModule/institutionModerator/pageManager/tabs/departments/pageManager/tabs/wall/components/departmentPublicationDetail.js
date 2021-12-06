@@ -1,35 +1,39 @@
-import { Button, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useFetch from "../../../../../../hooks/useFetch";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { useParams } from "react-router";
-import { getDepartments } from "../../../../../../store/departmentSlice";
-import { publishArticle } from "../../../../../../store/articleSlice";
-import Switch from "@mui/material/Switch";
-import DialogComponent from "../../../../../../materialUI/components/reuseableComponents/dialogComponent";
 
-const PublicationDetail = () => {
+import useFetch from "../../../../../../../../../hooks/useFetch";
+import { publishArticle } from "../../../../../../../../../store/articleSlice";
+import DialogComponent from "../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent";
+
+import {
+	Button,
+	TextField,
+	InputLabel,
+	MenuItem,
+	FormControl,
+	FormControlLabel,
+	Select,
+	Checkbox,
+	Switch,
+} from "@mui/material";
+
+const DepartmentPublicationDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(getDepartments(`/institution/department/${id}`));
-	}, []);
+	// useEffect(() => {
+	// 	dispatch(getDepartments(`/institution/department/${id}`));
+	// }, []);
 	const submissionDetail = useSelector(
 		(state) => state.submission.currentSubmission
 	);
-	const fetchedDepartment = useSelector(
-		(state) => state.department.departments
-	);
+	// const fetchedDepartment = useSelector(
+	// 	(state) => state.department.departments
+	// );
 	const pubState = useFetch;
-	const deptState = useFetch;
+	// const deptState = useFetch;
 
-	const { items: departments } = deptState(fetchedDepartment);
+	// const { items: departments } = deptState(fetchedDepartment);
 	const [inputForm, setInputForm] = useState({
 		title: "",
 		authors: "",
@@ -191,21 +195,6 @@ const PublicationDetail = () => {
 						name="abstract"
 						onChange={onChange}
 					/>
-					<FormControl fullWidth>
-						<InputLabel id="demo-simple-select-label">Department</InputLabel>
-						<Select
-							labelId="demo-simple-select-label"
-							id="demo-simple-select"
-							label="Department"
-							value={inputForm.department}
-							onChange={onChange}
-							name="department"
-						>
-							{departments.map((val) => (
-								<MenuItem value={val.id}>{val.name}</MenuItem>
-							))}
-						</Select>
-					</FormControl>
 					<FormControlLabel
 						control={<Checkbox />}
 						value={inputForm.isFeatured}
@@ -224,4 +213,4 @@ const PublicationDetail = () => {
 	);
 };
 
-export default PublicationDetail;
+export default DepartmentPublicationDetail;
