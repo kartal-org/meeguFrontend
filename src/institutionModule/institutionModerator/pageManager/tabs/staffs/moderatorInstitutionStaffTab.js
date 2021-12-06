@@ -31,10 +31,16 @@ const ModeratorInstitutionStaff = () => {
 	const staffTypeStates = useFetch;
 	const departmentStates = useFetch;
 
+	const currentInstitution = useSelector((state) => state.institution.currentInstitution);
 	useEffect(() => {
-		dispatch(getStaffs(`/institution/staff?search=${id}`));
+		if (currentInstitution) {
+			dispatch(getStaffs(`/institution/staff-list?search=${currentInstitution.slug}`));
+		}
+	}, [currentInstitution]);
+
+	useEffect(() => {
 		dispatch(getStaffTypes(`/institution/staff-type`));
-		dispatch(getDepartments(id));
+		dispatch(getDepartments(`/institution/department/${id}`));
 	}, []);
 	useEffect(() => {});
 
