@@ -8,6 +8,7 @@ import useFetch from "../../../../../../../../hooks/useFetch";
 import { newGetArticles } from "../../../../../../../../store/articleSlice";
 
 import DialogComponent from "../../../../../../../../materialUI/components/reuseableComponents/dialogComponent";
+import PublicationDetail from "../../../../wall/createSteps/publicationDetail";
 
 import { Button, Chip, Card, CardActionArea } from "@mui/material";
 import { CgFileDocument } from "react-icons/cg";
@@ -53,7 +54,7 @@ const DepartmentWall = () => {
 					title="Publish"
 					button={<Button variant="outlined">Add Publishing</Button>}
 				>
-					select from accepted recommendations
+					<PublicationDetail />
 				</DialogComponent>
 			</div>
 
