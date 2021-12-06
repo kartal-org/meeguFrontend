@@ -134,6 +134,7 @@ const DepartmentStaff = () => {
 								</FormControl>
 								<div className="flex items-center">
 									<DialogComponent
+										maxWidth="xs"
 										title="Add Custom Type"
 										button={
 											<Tooltip title="Add custom staff type">
@@ -142,7 +143,14 @@ const DepartmentStaff = () => {
 												</IconButton>
 											</Tooltip>
 										}
-									></DialogComponent>
+									>
+										<TextField
+											fullWidth
+											label="Enter custom type"
+											variant="outlined"
+											name="type"
+										/>
+									</DialogComponent>
 								</div>
 							</div>
 						</div>
