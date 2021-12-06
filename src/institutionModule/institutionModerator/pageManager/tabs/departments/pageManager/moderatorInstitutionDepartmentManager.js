@@ -11,17 +11,18 @@ import {
 	deleteDepartment,
 	editDepartment,
 	retrieveDepartment,
-} from '../../../../../../store/departmentSlice';
-import { styled } from '@mui/material/styles';
-import queryString from 'query-string';
-import { useHistory, useLocation } from 'react-router';
-import DepartmentSubmissions from './tabs/submissions/departmentSubmissions';
-import DepartmentStaff from './tabs/staff/departmentStaff';
-import DepartmentResources from './tabs/resources/departmentResources';
-import DepartmentArticles from './tabs/articles/departmentArticles';
+} from "../../../../../../store/departmentSlice";
+import { styled } from "@mui/material/styles";
+import queryString from "query-string";
+import { useHistory, useLocation } from "react-router";
+import DepartmentSubmissions from "./tabs/submissions/departmentSubmissions";
+import DepartmentStaff from "./tabs/staff/departmentStaff";
+import DepartmentResources from "./tabs/resources/departmentResources";
+import DepartmentArticles from "./tabs/articles/departmentArticles";
+import DepartmentWall from "./tabs/wall/departmentWall";
 
-const Input = styled('input')({
-	display: 'none',
+const Input = styled("input")({
+	display: "none",
 });
 const ModeratorInstitutionDepartmentManager = () => {
 	const { id } = useParams();
@@ -97,12 +98,12 @@ const ModeratorInstitutionDepartmentManager = () => {
 			label: "Wall",
 			link: `/institutions/moderator/department/${id}?tab=wall`,
 			value: "wall",
-			component: "Institution Wall",
+			component: <DepartmentWall />,
 		},
 		{
 			label: "Articles",
 			link: `/institutions/moderator/department/${id}?tab=articles`,
-			value: 'articles',
+			value: "articles",
 			component: <DepartmentArticles />,
 		},
 		{
@@ -120,7 +121,7 @@ const ModeratorInstitutionDepartmentManager = () => {
 		{
 			label: "Resources",
 			link: `/institutions/moderator/department/${id}?tab=resourcess`,
-			value: 'resources',
+			value: "resources",
 			component: <DepartmentResources />,
 		},
 		// {

@@ -21,6 +21,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { logout } from "../../store/authSlice";
 import { useSelector } from "react-redux";
 
+import { Link } from "react-router-dom";
+
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
 	borderRadius: "1.5rem",
@@ -72,11 +74,16 @@ export default function PrimarySearchAppBar(props) {
 	const { user } = useSelector((state) => state.auth);
 
 	const isMenuOpen = Boolean(anchorEl);
+	const isNotifOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+	const isMobileNotifOpen = Boolean(mobileMoreAnchorEl);
 	let history = useHistory();
 
 	const handleProfileMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);
+	};
+	const handleNotificationsOpen = () => {
+		history.push("/notif");
 	};
 
 	const handleMobileMenuClose = () => {
@@ -171,7 +178,7 @@ export default function PrimarySearchAppBar(props) {
 				</IconButton>
 				<p>Search</p>
 			</MenuItem>
-			<MenuItem>
+			<MenuItem onClick={handleNotificationsOpen}>
 				<IconButton
 					size="large"
 					aria-label="show 17 new notifications"
@@ -242,6 +249,7 @@ export default function PrimarySearchAppBar(props) {
 						<IconButton
 							size="large"
 							aria-label="show 17 new notifications"
+							onClick={handleNotificationsOpen}
 							color="inherit"
 						>
 							<Badge badgeContent={0} color="error">
