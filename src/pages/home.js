@@ -1,47 +1,48 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router";
-import queryString from "query-string";
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
+import queryString from 'query-string';
 
-import { getArticles, getCategories } from "../store/articleSlice";
-import { addArticle } from "../store/librarySlice";
+import { getArticles, getCategories } from '../store/articleSlice';
+import { addArticle } from '../store/librarySlice';
 
 //material ui
-import { Card, Button, Typography, Divider, Avatar } from "@mui/material";
+import { Card, Button, Typography, Divider, Avatar } from '@mui/material';
 
-import ArticleCards from "../materialUI/components/articlecards";
+import ArticleCards from '../materialUI/components/articlecards';
 
 //reusable
-import PageManagerComponent from "../materialUI/components/reuseableComponents/pageManagerComponent";
-import CardComponent from "../materialUI/components/reuseableComponents/cardComponent";
-import CardHolder from "../materialUI/components/reuseableComponents/cardHolder";
-import useFetch from "../hooks/useFetch";
+import PageManagerComponent from '../materialUI/components/reuseableComponents/pageManagerComponent';
+import CardComponent from '../materialUI/components/reuseableComponents/cardComponent';
+import CardHolder from '../materialUI/components/reuseableComponents/cardHolder';
+import useFetch from '../hooks/useFetch';
+
+import Rating from '@mui/material/Rating';
 
 const items = [
 	{
 		id: 1,
-		name: "HELLO!",
-		username: "@username",
-		about:
-			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed risus euismod, vestibulum nunc sit amet, fringilla mauris. ",
+		name: 'HELLO!',
+		username: '@username',
+		about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed risus euismod, vestibulum nunc sit amet, fringilla mauris. ',
 	},
 ];
 
 const feeds = [
 	{
 		id: 1,
-		author: "Jonathan Ectuban",
-		title: "Responsiveness on equal work opportunity in the Philippines",
-		date: "November 09, 2019",
-		rating: "2 stars",
+		author: 'Jonathan Ectuban',
+		title: 'Responsiveness on equal work opportunity in the Philippines',
+		date: 'November 09, 2019',
+		rating: '2 stars',
 	},
 	{
 		id: 2,
-		author: "Jonathan Ectuban",
-		title: "Responsiveness on equal work opportunity in the Philippines",
-		date: "November 09, 2019",
-		rating: "2 stars",
+		author: 'Jonathan Ectuban',
+		title: 'Responsiveness on equal work opportunity in the Philippines',
+		date: 'November 09, 2019',
+		rating: '2 stars',
 	},
 ];
 
@@ -66,8 +67,7 @@ const Home = ({ item, feed }) => {
 	const fetchedArticles = useSelector((state) => state.article.articles);
 	const fetchedCategories = useSelector((state) => state.article.categories);
 	// set states
-	const { items: articles, setItems: setArticles } =
-		articlesStates(fetchedArticles);
+	const { items: articles, setItems: setArticles } = articlesStates(fetchedArticles);
 
 	const addToLibrary = (id) => {
 		dispatch(addArticle(id));
@@ -75,241 +75,16 @@ const Home = ({ item, feed }) => {
 
 	const [tabs, setTabs] = useState([
 		{
-			label: "Feed",
-			link: `/home/${id}?tab=feed`,
-			value: "feed",
-			component: (
-				<>
-					<CardHolder>
-						{feeds.map((feed) => (
-							<Card
-								sx={{
-									height: "270px",
-									width: "800px",
-									padding: 2,
-									border: 1,
-									borderColor: "#e6e6e6",
-									mb: 2,
-								}}
-							>
-								<div className="flex flex-row items-center">
-									<Avatar
-										alt="Remy Sharp"
-										src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-									/>
-
-									<Typography
-										gutterBottom
-										variant="h6"
-										component="div"
-										sx={{
-											ml: 1,
-											fontSize: "18px",
-											fontWeight: 500,
-											color: "#1056a1",
-										}}
-									>
-										{feed.author}
-									</Typography>
-								</div>
-
-								<Typography
-									variant="body2"
-									color="text.secondary"
-									sx={{ ml: 6, mt: -1, fontSize: "12px" }}
-								>
-									added an article
-								</Typography>
-
-								<Typography
-									variant="body2"
-									color="text.secondary"
-									sx={{
-										ml: 6,
-										mt: 2,
-										fontSize: "18px",
-										fontWeight: 700,
-									}}
-								>
-									{feed.title}
-								</Typography>
-
-								<div className="ml-12 mt-2 flex flex-row items-center">
-									<p className="bg-purple-200 text-purple-500 text-sm w-20 px-2 py-1 flex items-center justify-center rounded-md">
-										Article
-									</p>
-
-									<p className="text-sm text-gray-400 ml-2">{feed.date}</p>
-									<p className="text-sm text-gray-400 ml-1">•</p>
-									<p className="text-sm text-gray-400 ml-1">{feed.rating}</p>
-								</div>
-
-								<div className="ml-12 mt-4 flex flex-row items-center">
-									<Avatar
-										alt="Remy Sharp"
-										src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-										sx={{ width: 20, height: 20, ml: 1 }}
-									/>
-									<p className="text-sm text-gray-600 ml-1">{feed.author}</p>
-								</div>
-
-								<Divider sx={{ m: 2 }} />
-
-								<div className="flex flex-row justify-between">
-									<Button variant="contained" sx={{ ml: 2 }}>
-										open article
-									</Button>
-
-									<Button variant="text">Add to Library</Button>
-								</div>
-							</Card>
-						))}
-					</CardHolder>
-				</>
-			),
+			label: 'Feed',
+			link: `/home?navTab=home&tab=feed`,
+			value: 'feed',
+			component: <>Feed</>,
 		},
 		{
-			label: "All",
-			link: `/home/${id}?tab=all`,
-			value: "all",
-			component: (
-				<>
-					<CardHolder>
-						{feeds.map((feed) => (
-							<Card
-								sx={{
-									height: "270px",
-									width: "800px",
-									padding: 2,
-									border: 1,
-									borderColor: "#e6e6e6",
-									mb: 2,
-								}}
-							>
-								<div className="flex flex-row items-center">
-									<Avatar
-										alt="Remy Sharp"
-										src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-									/>
-
-									<Typography
-										gutterBottom
-										variant="h6"
-										component="div"
-										sx={{
-											ml: 1,
-											fontSize: "18px",
-											fontWeight: 500,
-											color: "#1056a1",
-										}}
-									>
-										{feed.author}
-									</Typography>
-								</div>
-
-								<Typography
-									variant="body2"
-									color="text.secondary"
-									sx={{ ml: 6, mt: -1, fontSize: "12px" }}
-								>
-									added an article
-								</Typography>
-
-								<Typography
-									variant="body2"
-									color="text.secondary"
-									sx={{
-										ml: 6,
-										mt: 2,
-										fontSize: "18px",
-										fontWeight: 700,
-									}}
-								>
-									{feed.title}
-								</Typography>
-
-								<div className="ml-12 mt-2 flex flex-row items-center">
-									<p className="bg-purple-200 text-purple-500 text-sm w-20 px-2 py-1 flex items-center justify-center rounded-md">
-										Article
-									</p>
-
-									<p className="text-sm text-gray-400 ml-2">{feed.date}</p>
-									<p className="text-sm text-gray-400 ml-1">•</p>
-									<p className="text-sm text-gray-400 ml-1">{feed.rating}</p>
-								</div>
-
-								<div className="ml-12 mt-4 flex flex-row items-center">
-									<Avatar
-										alt="Remy Sharp"
-										src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-										sx={{ width: 20, height: 20, ml: 1 }}
-									/>
-									<p className="text-sm text-gray-600 ml-1">{feed.author}</p>
-								</div>
-
-								<Divider sx={{ m: 2 }} />
-
-								<div className="flex flex-row justify-between">
-									<Button variant="contained" sx={{ ml: 2 }}>
-										open article
-									</Button>
-
-									<Button variant="text">Add to Library</Button>
-								</div>
-							</Card>
-						))}
-					</CardHolder>
-
-					<Card
-						sx={{
-							height: "110px",
-							width: "800px",
-							padding: 2,
-							border: 1,
-							borderColor: "#e6e6e6",
-							mt: 5,
-						}}
-					>
-						<div className="flex flex-row items-center">
-							<Avatar
-								alt="Remy Sharp"
-								src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-							/>
-							<Typography
-								gutterBottom
-								variant="h6"
-								component="div"
-								sx={{ ml: 1, fontSize: "22px", fontWeight: 700 }}
-							>
-								HELLO!
-							</Typography>
-						</div>
-						<Typography
-							variant="body2"
-							color="text.secondary"
-							sx={{ ml: 6, mt: -1, fontSize: "12px" }}
-						>
-							@username
-						</Typography>
-
-						<Typography
-							variant="body2"
-							color="text.secondary"
-							sx={{
-								ml: 6,
-								mt: 1,
-								fontSize: "14px",
-								overflow: "hidden",
-								textOverflow: "ellipsis",
-								whiteSpace: "nowrap",
-							}}
-						>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed
-							risus euismod, vestibulum nunc sit amet, fringilla mauris.
-						</Typography>
-					</Card>
-				</>
-			),
+			label: 'All',
+			link: `/home?navTab=home&tab=all`,
+			value: 'all',
+			component: <>"All"</>,
 		},
 	]);
 
@@ -320,7 +95,7 @@ const Home = ({ item, feed }) => {
 			fetchedCategories.map((val) => {
 				combine.push({
 					label: val.name,
-					link: `/home/${id}?tab=${val.name.toLowerCase()}`,
+					link: `/home?navTab=home&tab=${val.name.toLowerCase()}`,
 					value: val.name.toLowerCase(),
 					component: val.name,
 				});
@@ -333,45 +108,15 @@ const Home = ({ item, feed }) => {
 		setValue(newValue);
 	};
 
-	// const tabs = [
-
-	// 	{
-	// 		label: 'Science',
-	// 		link: `/home/${id}?tab=science`,
-	// 		value: 'science',
-	// 		component: 'science',
-	// 	},
-	// 	{
-	// 		label: 'Political Science',
-	// 		link: `/home/${id}?tab=political-science`,
-	// 		value: 'political science',
-	// 		component: (
-	// 			<>
-	// 				<p>Political Science</p>
-	// 			</>
-	// 		),
-	// 	},
-	// 	{
-	// 		label: 'Technology',
-	// 		link: `/home/${id}?tab=technology`,
-	// 		value: 'technology',
-	// 		component: 'institutions cards diri ibutang',
-	// 	},
-	// ];
-
 	return (
 		<>
-			<div className="">
-				<p className="text-xl text-gray-800 font-semibold ">Discover</p>
+			<div className=''>
+				<p className='text-xl text-gray-800 font-semibold '>Discover</p>
 			</div>
 
 			<Divider sx={{ mt: 2, mb: 1 }} />
 
-			<PageManagerComponent
-				value={value}
-				handleChange={handleChange}
-				tabs={tabs}
-			/>
+			<PageManagerComponent value={value} handleChange={handleChange} tabs={tabs} />
 
 			{/* {articles.map((item) => (
 				<ArticleCards
@@ -384,130 +129,97 @@ const Home = ({ item, feed }) => {
 					}
 				/>
 			))} */}
-			{articles.map((item) => (
-				<Card
-					sx={{
-						height: "270px",
-						width: "800px",
-						padding: 2,
-						border: 1,
-						borderColor: "#e6e6e6",
-					}}
-				>
-					<div className="flex flex-row items-center">
-						<Avatar
-							alt="Remy Sharp"
-							src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-						/>
 
-						<Typography
-							gutterBottom
-							variant="h6"
-							component="div"
-							sx={{
-								ml: 1,
-								fontSize: "18px",
-								fontWeight: 500,
-								color: "#1056a1",
-							}}
-						>
-							Jonathan Ectuban
-						</Typography>
-						{/* <Typography
-								gutterBottom
-								variant="h6"
-								component="div"
-								sx={{
-									ml: 1,
-									fontSize: "18px",
-									fontWeight: 500,
-									color: "#1056a1",
-								}}
-							>
-								{feed.author}
-							</Typography> */}
-					</div>
-
-					<Typography
-						variant="body2"
-						color="text.secondary"
-						sx={{ ml: 6, mt: -1, fontSize: "12px" }}
-					>
-						added an article
-					</Typography>
-
-					<Typography
-						variant="body2"
-						color="text.secondary"
+			<CardHolder>
+				{articles.map((feed) => (
+					<Card
 						sx={{
-							ml: 6,
-							mt: 2,
-							fontSize: "18px",
-							fontWeight: 700,
+							height: '270px',
+							width: '800px',
+							padding: 2,
+							border: 1,
+							borderColor: '#e6e6e6',
+							mb: 2,
 						}}
 					>
-						{item.title}
-					</Typography>
-					{/* <Typography
-							variant="body2"
-							color="text.secondary"
+						<div className='flex flex-row items-center'>
+							<Avatar
+								alt='Remy Sharp'
+								src='https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+							/>
+
+							<Typography
+								gutterBottom
+								variant='h6'
+								component='div'
+								sx={{
+									ml: 1,
+									fontSize: '18px',
+									fontWeight: 500,
+									color: '#1056a1',
+								}}
+							>
+								{feed.institution}
+							</Typography>
+						</div>
+
+						<Typography
+							variant='body2'
+							color='text.secondary'
+							sx={{ ml: 6, mt: -1, fontSize: '12px' }}
+						>
+							added an article
+						</Typography>
+
+						<Typography
+							variant='body2'
+							color='text.secondary'
 							sx={{
 								ml: 6,
 								mt: 2,
-								fontSize: "18px",
+								fontSize: '18px',
 								fontWeight: 700,
 							}}
 						>
 							{feed.title}
-						</Typography> */}
+						</Typography>
 
-					<div className="ml-12 mt-2 flex flex-row items-center">
-						<p className="bg-purple-200 text-purple-500 text-sm w-20 px-2 py-1 flex items-center justify-center rounded-md">
-							Article
-						</p>
+						<div className='ml-12 mt-2 flex flex-row items-center'>
+							<p className='bg-purple-200 text-purple-500 text-sm w-20 px-2 py-1 flex items-center justify-center rounded-md'>
+								Article
+							</p>
 
-						{/* <p className="text-sm text-gray-400 ml-2">{feed.date}</p> */}
-						<p className="text-sm text-gray-400 ml-2">November 09, 2019</p>
-						<p className="text-sm text-gray-400 ml-1">•</p>
-						{/* <p className="text-sm text-gray-400 ml-1">{feed.reads}</p> */}
-						<p className="text-sm text-gray-400 ml-1">2 reads</p>
-					</div>
-
-					<div className="ml-12 mt-4 flex flex-row items-center">
-						<Avatar
-							alt="Remy Sharp"
-							src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-							sx={{ width: 20, height: 20 }}
-						/>
-
-						<p className="text-sm text-gray-600 ml-2">{item.authors}</p>
-						<p className="text-sm text-gray-600 ml-1">•</p>
-
-						{/* <Avatar
-							alt='Remy Sharp'
-							src='https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-							sx={{ width: 20, height: 20, ml: 1 }}
-						/>
-						<p className="text-sm text-gray-600 ml-1">{feed.author}</p>
-						<p className='text-sm text-gray-600 ml-1'>Jonathan Ectuban</p> */}
-					</div>
-
-					<Divider sx={{ m: 2 }} />
-
-					<div className="ml-12 mt-4 mr-4 flex flex-row items-center w-full">
-						<div className="w-1/2 flex flex-row items-center">
-							<Button variant="outlined">Request full text</Button>
-
-							<p className="text-base text-gray-600 ml-5">Save</p>
+							<p className='text-sm text-gray-400 ml-2'>{feed.date}</p>
+							<p className='text-sm text-gray-400 ml-1'>•</p>
+							<Rating
+								name='half-rating'
+								defaultValue={feed.rating ? feed.rating : 0}
+								precision={0.25}
+								readOnly
+							/>
 						</div>
-						<div className="w-1/2 flex flex-row items-center ml-36">
-							<Button variant="text">Follow</Button>
-							<Button variant="text">Recommend</Button>
-							<Button variant="text">Share</Button>
+
+						<div className='ml-12 mt-4 flex flex-row items-center'>
+							<Avatar
+								alt='Remy Sharp'
+								src='https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+								sx={{ width: 20, height: 20, ml: 1 }}
+							/>
+							<p className='text-sm text-gray-600 ml-1'>{feed.author}</p>
 						</div>
-					</div>
-				</Card>
-			))}
+
+						<Divider sx={{ m: 2 }} />
+
+						<div className='flex flex-row justify-between'>
+							<Button variant='contained' sx={{ ml: 2 }}>
+								open article
+							</Button>
+
+							<Button variant='text'>Add to Library</Button>
+						</div>
+					</Card>
+				))}
+			</CardHolder>
 		</>
 	);
 };
