@@ -133,7 +133,7 @@ const InstitutionStaff = () => {
 									key={item.id}
 									item={item}
 									image={item.cover}
-									link={`/classroom/researcher/${item.id}?tab=dashboard`}
+									link={`/institution/staff/${item.id}?tab=wall`}
 								></CardComponent>
 							))}
 						</>
