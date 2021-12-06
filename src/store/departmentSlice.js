@@ -18,7 +18,18 @@ export const departmentSlice = createSlice({
 		},
 		loadDepartementSuccess: (state, action) => {
 			state.status = 'Department load success';
-			state.departments = action.payload;
+
+			state.departments = [];
+
+			action.payload.map((val) => {
+				if (val.hasOwnProperty('department')) {
+					if (val.department) {
+						state.departments.push(val.department);
+					}
+				} else {
+					state.departments.push(val);
+				}
+			});
 		},
 		loadDepartementFailed: (state, action) => {
 			state.status = 'Department load failed';

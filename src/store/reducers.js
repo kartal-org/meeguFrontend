@@ -20,6 +20,7 @@ import submissionReducer from './submissionSlice';
 import departmentReducer from './departmentSlice';
 import staffReducer from './staffSlice';
 import memberReducer from './memberSlice';
+import responseReducer from './responseSlice';
 
 export default combineReducers({
 	auth: authReducer,
@@ -43,4 +44,5 @@ export default combineReducers({
 	department: departmentReducer,
 	staff: staffReducer,
 	member: memberReducer,
+	response: responseReducer,
 });
