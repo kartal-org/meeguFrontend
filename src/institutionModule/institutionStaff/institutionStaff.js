@@ -1,43 +1,46 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import useFetch from '../../hooks/useFetch';
+import React from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import useFetch from "../../hooks/useFetch";
 
-import BannerComponent from '../../materialUI/components/reuseableComponents/bannerComponent';
-import DialogComponent from '../../materialUI/components/reuseableComponents/dialogComponent';
-import CardHolder from '../../materialUI/components/reuseableComponents/cardHolder';
-import CardComponent from '../../materialUI/components/reuseableComponents/cardComponent';
+import BannerComponent from "../../materialUI/components/reuseableComponents/bannerComponent";
+import DialogComponent from "../../materialUI/components/reuseableComponents/dialogComponent";
+import CardHolder from "../../materialUI/components/reuseableComponents/cardHolder";
+import CardComponent from "../../materialUI/components/reuseableComponents/cardComponent";
 
-import { getInstitutions } from '../../store/newInstitutionSlice';
+import { getInstitutions } from "../../store/newInstitutionSlice";
 
 //mui
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from "@mui/material";
 
 //Tour
-import { Steps } from 'intro.js-react';
+import { Steps } from "intro.js-react";
 
 //validation
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 const InstitutionStaff = () => {
 	const dispatch = useDispatch(); //gamiton para mu call to dispatch action reducer
 	const institutionState = useFetch; //mu create ug instance sa useFetch
 
-	const fetchedInstitutions = useSelector((state) => state.institution.institutions);
-	const { items: institutions, setItems: setInstitutions } = institutionState(fetchedInstitutions);
+	const fetchedInstitutions = useSelector(
+		(state) => state.institution.institutions
+	);
+	const { items: institutions, setItems: setInstitutions } =
+		institutionState(fetchedInstitutions);
 
 	useState(() => {
-		dispatch(getInstitutions('/institution/staff'));
+		dispatch(getInstitutions("/institution/staff"));
 	}, []);
 
 	//validation
 	const validationMsg = Yup.object().shape({
 		code: Yup.string()
-			.required('Code is required.')
-			.min(8, 'Must be exactly 8 characters')
-			.max(8, 'Must be exactly 8 characters'),
+			.required("Code is required.")
+			.min(8, "Must be exactly 8 characters")
+			.max(8, "Must be exactly 8 characters"),
 	});
 
 	const {
@@ -54,17 +57,17 @@ const InstitutionStaff = () => {
 	};
 
 	//tour
-	const [stepsEnabled, setStepsEnabled] = useState('true');
+	const [stepsEnabled, setStepsEnabled] = useState("true");
 	const [initialStep, setInitialStep] = useState(0);
 
 	const tourSteps = [
 		{
-			element: '.join',
-			intro: 'Join specific institution pages to your liking.',
+			element: ".join",
+			intro: "Join specific institution pages to your liking.",
 		},
 		{
-			element: '.cards',
-			intro: 'Visit the institution here.',
+			element: ".cards",
+			intro: "Visit the institution here.",
 		},
 	];
 
@@ -85,39 +88,44 @@ const InstitutionStaff = () => {
 				onExit={onExit}
 			/>
 
-			<div className='flex flex-col w-full space-y-4'>
+			<div className="flex flex-col w-full space-y-4">
 				<BannerComponent
-					title=' Hello dear, Staff !'
-					subtitle='Keep yourself updated with your instituion:'
+					title=" Hello dear, Staff !"
+					subtitle="Keep yourself updated with your instituion:"
 				>
 					<DialogComponent
-						title='Join Institution'
+						title="Join Institution"
 						button={
-							<Button className='join' variant='contained'>
+							<Button className="join" variant="contained">
 								Join Institution
 							</Button>
 						}
 					>
-						<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-4'>
-							<div className='mt-4'>
+						<form
+							onSubmit={handleSubmit(onSubmit)}
+							className="flex flex-col space-y-4"
+						>
+							<div className="mt-4">
 								<TextField
 									fullWidth
-									id='outlined-search'
-									label='Code'
-									variant='outlined'
-									name='code'
+									id="outlined-search"
+									label="Code"
+									variant="outlined"
+									name="code"
 									// value={code}
 									// onChange={(e) => onChange(e)}
-									{...register('code')}
+									{...register("code")}
 									error={errors.code ? true : false}
 								/>
-								<Typography sx={{ fontSize: '12px', color: 'red', fontStyle: 'italic' }}>
+								<Typography
+									sx={{ fontSize: "12px", color: "red", fontStyle: "italic" }}
+								>
 									{errors.code?.message}
 								</Typography>
 							</div>
 
 							<div>
-								<Button type='submit' variant='contained'>
+								<Button type="submit" variant="contained">
 									Join
 								</Button>
 							</div>
@@ -125,7 +133,7 @@ const InstitutionStaff = () => {
 					</DialogComponent>
 				</BannerComponent>
 
-				<CardHolder tourIdentifier='cards'>
+				<CardHolder tourIdentifier="cards">
 					{institutions && institutions.length > 0 ? (
 						<>
 							{institutions.map((item) => (
