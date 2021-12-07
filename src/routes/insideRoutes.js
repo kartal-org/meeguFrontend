@@ -43,6 +43,7 @@ import DepartmentRecommendationPDFViewer from "../institutionModule/institutionM
 import InstitutionStaffManager from "../institutionModule/institutionStaff/pageManager/institutionStaffManager";
 import JoinedDepartmentTabManager from "../institutionModule/institutionStaff/pageManager/tabs/department/joinedDepartmentTabManager";
 import FinalMessage from "../finalmessageModule/finalMessage";
+import AdviserWorkspaceManager from "../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/workspaces/adviserWorkspaceManager";
 
 export default [
 	<Route
@@ -85,6 +86,11 @@ export default [
 		exact
 		path="/institutions/moderator/department/:id"
 		component={ModeratorInstitutionDepartmentManager}
+	/>,
+	<Route
+		exact
+		path="/classroom/adviser/workspace/:id"
+		component={AdviserWorkspaceManager}
 	/>,
 	<Route
 		exact
