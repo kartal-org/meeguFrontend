@@ -7,7 +7,7 @@ import useFetch from "../../../../../hooks/useFetch";
 import ProductDetailComponent from "../../../../../materialUI/components/reuseableComponents/dashboardComponent";
 import DialogComponent from "../../../../../materialUI/components/reuseableComponents/dialogComponent";
 import PageManagerComponent from "../../../../../materialUI/components/reuseableComponents/pageManagerComponent";
-import { getDepartments } from "../../../../../store/departmentSlice";
+import { retrieveDepartment } from "../../../../../store/departmentSlice";
 
 import {
 	Avatar,
@@ -40,7 +40,7 @@ const JoinedDepartmentTabManager = () => {
 
 	//fetch
 	useEffect(() => {
-		dispatch(getDepartments(`/institution/department/${id}`));
+		dispatch(retrieveDepartment(id));
 	}, []);
 	const fetchProfile = useSelector(
 		(state) => state.department.currentDepartment
@@ -94,6 +94,7 @@ const JoinedDepartmentTabManager = () => {
 					productType="Department"
 					setProduct={setDepartment}
 					product={department}
+					image={department.image}
 				>
 					<div className="flex flex-col space-y-4 ml-4">
 						<div className="grid grid-cols-4 gap-4">
