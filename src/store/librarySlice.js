@@ -25,6 +25,7 @@ export const librarySlice = createSlice({
 		},
 		articleDeleteRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		articleDeleteSuccess: (state, action) => {
 			state.isLoading = false;

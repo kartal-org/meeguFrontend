@@ -1,49 +1,50 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { apiCallBegan } from './actions/api';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { createSlice } from "@reduxjs/toolkit";
+import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 let toastId;
 
 export const responseSlice = createSlice({
-	name: 'response',
+	name: "response",
 	initialState: {
 		currentresponse: null,
 		responses: [],
-		status: 'idle',
+		status: "idle",
 	},
 	reducers: {
 		loadresponseRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		loadresponseSuccess: (state, action) => {
-			state.status = 'response load success';
+			state.status = "response load success";
 			state.responses = action.payload;
 		},
 		loadresponseFailed: (state, action) => {
-			state.status = 'response load failed';
+			state.status = "response load failed";
 			state.responses = [];
 		},
 		addresponseRequest: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		addresponseSuccess: (state, action) => {
-			state.status = 'response add success';
+			state.status = "response add success";
 			state.responses.unshift(action.payload);
 			toast.update(toastId, {
-				render: 'Succesfully added',
+				render: "Succesfully added",
 				autoClose: 3000,
-				type: 'success',
+				type: "success",
 				isLoading: false,
 			});
 		},
 		addresponseFailed: (state, action) => {
-			state.status = 'response add failed';
+			state.status = "response add failed";
 			// alert('Adding response failed');
 			toast.update(toastId, {
-				render: 'Failed to add',
+				render: "Failed to add",
 				autoClose: 3000,
-				type: 'error',
+				type: "error",
 				isLoading: false,
 			});
 		},
@@ -66,13 +67,13 @@ export default responseSlice.reducer;
 export const createresponse = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: 'post',
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: formData,
 		onStart: addresponseRequest.type,
 		onSuccess: addresponseSuccess.type,
@@ -82,13 +83,13 @@ export const createresponse = (link, formData) =>
 export const getresponses = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: loadresponseRequest.type,
 		onSuccess: loadresponseSuccess.type,
 		onError: loadresponseFailed.type,

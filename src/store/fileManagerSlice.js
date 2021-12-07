@@ -29,6 +29,7 @@ export const fileManagerSlice = createSlice({
 		},
 		folderCreateRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		folderCreateSuccess: (state, action) => {
 			state.isLoading = false;
@@ -53,6 +54,7 @@ export const fileManagerSlice = createSlice({
 		},
 		folderEditRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		folderEditSuccess: (state, action) => {
 			state.isLoading = false;
@@ -80,6 +82,7 @@ export const fileManagerSlice = createSlice({
 		},
 		folderDeleteRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		folderDeleteSuccess: (state, action) => {
 			state.isLoading = false;
@@ -119,6 +122,7 @@ export const fileManagerSlice = createSlice({
 		},
 		uploadFileCreateRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		uploadFileCreateSuccess: (state, action) => {
 			state.isLoading = false;
@@ -143,6 +147,7 @@ export const fileManagerSlice = createSlice({
 		},
 		uploadFileDeleteRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		uploadFileDeleteSuccess: (state, action) => {
 			state.isLoading = false;
@@ -196,6 +201,7 @@ export const fileManagerSlice = createSlice({
 		},
 		quillFileCreateRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		quillFileCreateSuccess: (state, action) => {
 			state.isLoading = false;
@@ -220,6 +226,7 @@ export const fileManagerSlice = createSlice({
 		},
 		quillFileDeleteRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		quillFileDeleteSuccess: (state, action) => {
 			state.isLoading = false;

@@ -27,6 +27,7 @@ export const noteSlice = createSlice({
 		},
 		noteAddRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		noteAddSuccess: (state, action) => {
 			state.isLoading = false;
@@ -51,6 +52,7 @@ export const noteSlice = createSlice({
 		},
 		noteUpdateRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		noteUpdateSuccess: (state, action) => {
 			state.isLoading = false;
@@ -74,6 +76,7 @@ export const noteSlice = createSlice({
 		},
 		noteDeleteRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		noteDeleteSuccess: (state, action) => {
 			state.isLoading = false;

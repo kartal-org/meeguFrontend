@@ -63,7 +63,7 @@ export const newClassroomSlice = createSlice({
 
 		createClassroomLoadRequest: (state, action) => {
 			state.status = "Classroom add loading";
-			toastId = toast.loading("Logging in...");
+			toastId = toast.loading("Request is being processed");
 		},
 
 		createClassroomSuccess: (state, action) => {
@@ -91,6 +91,7 @@ export const newClassroomSlice = createSlice({
 		},
 		joinClassroomLoadRequest: (state, action) => {
 			state.status = "Classroom join loading";
+			toastId = toast.loading("Request is being processed");
 		},
 
 		joinClassroomSuccess: (state, action) => {
@@ -119,6 +120,7 @@ export const newClassroomSlice = createSlice({
 
 		classroomEditRequest: (state, action) => {
 			state.status = "Classroom edit loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		classroomEditSuccess: (state, action) => {
 			const index = state.classes.findIndex(
@@ -146,6 +148,7 @@ export const newClassroomSlice = createSlice({
 		},
 		classroomPatchRequest: (state, action) => {
 			state.status = "Classroom affilate add loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		classroomPatchSuccess: (state, action) => {
 			const index = state.classes.findIndex(
@@ -174,6 +177,7 @@ export const newClassroomSlice = createSlice({
 		},
 		deleteClassroomRequest: (state, action) => {
 			state.status = "Classroom delete loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		deleteClassroomSuccess: (state, action) => {
 			const filtered = state.classes.filter(

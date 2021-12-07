@@ -47,7 +47,7 @@ export const institutionSlice = createSlice({
 			alert("Current Institution Load Failed!");
 		},
 		editCurrentInstitutionRequest: (state, action) => {
-			toastId = toast.loading("Saving Changes...");
+			toastId = toast.loading("Request is being processed");
 		},
 		editCurrentInstitutionSuccess: (state, action) => {
 			state.currentInstitution = action.payload;
@@ -69,7 +69,7 @@ export const institutionSlice = createSlice({
 			// alert('Current Institution Edit Failed!');
 		},
 		deleteCurrentInstitutionRequest: (state, action) => {
-			toastId = toast.loading("Saving Changes...");
+			toastId = toast.loading("Request is being processed");
 		},
 		deleteCurrentInstitutionSuccess: (state, action) => {
 			state.currentInstitution = null;
@@ -118,7 +118,7 @@ export const institutionSlice = createSlice({
 			// alert('Create Institution Failed!');
 		},
 		addRequest: (state, action) => {
-			toastId = toast.loading("Adding Institution...");
+			toastId = toast.loading("Request is being processed");
 		},
 		updateSuccess: (state, action) => {
 			alert("Update Institution Success!");
