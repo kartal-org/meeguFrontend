@@ -10,6 +10,7 @@ export const fileSlice = createSlice({
 	initialState: {
 		currentFile: null,
 		files: [],
+		files2: [],
 		uploadFiles: [],
 		status: 'idle',
 	},
@@ -75,6 +76,30 @@ export const fileSlice = createSlice({
 			});
 		},
 		addFileFailed: (state, action) => {
+			state.status = 'file add failed';
+			// alert('Files Add Failed!');
+			toast.update(toastId, {
+				render: 'Failed to add',
+				autoClose: 3000,
+				type: 'error',
+				isLoading: false,
+			});
+		},
+		addFile2Request: (state, action) => {
+			state.status = 'loading';
+		},
+		addFile2Success: (state, action) => {
+			state.status = 'file add success';
+			state.files2.push(action.payload);
+			// alert('Files Add Success!');
+			toast.update(toastId, {
+				render: 'Sucessfully added',
+				autoClose: 3000,
+				type: 'success',
+				isLoading: false,
+			});
+		},
+		addFile2Failed: (state, action) => {
 			state.status = 'file add failed';
 			// alert('Files Add Failed!');
 			toast.update(toastId, {
@@ -155,6 +180,9 @@ const {
 	addFileRequest,
 	addFileSuccess,
 	addFileFailed,
+	addFile2Request,
+	addFile2Success,
+	addFile2Failed,
 	editFileRequest,
 	editFileSuccess,
 	editFileFailed,
@@ -195,6 +223,21 @@ export const addFile = (link, formData) =>
 		onStart: addFileRequest.type,
 		onSuccess: addFileSuccess.type,
 		onError: addFileFailed.type,
+	});
+export const addFile2 = (link, formData) =>
+	apiCallBegan({
+		url: link,
+		method: 'post',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		data: formData,
+		onStart: addFile2Request.type,
+		onSuccess: addFile2Success.type,
+		onError: addFile2Failed.type,
 	});
 export const retrieveFile = (link) =>
 	apiCallBegan({
