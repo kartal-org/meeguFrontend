@@ -29,6 +29,7 @@ export const workspaceMemberSlice = createSlice({
 
 		memberJoinRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		memberJoinSuccess: (state, action) => {
 			state.isLoading = false;

@@ -35,6 +35,7 @@ export const folderSlice = createSlice({
 		},
 		addFolderRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		addFolderSuccess: (state, action) => {
 			state.status = "Folder add success";
@@ -59,6 +60,7 @@ export const folderSlice = createSlice({
 		},
 		editFolderRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		editFolderSuccess: (state, action) => {
 			const index = state.folders.findIndex(
@@ -86,6 +88,7 @@ export const folderSlice = createSlice({
 		},
 		deleteFolderRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		deleteFolderSuccess: (state, action) => {
 			console.log(action.payload);

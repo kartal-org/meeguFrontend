@@ -49,6 +49,7 @@ export const classroomMemberSlice = createSlice({
 		},
 		joinClassroomRequest: (state, action) => {
 			state.classroom = null;
+			toastId = toast.loading("Request is being processed");
 		},
 		joinClassroomSucess: (state, action) => {
 			window.location.href = `classroom/researcher/${action.payload.classroom}?classroom=${action.payload.classroom}`;
@@ -73,6 +74,7 @@ export const classroomMemberSlice = createSlice({
 		// from revamp
 		addStudentRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		addStudentSucess: (state, action) => {
 			state.status = "Adding student success";
@@ -97,6 +99,7 @@ export const classroomMemberSlice = createSlice({
 		},
 		removeStudentRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		removeStudentSucess: (state, action) => {
 			state.status = "Removing student success";
