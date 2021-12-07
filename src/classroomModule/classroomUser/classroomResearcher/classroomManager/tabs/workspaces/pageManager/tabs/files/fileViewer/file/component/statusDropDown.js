@@ -5,11 +5,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { editFile } from '../../../../../../../../../../../../store/classResourceSlice';
 
 const StatusDropDown = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const fetchedFile = useSelector((state) => state.file.currentFile);
+
 	const [status, setStatus] = useState('draft');
 	useEffect(() => {
 		if (fetchedFile) {
@@ -19,7 +21,24 @@ const StatusDropDown = () => {
 	const onChange = (e) => {
 		setStatus(e.target.value);
 		// put dispatch here
+		// if (fetchedFile.status !== status) {
+		// 	// alert(status);
+		// 	// alert(fetchedFile.status);
+		// 	console.log(status);
+		// 	// dispatch(editFile(`/workspace/file/${id}`, { status }));
+		// }
 	};
+
+	useEffect(() => {
+		if (fetchedFile) {
+			if (fetchedFile.status !== status) {
+				// alert(status);
+				// alert(fetchedFile.status);
+				console.log(status);
+				dispatch(editFile(`/workspace/file/${id}`, { status }));
+			}
+		}
+	}, [status]);
 	const options = [
 		{ label: 'Draft', value: 'draft' },
 		{ label: 'Publish', value: 'published' },

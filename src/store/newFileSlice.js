@@ -40,8 +40,12 @@ export const fileSlice = createSlice({
 		},
 		retrieveFileSuccess: (state, action) => {
 			state.status = 'file retrieve success';
-			if (action.payload.hasOwnProperty('file')) {
-				state.currentFile = action.payload.file;
+			console.log(action.payload);
+			if (action.payload.hasOwnProperty('file') || action.payload.hasOwnProperty('folder')) {
+				if (!action.payload.hasOwnProperty('folder')) {
+					state.currentFile = action.payload.file;
+				}
+				state.currentFile = action.payload;
 			} else {
 				state.currentFile = action.payload;
 			}

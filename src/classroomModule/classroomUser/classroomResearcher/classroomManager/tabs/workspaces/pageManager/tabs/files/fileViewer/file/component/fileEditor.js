@@ -43,19 +43,26 @@ const FileEditor = () => {
 				getUpdate(quill.root.innerHTML);
 			});
 		}
-	}, [quill]);
+	}, [fetchedFile, quill]);
 	useEffect(() => {
-		if (fetchedFile && i === 0 && quill) {
+		if (fetchedFile && quill) {
 			quill.clipboard.dangerouslyPasteHTML(fetchedFile.content);
 			quill.setSelection(quill.getLength(), 0);
-			setI(1);
+			// setI(1);
+
+			quill.on('text-change', (delta, oldDelta, source) => {
+				// setFile({ ...file, content: quill.root.innerHTML });
+				if (fetchedFile !== quill.root.innerHTML) {
+					getUpdate(quill.root.innerHTML);
+				}
+			});
 		}
 	}, [fetchedFile, quill]);
 
 	const getUpdate = (text) => {
 		let formdata = new FormData();
 		formdata.append('content', text);
-		dispatch(editfile(`/workspace/file/change/${id}`, formdata));
+		dispatch(editfile(`/workspace/file/${id}`, formdata));
 		// console.log(text, 'UPdated text');
 	};
 	return <QuillEditor quillRef={quillRef} />;

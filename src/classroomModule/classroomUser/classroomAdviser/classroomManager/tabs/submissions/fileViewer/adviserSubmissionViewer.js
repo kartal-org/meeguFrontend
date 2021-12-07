@@ -1,5 +1,5 @@
-import { Button } from '@mui/material';
-import 'quill/dist/quill.bubble.css';
+import { Button, TextField } from '@mui/material';
+import 'quill/dist/quill.snow.css';
 import { useEffect } from 'react';
 import { MdOutlinePlagiarism, MdOutlineSpeakerNotes } from 'react-icons/md';
 import { useQuill } from 'react-quilljs';
@@ -9,7 +9,7 @@ import useFetch from '../../../../../../../hooks/useFetch';
 import { retrieveSubmission } from '../../../../../../../store/submissionSlice';
 
 const AdviserSubmissionViewer = () => {
-	const theme = 'bubble';
+	const theme = 'snow';
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const submissionState = useFetch;
@@ -20,7 +20,22 @@ const AdviserSubmissionViewer = () => {
 	const { items: submission, setItems: setSubmission } = submissionState(fetchedSubmission);
 
 	const modules = {
-		toolbar: [['bold', 'italic', 'underline', 'strike']],
+		toolbar: [
+			[{ font: [] }],
+			['bold', 'italic', 'underline', 'strike'],
+			[{ align: [] }],
+
+			[{ list: 'ordered' }, { list: 'bullet' }],
+			[{ indent: '-1' }, { indent: '+1' }],
+
+			// [{ size: ['small', false, 'large', 'huge'] }],
+			[{ header: [1, 2, 3, 4, 5, 6, false] }],
+			['link', 'image', 'video', 'blockquote', 'code-block'],
+			[{ color: [] }, { background: [] }],
+		],
+		clipboard: {
+			matchVisual: false,
+		},
 	};
 
 	const placeholder = 'Compose an epic...';
@@ -28,13 +43,35 @@ const AdviserSubmissionViewer = () => {
 
 	const formats = ['bold', 'italic', 'underline', 'strike'];
 
-	const { quillRef: contentQuill } = useQuill({ theme, modules, formats, placeholder });
-	const { quillRef: commentQuill } = useQuill({
+	const { quill: content, quillRef: contentQuill } = useQuill({
 		theme,
 		modules,
 		formats,
-		placeholder: commentPlaceholder,
+		placeholder,
 	});
+
+	useEffect(() => {
+		if (submission && content) {
+			content.clipboard.dangerouslyPasteHTML(submission.file.content);
+			content.setSelection(content.getLength(), 0);
+			// setI(1);
+
+			content.on('text-change', (delta, oldDelta, source) => {
+				// setFile({ ...file, content: content.root.innerHTML });
+				if (submission !== content.root.innerHTML) {
+					getUpdate(content.root.innerHTML);
+				}
+			});
+		}
+	}, [submission, content]);
+
+	const getUpdate = (text) => {
+		// let formdata = new FormData();
+		// formdata.append('content', text);
+		// dispatch(editfile(`/workspace/file/${id}`, formdata));
+		// console.log(text, 'UPdated text');
+	};
+
 	return (
 		<>
 			{submission.file ? (
@@ -51,7 +88,7 @@ const AdviserSubmissionViewer = () => {
 									<>
 										{submission.authors.map((author) => (
 											<p className='font-base text-gray-700 text-md'>
-												{author.first_name} {author.last_name},
+												{author.user__user__first_name} {author.last_name},
 											</p>
 										))}
 									</>
@@ -78,27 +115,31 @@ const AdviserSubmissionViewer = () => {
 					</div>
 					<div className='row-span-5  grid  grid-cols-5 gap-4'>
 						<div className='col-span-3  flex flex-col space-y-4'>
-							<div
-								style={{
-									width: '100%',
-									height: '400px',
-									border: '1px solid lightgray',
-								}}
-							>
-								<div ref={contentQuill} />
+							<div>
+								<div
+									style={{
+										width: '100%',
+										height: '400px',
+										border: '1px solid lightgray',
+									}}
+									ref={contentQuill}
+								/>
 							</div>
 						</div>
 						<div className='col-span-2 flex flex-col space-y-4'>
-							<div
-								style={{
-									width: '100%',
-									height: '100px',
-
-									border: '1px solid lightgray',
-									borderRadius: '1rem',
-								}}
-							>
-								<div ref={commentQuill} />
+							<div>
+								<TextField
+									fullWidth
+									id='outlined-multiline-flexible'
+									label='Enter Your Comment...'
+									multiline
+									minRows={4}
+									//   value={value}
+									//   onChange={handleChange}
+								/>
+								<div className='flex w-full justify-end'>
+									<Button>Comment</Button>
+								</div>
 							</div>
 							<div className='flex flex-col h-full space-y-1'>
 								<div className='flex justify-between border-b-2 space-x-2 '>
