@@ -37,6 +37,7 @@ export const newResourceSlice = createSlice({
 		},
 		addResourcesRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		addResourcesSuccess: (state, action) => {
 			state.status = "Resources Create success";
@@ -61,6 +62,7 @@ export const newResourceSlice = createSlice({
 		},
 		editResourcesRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		editResourcesSuccess: (state, action) => {
 			state.status = "Resources Edit success";
@@ -85,6 +87,7 @@ export const newResourceSlice = createSlice({
 		},
 		deleteResourcesRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		deleteResourcesSuccess: (state, action) => {
 			state.status = "Resources Delete success";

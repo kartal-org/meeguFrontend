@@ -31,6 +31,7 @@ export const classResourceSlice = createSlice({
 		},
 		folderCreateRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		folderCreateSuccess: (state, action) => {
 			state.isLoading = false;
@@ -55,6 +56,7 @@ export const classResourceSlice = createSlice({
 		},
 		folderEditRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		folderEditSuccess: (state, action) => {
 			state.isLoading = false;
@@ -82,6 +84,7 @@ export const classResourceSlice = createSlice({
 		},
 		folderDeleteRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		folderDeleteSuccess: (state, action) => {
 			state.isLoading = false;
@@ -108,6 +111,7 @@ export const classResourceSlice = createSlice({
 		},
 		uploadedFileLoadRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		uploadedFileLoadSuccess: (state, action) => {
 			state.isLoading = false;
@@ -144,6 +148,7 @@ export const classResourceSlice = createSlice({
 		},
 		fileUploadRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		fileUploadSuccess: (state, action) => {
 			state.isLoading = false;
@@ -178,6 +183,7 @@ export const classResourceSlice = createSlice({
 		},
 		createFileRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		createFileSuccess: (state, action) => {
 			state.isLoading = false;
@@ -213,6 +219,7 @@ export const classResourceSlice = createSlice({
 
 		retrieveFileRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		retrieveFileSuccess: (state, action) => {
 			state.isLoading = false;
@@ -224,6 +231,7 @@ export const classResourceSlice = createSlice({
 		},
 		editFileRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		editFileSuccess: (state, action) => {
 			state.isLoading = false;
@@ -247,6 +255,7 @@ export const classResourceSlice = createSlice({
 		},
 		deleteFileRequest: (state, action) => {
 			state.isLoading = true;
+			toastId = toast.loading("Request is being processed");
 		},
 		deleteFileSuccess: (state, action) => {
 			console.log(action.payload);

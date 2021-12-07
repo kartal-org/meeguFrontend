@@ -39,6 +39,7 @@ export const subscriptionSlice = createSlice({
 		},
 		subscriptionAddRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		subscriptionAddSuccess: (state, action) => {
 			state.status = "success";

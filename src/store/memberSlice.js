@@ -29,16 +29,16 @@ export const memberSlice = createSlice({
 			alert("members Load Failed!");
 		},
 		loadMemberRequest2: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 			state.members2 = [];
 		},
 		loadMemberSuccess2: (state, action) => {
-			state.status = 'member load success';
+			state.status = "member load success";
 			state.members2 = action.payload;
 		},
 		loadMemberFailed2: (state, action) => {
-			state.status = 'member load failed';
-			alert('members Load Failed!');
+			state.status = "member load failed";
+			alert("members Load Failed!");
 		},
 		loadMemberTypeRequest: (state, action) => {
 			state.status = "loading";
@@ -54,6 +54,7 @@ export const memberSlice = createSlice({
 		},
 		addMemberRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		addMemberSuccess: (state, action) => {
 			state.status = "member add success";
@@ -115,13 +116,13 @@ export const getMembers = (link) =>
 export const getMembers2 = (link) =>
 	apiCallBegan({
 		url: link,
-		method: 'get',
+		method: "get",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		onStart: loadMemberRequest.type,
 		onSuccess: loadMemberSuccess.type,
 		onError: loadMemberFailed.type,

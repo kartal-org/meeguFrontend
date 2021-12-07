@@ -42,6 +42,7 @@ import AdviserSubmissionPDFViewer from "../classroomModule/classroomUser/classro
 import DepartmentRecommendationPDFViewer from "../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/submissions/fileViewers/departmentFileViewerPDF";
 import InstitutionStaffManager from "../institutionModule/institutionStaff/pageManager/institutionStaffManager";
 import JoinedDepartmentTabManager from "../institutionModule/institutionStaff/pageManager/tabs/department/joinedDepartmentTabManager";
+import FinalMessage from "../finalmessageModule/finalMessage";
 
 export default [
 	<Route
@@ -131,7 +132,7 @@ export default [
 
 	<Route exact path="/fileViewer" component={FileViewer} />,
 	<Route exact path="/works" component={WorkSpace} />,
-	<Route exact path="/messages" component={NewMesssages} />,
+	<Route exact path="/messages" component={FinalMessage} />,
 	<Route
 		exact
 		path="/classroom/researcher/:id"

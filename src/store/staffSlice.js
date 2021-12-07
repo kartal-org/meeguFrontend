@@ -41,6 +41,7 @@ export const staffSlice = createSlice({
 		},
 		addStaffRequest: (state, action) => {
 			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
 		},
 		addStaffSuccess: (state, action) => {
 			state.status = "staff add success";
