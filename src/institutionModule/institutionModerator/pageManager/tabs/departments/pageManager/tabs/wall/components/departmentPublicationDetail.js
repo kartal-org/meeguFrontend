@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
-import useFetch from "../../../../../../../../../hooks/useFetch";
-import { publishArticle } from "../../../../../../../../../store/articleSlice";
-import DialogComponent from "../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent";
+import useFetch from '../../../../../../../../../hooks/useFetch';
+import { publishArticle } from '../../../../../../../../../store/articleSlice';
+import DialogComponent from '../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent';
 
 import {
 	Button,
@@ -16,77 +16,81 @@ import {
 	Select,
 	Checkbox,
 	Switch,
-} from "@mui/material";
+} from '@mui/material';
+import { getrecommendations } from '../../../../../../../../../store/recommendationSlice';
 
 const DepartmentPublicationDetail = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	// useEffect(() => {
-	// 	dispatch(getDepartments(`/institution/department/${id}`));
-	// }, []);
-	const submissionDetail = useSelector(
-		(state) => state.submission.currentSubmission
-	);
+	const recommendationsState = useFetch;
+	useEffect(() => {
+		dispatch(getrecommendations(`/submission/recommendation?search=${id}`));
+	}, []);
+	const fetchedRecommendations = useSelector((state) => state.recommendation.recommendations);
 	// const fetchedDepartment = useSelector(
 	// 	(state) => state.department.departments
 	// );
-	const pubState = useFetch;
 	// const deptState = useFetch;
 
-	// const { items: departments } = deptState(fetchedDepartment);
+	const { items: recommendations } = recommendationsState(fetchedRecommendations);
 	const [inputForm, setInputForm] = useState({
-		title: "",
-		authors: "",
-		abstract: "",
-		department: "",
+		title: '',
+		authors: '',
+		abstract: '',
+		department: '',
 		isFeatured: false,
 	});
 
-	useState(() => {
-		if (submissionDetail) {
-			let authors;
-			if (submissionDetail.authorsUploadFile) {
-				authors = submissionDetail.authorsUploadFile;
-			}
-			if (submissionDetail.authorsFile) {
-				authors = submissionDetail.authorsFile;
-			}
-			setInputForm({
-				...inputForm,
-				title: submissionDetail.title,
-				abstract: submissionDetail.description,
-				authors: getAuthors(authors),
-			});
-		}
-	}, [submissionDetail]);
+	// useState(() => {
+	// 	if (submissionDetail) {
+	// 		let authors;
+	// 		if (submissionDetail.authorsUploadFile) {
+	// 			authors = submissionDetail.authorsUploadFile;
+	// 		}
+	// 		if (submissionDetail.authorsFile) {
+	// 			authors = submissionDetail.authorsFile;
+	// 		}
+	// 		setInputForm({
+	// 			...inputForm,
+	// 			title: submissionDetail.title,
+	// 			abstract: submissionDetail.description,
+	// 			authors: getAuthors(authors),
+	// 		});
+	// 	}
+	// }, [submissionDetail]);
 
 	function onChange(e) {
-		if (e.target.name === "isFeatured") {
+		if (e.target.name === 'isFeatured') {
 			setInputForm({ ...inputForm, isFeatured: e.target.checked });
 		} else {
 			setInputForm({ ...inputForm, [e.target.name]: e.target.value });
 		}
 	}
 
-	function getAuthors(authors) {
-		let authorCombine;
+	// function getAuthors(authors) {
+	// 	let authorCombine;
 
-		authors.map((val) => {
-			authorCombine = authorCombine + `${val.first_name} ${val.last_name}, `;
-		});
+	// 	authors.map((val) => {
+	// 		authorCombine = authorCombine + `${val.first_name} ${val.last_name}, `;
+	// 	});
 
-		return authorCombine;
-	}
+	// 	return authorCombine;
+	// }
 	const [checked, setChecked] = useState(true);
 	const [file, setFile] = useState();
 	function handlePublish() {
-		console.log(inputForm);
+		// console.log(submission.submission.id);
 		let formData = new FormData();
-		formData.append("title", inputForm.title);
-		formData.append("abstract", inputForm.abstract);
-		formData.append("department", inputForm.department);
-		formData.append("isFeatured", inputForm.isFeatured);
-		formData.append("archiveFile", file, file.name);
+		formData.append('title', inputForm.title);
+		formData.append('abstract', inputForm.abstract);
+		formData.append('department', id);
+		formData.append('isFeatured', inputForm.isFeatured);
+
+		if (checked) {
+			formData.append('archiveFile', file, file.name);
+		} else {
+			formData.append('submission', submission.submission.id);
+		}
 		// if (submissionDetail.uploadFile) {
 		// 	formData.append('file', submissionDetail.uploadFile);
 		// }
@@ -108,53 +112,75 @@ const DepartmentPublicationDetail = () => {
 			setFile(file);
 			let filename = file.name;
 			console.log(file);
-			filename.replace(".pdf", "");
+			filename.replace('.pdf', '');
 			console.log(filename);
 			setInputForm({ ...inputForm, title: filename });
 		};
 		reader.readAsDataURL(file);
 	}
 
+	const [submission, setSubmission] = useState('');
+
+	const handleChangeSubmission = (event) => {
+		setSubmission(event.target.value);
+		console.log(event.target.value);
+		let authors = [];
+		event.target.value.submission.authors.map((val) => {
+			authors.push(val.user__user__first_name);
+		});
+		setInputForm({
+			...inputForm,
+			title: event.target.value.submission.title,
+			abstract: event.target.value.submission.description,
+			authors,
+		});
+	};
+
+	function handleClickSubmission() {
+		alert('Hi');
+	}
+
 	return (
 		<>
-			<div className="flex  w-full justify-center items-center">
-				<div className="flex flex-col w-4/5 space-y-4 ">
+			<div className='flex  w-full justify-center items-center'>
+				<div className='flex flex-col w-4/5 space-y-4 '>
 					<FormControlLabel
 						control={
 							<Switch
 								checked={checked}
 								onChange={handleChange}
-								inputProps={{ "aria-label": "controlled" }}
+								inputProps={{ 'aria-label': 'controlled' }}
 							/>
 						}
-						label={checked ? "Upload File" : "Select From Submission"}
+						label={checked ? 'Upload File' : 'Select From Submission'}
 					/>
 					{checked ? (
 						<input
-							accept="application/pdf"
+							accept='application/pdf'
 							onChange={onFileChange}
-							name="file"
-							id="icon-button-file"
-							type="file"
+							name='file'
+							id='icon-button-file'
+							type='file'
 						/>
 					) : (
-						<div className="flex items-start justify-start">
+						<div className='flex items-start justify-start'>
 							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">
+								<InputLabel id='demo-simple-select-label'>
 									Select From Accepted Submissions
 								</InputLabel>
 								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									// value={article}
-									label="Select From Accepted Submissions"
-									// onChange={handleSelectArticle}
+									labelId='demo-simple-select-label'
+									id='demo-simple-select'
+									value={submission}
+									label='Select From Accepted Submissions'
+									onChange={handleChangeSubmission}
 								>
-									{/* {submissions.map((val) => {
+									{recommendations.map((val) => {
 										if (val.responseStatus === 'accepted') {
-											return <MenuItem value={val.id}>{val.title}</MenuItem>;
+											console.log('hello');
+											return <MenuItem value={val}>{val.submission.title}</MenuItem>;
 										}
-									})} */}
+									})}
 								</Select>
 							</FormControl>
 							{/* <DialogComponent
@@ -168,18 +194,18 @@ const DepartmentPublicationDetail = () => {
 
 					<TextField
 						fullWidth
-						label="Article Title"
-						variant="outlined"
+						label='Article Title'
+						variant='outlined'
 						value={inputForm.title}
-						name="title"
+						name='title'
 						onChange={onChange}
 					/>
 					<TextField
 						fullWidth
-						label="Author(s)"
-						variant="outlined"
+						label='Author(s)'
+						variant='outlined'
 						value={inputForm.authors}
-						name="authors"
+						name='authors'
 						InputProps={{
 							readOnly: true,
 						}}
@@ -187,23 +213,23 @@ const DepartmentPublicationDetail = () => {
 					/>
 					<TextField
 						fullWidth
-						label="Abstract"
-						variant="outlined"
+						label='Abstract'
+						variant='outlined'
 						value={inputForm.abstract}
 						multiline
 						minRows={6}
-						name="abstract"
+						name='abstract'
 						onChange={onChange}
 					/>
 					<FormControlLabel
 						control={<Checkbox />}
 						value={inputForm.isFeatured}
 						onChange={onChange}
-						name="isFeatured"
-						label="Do you want this article be Featured?"
+						name='isFeatured'
+						label='Do you want this article be Featured?'
 					/>
-					<div className="flex  w-full">
-						<Button onClick={handlePublish} variant="contained">
+					<div className='flex  w-full'>
+						<Button onClick={handlePublish} variant='contained'>
 							Publish Article
 						</Button>
 					</div>

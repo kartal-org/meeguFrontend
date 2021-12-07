@@ -45,7 +45,7 @@ const ResearcherWorkspaceSubmissions = () => {
 	};
 	const handleFileRedirect = (file) => {
 		if (file.file.content) {
-			history.push(`/classroom/researcher/workspace/file/${file.id}`);
+			history.push(`/classroom/researcher/workspace/file/${file.file.id}`);
 		}
 		if (file.file.file) {
 			alert('is an upload file');

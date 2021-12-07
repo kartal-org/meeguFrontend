@@ -79,6 +79,7 @@ const ResearcherWorkspaceFiles = () => {
 		formData.append('description', description);
 		formData.append('status', status);
 		formData.append('file', selectedFile.id);
+		// formData.append('workspace', id);
 		dispatch(createSubmission('/submission/', formData));
 	};
 

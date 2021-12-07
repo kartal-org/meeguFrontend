@@ -19,7 +19,7 @@ const ResearcherResourceContent = () => {
 
 	// folder
 	useEffect(() => {
-		dispatch(getFolders(`resource/classroom/folder/${id}`));
+		dispatch(getFolders(`resource/classroom/folder?search=${id}`));
 	}, []);
 	const fetchedFolders = useSelector((state) => state.folder.folders);
 	const { items: folders, setItems: setFolders } = folderState(fetchedFolders);

@@ -14,7 +14,7 @@ const ResearcherWorkspaceFileViewer = () => {
 	const { id } = useParams();
 
 	useEffect(() => {
-		dispatch(retrieveFile(`/workspace/file/change/${id}`));
+		dispatch(retrieveFile(`/workspace/file/${id}`));
 	}, []);
 
 	const [view, setView] = useState('default');

@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { apiCallBegan } from "./actions/api";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { apiCallBegan } from './actions/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 let toastId;
 
 export const classResourceSlice = createSlice({
-	name: "resource",
+	name: 'resource',
 	initialState: {
 		folders: [],
 		files: [],
@@ -27,7 +27,7 @@ export const classResourceSlice = createSlice({
 		folderLoadFailed: (state, action) => {
 			state.isLoading = false;
 			state.folders = [];
-			alert("Folder Load Failed!");
+			alert('Folder Load Failed!');
 		},
 		folderCreateRequest: (state, action) => {
 			state.isLoading = true;
@@ -38,9 +38,9 @@ export const classResourceSlice = createSlice({
 			state.folders.push(action.payload);
 			// alert('Adding Folder Success!');
 			toast.update(toastId, {
-				render: "Created successfully",
+				render: 'Created successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -48,9 +48,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('Adding Folder Failed!');
 			toast.update(toastId, {
-				render: "Failed to create",
+				render: 'Failed to create',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -60,15 +60,13 @@ export const classResourceSlice = createSlice({
 		},
 		folderEditSuccess: (state, action) => {
 			state.isLoading = false;
-			const index = state.folders.findIndex(
-				(folder) => folder.id === action.payload.id
-			);
+			const index = state.folders.findIndex((folder) => folder.id === action.payload.id);
 			state.folders[index].name = action.payload.name;
 			// alert('Edit Folder Success!');
 			toast.update(toastId, {
-				render: "Edited successfully",
+				render: 'Edited successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -76,9 +74,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('Edit Folder Failed!');
 			toast.update(toastId, {
-				render: "Failed to edit",
+				render: 'Failed to edit',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -88,14 +86,12 @@ export const classResourceSlice = createSlice({
 		},
 		folderDeleteSuccess: (state, action) => {
 			state.isLoading = false;
-			state.folders = state.folders.filter(
-				(val) => val.id !== action.payload.id
-			);
+			state.folders = state.folders.filter((val) => val.id !== action.payload.id);
 			// alert('Delete Folder Success!');
 			toast.update(toastId, {
-				render: "Deleted successfully",
+				render: 'Deleted successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -103,9 +99,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('Delete Folder Failed!');
 			toast.update(toastId, {
-				render: "Deletion has failed",
+				render: 'Deletion has failed',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -118,9 +114,9 @@ export const classResourceSlice = createSlice({
 			state.uploadFiles = action.payload;
 			// alert('Files Upload Success!');
 			toast.update(toastId, {
-				render: "Uploaded successfully",
+				render: 'Uploaded successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -128,9 +124,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('Files Upload Failed!');
 			toast.update(toastId, {
-				render: "Failed to upload",
+				render: 'Failed to upload',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -144,7 +140,7 @@ export const classResourceSlice = createSlice({
 		},
 		quillLoadFailed: (state, action) => {
 			state.isLoading = false;
-			alert("Files Load Failed!");
+			alert('Files Load Failed!');
 		},
 		fileUploadRequest: (state, action) => {
 			state.isLoading = true;
@@ -159,15 +155,15 @@ export const classResourceSlice = createSlice({
 				tags: action.payload.tags,
 				dateCreated: action.payload.dateCreated,
 				dateUpdated: action.payload.dateUpdated,
-				file: "http://localhost:8000" + action.payload.file,
+				file: 'http://localhost:8000' + action.payload.file,
 				folder: action.payload.folder,
 				assignee: action.payload.assignee,
 			});
 			// alert('Files Upload Success!');
 			toast.update(toastId, {
-				render: "Uploaded successfully",
+				render: 'Uploaded successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -175,9 +171,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('Files Upload Failed!');
 			toast.update(toastId, {
-				render: "Failed to upload",
+				render: 'Failed to upload',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -200,9 +196,9 @@ export const classResourceSlice = createSlice({
 			});
 			// alert('Files Upload Success!');
 			toast.update(toastId, {
-				render: "Created successfully",
+				render: 'Created successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -210,9 +206,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('Files Upload Failed!');
 			toast.update(toastId, {
-				render: "Failed to create",
+				render: 'Failed to create',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -227,7 +223,7 @@ export const classResourceSlice = createSlice({
 		},
 		retrieveFileFailed: (state, action) => {
 			state.isLoading = false;
-			alert("File Load Failed!");
+			alert('File Load Failed!');
 		},
 		editFileRequest: (state, action) => {
 			state.isLoading = true;
@@ -237,9 +233,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('File Saved Success!');
 			toast.update(toastId, {
-				render: "Edited successfully",
+				render: 'Edited successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -247,9 +243,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('File Saved Failed!');
 			toast.update(toastId, {
-				render: "Failed to edit",
+				render: 'Failed to edit',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -259,24 +255,20 @@ export const classResourceSlice = createSlice({
 		},
 		deleteFileSuccess: (state, action) => {
 			console.log(action.payload);
-			if (action.payload.hasOwnProperty("content")) {
-				const filtered = state.files.filter(
-					(val) => val.id !== action.payload.id
-				);
+			if (action.payload.hasOwnProperty('content')) {
+				const filtered = state.files.filter((val) => val.id !== action.payload.id);
 				state.files = filtered;
 			}
-			if (action.payload.hasOwnProperty("file")) {
-				const filtered = state.uploadFiles.filter(
-					(val) => val.id !== action.payload.id
-				);
+			if (action.payload.hasOwnProperty('file')) {
+				const filtered = state.uploadFiles.filter((val) => val.id !== action.payload.id);
 				state.files = filtered;
 			}
 			state.isLoading = false;
 			// alert('File Delete Success!');
 			toast.update(toastId, {
-				render: "Deleted successfully",
+				render: 'Deleted successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -284,9 +276,9 @@ export const classResourceSlice = createSlice({
 			state.isLoading = false;
 			// alert('File Delete Failed!');
 			toast.update(toastId, {
-				render: "Failed to delete",
+				render: 'Failed to delete',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -339,41 +331,40 @@ export default classResourceSlice.reducer;
 
 export const getFiles = (folder) =>
 	apiCallBegan({
-		url: "/resource/classroom/file/" + folder,
-		method: "get",
+		url: '/resource/classroom/file/' + folder,
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: quillLoadRequest.type,
 		onSuccess: quillLoadSuccess.type,
 		onError: quillLoadFailed.type,
 	});
 export const getUploadedFiles = (folder) =>
 	apiCallBegan({
-		url: "/resource/classroom/uploadfile/" + folder,
-		method: "get",
+		url: '/resource/classroom/uploadfile/' + folder,
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: uploadedFileLoadRequest.type,
 		onSuccess: uploadedFileLoadSuccess.type,
 		onError: uploadedFileLoadFailed.type,
 	});
 export const uploadFile = (formData, folder) =>
 	apiCallBegan({
-		url: "/resource/classroom/uploadfile/" + folder,
-		method: "post",
+		url: '/resource/classroom/uploadfile/' + folder,
+		method: 'post',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type":
-				"multipart/form-data; boundary=<calculated when request is sent>",
-			accept: "*/*",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+			accept: '*/*',
 		},
 		data: formData,
 		onStart: fileUploadRequest.type,
@@ -382,12 +373,12 @@ export const uploadFile = (formData, folder) =>
 	});
 export const createFile = (name) =>
 	apiCallBegan({
-		url: "/resource/classroom/file",
-		method: "post",
+		url: '/resource/classroom/file',
+		method: 'post',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 		data: { name },
 		onStart: createFileRequest.type,
@@ -396,39 +387,39 @@ export const createFile = (name) =>
 	});
 export const retrieveFile = (id) =>
 	apiCallBegan({
-		url: "/resource/classroom/file/change/" + id,
-		method: "get",
+		url: '/resource/classroom/file/change/' + id,
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 		onStart: retrieveFileRequest.type,
 		onSuccess: retrieveFileSuccess.type,
 		onError: retrieveFileFailed.type,
 	});
-export const editFile = (id, name, content) =>
+export const editFile = (link, formdata) =>
 	apiCallBegan({
-		url: "/resource/classroom/file/change/" + id,
-		method: "patch",
+		url: link,
+		method: 'patch',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		data: { name, content },
+		data: formdata,
 		onStart: editFileRequest.type,
 		onSuccess: editFileSuccess.type,
 		onError: editFileFailed.type,
 	});
 export const deleteFile = (id) =>
 	apiCallBegan({
-		url: "/resource/classroom/file/change/" + id,
-		method: "delete",
+		url: '/resource/classroom/file/change/' + id,
+		method: 'delete',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 		onStart: deleteFileRequest.type,
 		onSuccess: deleteFileSuccess.type,
@@ -436,12 +427,12 @@ export const deleteFile = (id) =>
 	});
 export const deleteUploadFile = (id) =>
 	apiCallBegan({
-		url: "/resource/classroom/uploadfile/change/" + id,
-		method: "delete",
+		url: '/resource/classroom/uploadfile/change/' + id,
+		method: 'delete',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 		onStart: deleteFileRequest.type,
 		onSuccess: deleteFileSuccess.type,
@@ -451,60 +442,60 @@ export const deleteUploadFile = (id) =>
 ///Folders CRUD Operations
 export const getFolders = (resource) =>
 	apiCallBegan({
-		url: "/resource/classroom/folder/" + resource,
-		method: "get",
+		url: '/resource/classroom/folder/' + resource,
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: folderLoadRequest.type,
 		onSuccess: folderLoadSuccess.type,
 		onError: folderLoadFailed.type,
 	});
 export const createFolder = (name, resource) =>
 	apiCallBegan({
-		url: "/resource/classroom/folder",
-		method: "post",
+		url: '/resource/classroom/folder',
+		method: 'post',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 		data: { name, resource },
-		type: "regular",
+		type: 'regular',
 		onStart: folderCreateRequest.type,
 		onSuccess: folderCreateSuccess.type,
 		onError: folderCreateFailed.type,
 	});
 export const editFolder = (id, name, resource) =>
 	apiCallBegan({
-		url: "/resource/classroom/folder/change/" + id,
-		method: "put",
+		url: '/resource/classroom/folder/change/' + id,
+		method: 'put',
 
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
 		data: { name, resource },
 
-		type: "regular",
+		type: 'regular',
 		onStart: folderEditRequest.type,
 		onSuccess: folderEditSuccess.type,
 		onError: folderEditFailed.type,
 	});
 export const deleteFolder = (id) =>
 	apiCallBegan({
-		url: "/resource/classroom/folder/change/" + id,
-		method: "delete",
+		url: '/resource/classroom/folder/change/' + id,
+		method: 'delete',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: folderDeleteRequest.type,
 		onSuccess: folderDeleteSuccess.type,
 		onError: folderDeleteFailed.type,
