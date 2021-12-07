@@ -72,6 +72,7 @@ const FileMenu = () => {
 	const handleUploadFile = () => {
 		let formData = new FormData();
 		formData.append('file', inputForm.file, inputForm.file.name);
+		formData.append('size', inputForm.file.size);
 		formData.append('name', inputForm.file.name);
 		formData.append('folder', folder);
 		console.log(formData);

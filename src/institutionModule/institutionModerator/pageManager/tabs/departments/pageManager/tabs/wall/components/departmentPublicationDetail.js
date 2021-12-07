@@ -88,6 +88,7 @@ const DepartmentPublicationDetail = () => {
 
 		if (checked) {
 			formData.append('archiveFile', file, file.name);
+			formData.append('size', file.size);
 		} else {
 			formData.append('submission', submission.submission.id);
 		}
