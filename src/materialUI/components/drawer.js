@@ -134,7 +134,7 @@ export default function MiniDrawer(props) {
 			icon: <AiFillHome className='w-6 h-6 ' />,
 			toolTip: 'Home',
 			onClick: () => {
-				history.push('/home?navTab=home&tab=feed');
+				history.push('/home?navTab=home&tab=Feed');
 				setPageTitle('Home');
 			},
 			selected: 'home',

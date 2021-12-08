@@ -114,9 +114,9 @@ export default articleSlice.reducer;
 
 //action creators
 
-export const getArticles = () =>
+export const getArticles = (link) =>
 	apiCallBegan({
-		url: '/post',
+		url: link,
 		method: 'get',
 		headers: {
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),

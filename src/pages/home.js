@@ -60,9 +60,15 @@ const Home = ({ item, feed }) => {
 
 	// fetch states
 	useEffect(() => {
-		dispatch(getArticles());
 		dispatch(getCategories(`/post/category`));
 	}, []);
+	useEffect(() => {
+		if (tab === 'Feed') {
+			dispatch(getArticles(`/post/`));
+		} else {
+			dispatch(getArticles(`/post/?search=${tab}`));
+		}
+	}, [tab]);
 	// get states
 	const fetchedArticles = useSelector((state) => state.article.articles);
 	const fetchedCategories = useSelector((state) => state.article.categories);
@@ -76,15 +82,8 @@ const Home = ({ item, feed }) => {
 	const [tabs, setTabs] = useState([
 		{
 			label: 'Feed',
-			link: `/home?navTab=home&tab=feed`,
-			value: 'feed',
-			component: <>Feed</>,
-		},
-		{
-			label: 'All',
-			link: `/home?navTab=home&tab=all`,
-			value: 'all',
-			component: <>"All"</>,
+			link: `/home?navTab=home&tab=Feed`,
+			value: 'Feed',
 		},
 	]);
 
@@ -95,12 +94,14 @@ const Home = ({ item, feed }) => {
 			fetchedCategories.map((val) => {
 				combine.push({
 					label: val.name,
-					link: `/home?navTab=home&tab=${val.name.toLowerCase()}`,
-					value: val.name.toLowerCase(),
-					component: val.name,
+					link: `/home?navTab=home&tab=${val.name}`,
+					value: val.name,
 				});
 			});
-			setTabs(tabs.concat(combine));
+			tabs.map((val) => {
+				combine.unshift(val);
+			});
+			setTabs(combine);
 		}
 	}, [fetchedCategories]);
 
@@ -190,7 +191,8 @@ const Home = ({ item, feed }) => {
 							</p>
 
 							<p className='text-sm text-gray-400 ml-2'>{feed.date}</p>
-							<p className='text-sm text-gray-400 ml-1'>•</p>
+
+							{feed.rating ? feed.rating : 0}
 							<Rating
 								name='half-rating'
 								defaultValue={feed.rating ? feed.rating : 0}

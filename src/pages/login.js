@@ -57,11 +57,11 @@ const Login = () => {
 	const { loading } = useStatus(status);
 	useEffect(() => {
 		if (isAuthenticated) {
-			history.replace('/home');
+			history.replace('/home?navTab=home&tab=Feed');
 		}
 	}, [isAuthenticated]);
 	const handleRedirect = () => {
-		history.push('/home');
+		history.push('/home?navTab=home&tab=Feed');
 	};
 
 	//validation
