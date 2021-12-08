@@ -1,87 +1,91 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "./actions/api";
+import { createSlice } from '@reduxjs/toolkit';
+import { apiCallBegan } from './actions/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+let toastId;
 
 export const articleSlice = createSlice({
-	name: "article",
+	name: 'article',
 	initialState: {
 		currentArticle: null,
 		fileToUpload: null,
 		categories: [],
 		articles: [],
-		status: "idle",
+		status: 'idle',
 		isLoading: false,
 	},
 	reducers: {
 		articleLoadRequest: (state, action) => {
-			state.status = "loading";
+			state.status = 'loading';
 		},
 		articleLoadSuccess: (state, action) => {
-			state.status = "article load success";
+			state.status = 'article load success';
 			state.articles = action.payload;
 		},
 		articleLoadFailed: (state, action) => {
-			state.status = "article failed success";
-			alert("Article load Failed!");
+			state.status = 'article failed success';
+			alert('Article load Failed!');
 		},
 		articleRetrieveRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading("Request is being processed");
+			toastId = toast.loading('Request is being processed');
 		},
 		articleRetrieveSuccess: (state, action) => {
 			state.isLoading = false;
 			state.currentArticle = action.payload;
 			toast.update(toastId, {
-				render: "Retreived successfully",
+				render: 'Retreived successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
 		articleRetrieveFailed: (state, action) => {
 			// alert('Article Load Failed!');
 			toast.update(toastId, {
-				render: "Failed to retreive",
+				render: 'Failed to retreive',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
 		publishArticleRequest: (state, action) => {
-			state.status = "loading";
-			toastId = toast.loading("Request is being processed");
+			state.status = 'loading';
+			toastId = toast.loading('Request is being processed');
 		},
 		publishArticleSuccess: (state, action) => {
-			state.status = "article publish success";
+			state.status = 'article publish success';
 			// alert('article publish success');
 			state.articles.unshift(action.payload);
 			toast.update(toastId, {
-				render: "Published successfully",
+				render: 'Published successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
 		publishArticleFailed: (state, action) => {
-			state.status = "article failed success";
+			state.status = 'article failed success';
 			// alert('Article publish Failed!');
 			toast.update(toastId, {
-				render: "Failed to publish",
+				render: 'Failed to publish',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
 		loadCategoryRequest: (state, action) => {
-			state.status = "loading";
-			toastId = toast.loading("Request is being processed");
+			state.status = 'loading';
+			// toastId = toast.loading('Request is being processed');
 		},
 		loadCategorySuccess: (state, action) => {
-			state.status = "article category load success";
+			state.status = 'article category load success';
 			state.categories = action.payload;
 		},
 		loadCategoryFailed: (state, action) => {
-			state.status = "article failed success";
-			alert("Article category load Failed!");
+			state.status = 'article failed success';
+			alert('Article category load Failed!');
 		},
 		setFileToUpload: (state, action) => {
 			console.log(action.payload);
@@ -113,14 +117,14 @@ export default articleSlice.reducer;
 
 export const getArticles = () =>
 	apiCallBegan({
-		url: "/post",
-		method: "get",
+		url: '/post',
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
@@ -128,13 +132,13 @@ export const getArticles = () =>
 export const getCategories = (link) =>
 	apiCallBegan({
 		url: link,
-		method: "get",
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: loadCategoryRequest.type,
 		onSuccess: loadCategorySuccess.type,
 		onError: loadCategoryFailed.type,
@@ -142,27 +146,27 @@ export const getCategories = (link) =>
 export const getnewArticles = (link) =>
 	apiCallBegan({
 		url: link,
-		method: "get",
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
 	});
 export const retrieveArticle = (id) =>
 	apiCallBegan({
-		url: "/post/change/" + id,
-		method: "get",
+		url: '/post/change/' + id,
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleRetrieveRequest.type,
 		onSuccess: articleRetrieveSuccess.type,
 		onError: articleRetrieveFailed.type,
@@ -170,13 +174,13 @@ export const retrieveArticle = (id) =>
 export const newRetrieveArticle = (link) =>
 	apiCallBegan({
 		url: link,
-		method: "get",
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleRetrieveRequest.type,
 		onSuccess: articleRetrieveSuccess.type,
 		onError: articleRetrieveFailed.type,
@@ -185,13 +189,13 @@ export const newRetrieveArticle = (link) =>
 export const newGetArticles = (link) =>
 	apiCallBegan({
 		url: link,
-		method: "get",
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
@@ -199,13 +203,13 @@ export const newGetArticles = (link) =>
 export const publishArticle = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: "post",
+		method: 'post',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		data: formData,
 		onStart: publishArticleRequest.type,
 		onSuccess: publishArticleSuccess.type,
