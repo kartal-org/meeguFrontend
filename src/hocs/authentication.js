@@ -28,11 +28,18 @@ const Authentication = (props) => {
 		else {
 			dispatch(loadUser());
 		}
+		// if (!verify) {
+		// 	history.replace(`/activation/guard`);
+		// 	// setVerify(user.is_verified);
+		// }
 	}, [location]);
 
 	useEffect(() => {
 		if (user) {
 			setVerify(user.is_verified);
+			if (!user.is_verified) {
+				history.replace(`/activation/guard`);
+			}
 		}
 	}, [user]);
 
