@@ -96,7 +96,7 @@ const DepartmentStaff = () => {
 							</Button>
 						}
 					>
-						<div className='w-11/12 mt-4 mb-4'>
+						<div className='flex flex-col w-full mt-4 mb-4 space-y-4'>
 							<TextField
 								fullWidth
 								label='Staff Username'
@@ -106,7 +106,7 @@ const DepartmentStaff = () => {
 								onChange={(e) => onChange(e)}
 							/>
 
-							<div className='flex flex-row w-full'>
+							<div className='flex flex-row w-full space-x-1 '>
 								<FormControl fullWidth>
 									<InputLabel id='demo-simple-select-label'>Staff Type</InputLabel>
 									<Select
@@ -130,8 +130,8 @@ const DepartmentStaff = () => {
 								</FormControl>
 								<div className='flex items-center'>
 									<DialogComponent
-										maxWidth="xs"
-										title="Add Custom Type"
+										title='Add Custom Type'
+										maxWidth='xs'
 										button={
 											<Tooltip title='Add custom staff type'>
 												<IconButton>
@@ -140,12 +140,23 @@ const DepartmentStaff = () => {
 											</Tooltip>
 										}
 									>
-										<TextField
-											fullWidth
-											label="Enter custom type"
-											variant="outlined"
-											name="type"
-										/>
+										<div className='flex flex-col space-y-4 mt-2'>
+											<TextField fullWidth label='Name' variant='outlined' name='type' />
+											<TextField
+												fullWidth
+												label='Description'
+												multiline
+												minRows={4}
+												variant='outlined'
+												name='type'
+											/>
+											<TextField
+												fullWidth
+												label='Description'
+												variant='outlined'
+												name='type'
+											/>
+										</div>
 									</DialogComponent>
 								</div>
 							</div>
