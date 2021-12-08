@@ -79,12 +79,15 @@ const ClassroomDashboard = () => {
 
 	useEffect(() => {
 		if (currentClassroom) {
-			const totalSize = currentClassroom.storage_left / 1000000;
-			const usedSize = currentClassroom.storage_used / 1000000;
+			const totalSize = currentClassroom.storage_left / 1000000000;
+			const usedSize = currentClassroom.storage_used / 1000000000;
 
 			setData({
 				...data,
-				labels: [`Storage Left ${totalSize}GB`, `Storage Used ${usedSize}GB`],
+				labels: [
+					`Storage Left ${totalSize.toFixed(2)}GB`,
+					`Storage Used ${usedSize.toFixed(2)}GB`,
+				],
 				datasets: [
 					{
 						label: 'Storage Data',
@@ -231,7 +234,7 @@ const ClassroomDashboard = () => {
 														{row.plan.name}
 													</TableCell>
 													<TableCell component='th' scope='row' align='center'>
-														{row.plan.limitations.storage / 1000000} GB
+														+{row.plan.limitations.storage / 1000000000} GB
 													</TableCell>
 													<TableCell component='th' scope='row' align='center'>
 														₱ {row.plan.price}

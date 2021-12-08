@@ -42,6 +42,7 @@ const AdviserClassroomStudents = () => {
 		dispatch(getMembers(`/classroom/member/list/?search=${id}`));
 	}, []);
 	const fetchedStudents = useSelector((state) => state.classMember.members);
+	const currentClassroom = useSelector((state) => state.newClass.currentClassroom);
 	const { items: members, setItems: setMembers } = studentStates(fetchedStudents);
 	const [username, setUsername] = useState('');
 	const onChange = (e) => {
@@ -90,7 +91,7 @@ const AdviserClassroomStudents = () => {
 
 			<div className='flex flex-col space-x-4'>
 				<div className='flex w-full justify-end'>
-					<DialogComponent
+					{/* <DialogComponent
 						title='Add Student'
 						button={
 							<Button className='add' variant='outlined'>
@@ -109,20 +110,24 @@ const AdviserClassroomStudents = () => {
 								onChange={(e) => onChange(e)}
 							/>
 						</div>
-					</DialogComponent>
+					</DialogComponent> */}
 				</div>
 				<div className='cards flex flex-row space-x-4 w-full  mt-2'>
 					{members.map((member) => (
 						<Card raised sx={{ width: '200px', borderRadius: '1rem' }}>
 							<CardContent className='flex flex-col w-full justify-center items-center space-y-3 '>
 								<div className='flex w-full justify-end'>
-									<MoreVertIcon
-										className='cursor-pointer'
-										aria-expanded={open ? 'true' : undefined}
-										onClick={handleClick}
-									/>
-									{/* </Button> */}
+									{currentClassroom && member.user.id !== currentClassroom.creator ? (
+										<MoreVertIcon
+											className='cursor-pointer'
+											aria-expanded={open ? 'true' : undefined}
+											onClick={handleClick}
+										/>
+									) : (
+										<MoreVertIcon className='cursor-pointer' />
+									)}
 								</div>
+
 								<Menu
 									id='basic-menu'
 									anchorEl={anchorEl}
