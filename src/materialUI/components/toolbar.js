@@ -207,7 +207,7 @@ export default function PrimarySearchAppBar(props) {
 			</MenuItem>
 			<MenuItem onClick={handleNotificationsOpen}>
 				<IconButton size='large' aria-label='show 17 new notifications' color='inherit'>
-					<Badge badgeContent={notifications.length} color='error'>
+					<Badge variant='dot' badgeContent={notifications.length} color='error'>
 						<NotificationsIcon />
 					</Badge>
 				</IconButton>
@@ -270,7 +270,7 @@ export default function PrimarySearchAppBar(props) {
 							onClick={handleNotificationsOpen}
 							color='inherit'
 						>
-							<Badge badgeContent={notifications.length} color='error'>
+							<Badge variant='dot' badgeContent={notifications.length} color='error'>
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>

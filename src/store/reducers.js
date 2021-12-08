@@ -22,6 +22,7 @@ import departmentReducer from './departmentSlice';
 import staffReducer from './staffSlice';
 import memberReducer from './memberSlice';
 import responseReducer from './responseSlice';
+import notificationReducer from './notificationSlice';
 
 export default combineReducers({
 	auth: authReducer,
@@ -47,4 +48,5 @@ export default combineReducers({
 	staff: staffReducer,
 	member: memberReducer,
 	response: responseReducer,
+	notification: notificationReducer,
 });
