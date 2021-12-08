@@ -39,10 +39,13 @@ export const fileSlice = createSlice({
 			state.status = "loading";
 		},
 		retrieveFileSuccess: (state, action) => {
-			state.status = 'file retrieve success';
+			state.status = "file retrieve success";
 			console.log(action.payload);
-			if (action.payload.hasOwnProperty('file') || action.payload.hasOwnProperty('folder')) {
-				if (!action.payload.hasOwnProperty('folder')) {
+			if (
+				action.payload.hasOwnProperty("file") ||
+				action.payload.hasOwnProperty("folder")
+			) {
+				if (!action.payload.hasOwnProperty("folder")) {
 					state.currentFile = action.payload.file;
 				}
 				state.currentFile = action.payload;
@@ -91,32 +94,32 @@ export const fileSlice = createSlice({
 			});
 		},
 		addFile2Request: (state, action) => {
-			state.status = 'loading';
+			state.status = "loading";
 		},
 		addFile2Success: (state, action) => {
-			state.status = 'file add success';
+			state.status = "file add success";
 			state.files2.push(action.payload);
 			// alert('Files Add Success!');
 			toast.update(toastId, {
-				render: 'Sucessfully added',
+				render: "Sucessfully added",
 				autoClose: 3000,
-				type: 'success',
+				type: "success",
 				isLoading: false,
 			});
 		},
 		addFile2Failed: (state, action) => {
-			state.status = 'file add failed';
+			state.status = "file add failed";
 			// alert('Files Add Failed!');
 			toast.update(toastId, {
-				render: 'Failed to add',
+				render: "Failed to add",
 				autoClose: 3000,
-				type: 'error',
+				type: "error",
 				isLoading: false,
 			});
 		},
 		editFileRequest: (state, action) => {
 			state.status = "loading";
-			toastId = toast.loading("Request is being processed");
+			// toastId = toast.loading("Request is being processed");
 		},
 		editFileSuccess: (state, action) => {
 			const index = state.files.findIndex(
@@ -240,13 +243,13 @@ export const addFile = (link, formData) =>
 export const addFile2 = (link, formData) =>
 	apiCallBegan({
 		url: link,
-		method: 'post',
+		method: "post",
 		headers: {
-			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
 		},
-		type: 'regular',
+		type: "regular",
 		data: formData,
 		onStart: addFile2Request.type,
 		onSuccess: addFile2Success.type,
