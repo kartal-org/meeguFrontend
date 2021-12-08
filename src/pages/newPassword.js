@@ -4,31 +4,35 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { socialLogin, resetPasswordConfirm } from '../store/authSlice';
+import { useParams, useLocation } from 'react-router';
+import queryString from 'query-string';
 
 import purple from '../assets/img/Artboard 1.png';
 
-const NewPassword = ({ match }) => {
+const NewPassword = () => {
 	const [formData, setFormData] = useState({
 		new_password: '',
 		re_new_password: '',
 	});
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const { token, uidb64 } = queryString.parse(location.search);
 
 	const { new_password, re_new_password } = formData;
 
 	const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-	const uid = match.params.uid;
-	const token = match.params.token;
-
-	console.log("I'm Here", uid, token);
+	// console.log("I'm Here", uid, token);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(formData);
-		const data = { uid, token, new_password, re_new_password };
-		// dispatch(resetPasswordConfirm(data));
+		const data = { password: new_password, token, uidb64 };
+		console.log(token);
+		console.log(uidb64);
+		dispatch(resetPasswordConfirm(data));
 	};
+	console.log(token);
+	console.log(uidb64);
 	// const isAuthenticated = useSelector((auth) => auth.auth.isAuthenticated);
 
 	return (
@@ -67,9 +71,9 @@ const NewPassword = ({ match }) => {
 					<div className='flex flex-row justify-between'>
 						<div class='pt-12 pb-12 text-center justify-start'>
 							<p>
-								<a href='#' class='ml-2 text-gray-400 hover:text-purple-400'>
+								<Link to='/login' class='ml-2 text-gray-400 hover:text-purple-400'>
 									Login
-								</a>
+								</Link>
 							</p>
 						</div>
 

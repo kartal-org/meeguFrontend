@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 import ViewToggleButton from '../../../../../../../../../../../materialUI/components/reuseableComponents/viewModeToggleButton';
 import AccordionComponent from '../../../../../../../../../../../materialUI/components/reuseableComponents/accordionComponent';
@@ -23,6 +23,7 @@ const ResearcherWorkspaceFileViewer = () => {
 		e.preventDefault();
 		setView(e.target.value);
 	};
+	const status = useSelector((state) => state.file.status);
 
 	const buttons = [
 		{
@@ -41,6 +42,9 @@ const ResearcherWorkspaceFileViewer = () => {
 				<div className='row-span-1  grid grid-cols-3 gap-4'>
 					<div className='col-span-2 flex space-x-2 items-center'>
 						<FileName />
+						{status === 'edit loading' ? <p>saving</p> : null}
+						{status === 'edit success' ? <p>saved</p> : null}
+						{status === 'edit failed' ? <p>saved failed</p> : null}
 					</div>
 					<div className='col-span-1 grid grid-cols-3 gap-2'>
 						<div className='col-span-1 flex items-center '>

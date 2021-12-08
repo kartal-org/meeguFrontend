@@ -154,6 +154,17 @@ export const userSlice = createSlice({
 			alert('Send Link failed');
 			state.status = 'failed';
 		},
+		resetPasswordStep1Request: (state, action) => {
+			state.status = 'loading';
+		},
+		resetPasswordStep1Success: (state, action) => {
+			alert('Send Link Success!');
+			state.status = 'success';
+		},
+		resetPasswordStep1Failed: (state, action) => {
+			alert('Send Link failed');
+			state.status = 'failed';
+		},
 	},
 });
 
@@ -182,6 +193,9 @@ const {
 	resendLinkRequest,
 	resendLinkSuccess,
 	resendLinkFailed,
+	resetPasswordStep1Request,
+	resetPasswordStep1Success,
+	resetPasswordStep1Failed,
 } = userSlice.actions;
 
 export default userSlice.reducer;
@@ -360,6 +374,36 @@ export const loadImageUser = (id) =>
 		onStart: loadImageRequest.type,
 		onSuccess: loadImageSuccess.type,
 		onError: loadImageFailed.type,
+	});
+export const resetPassword1 = (email) =>
+	apiCallBegan({
+		url: `/api/user/request-reset-email/`,
+		method: 'post',
+		headers: {
+			// Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		data: { email },
+		onStart: resetPasswordStep1Request.type,
+		onSuccess: resetPasswordStep1Success.type,
+		onError: resetPasswordStep1Failed.type,
+	});
+export const resetPasswordConfirm = (data) =>
+	apiCallBegan({
+		url: `/api/user/password-reset-complete`,
+		method: 'patch',
+		headers: {
+			// Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		data: data,
+		onStart: resetPasswordStep1Request.type,
+		onSuccess: resetPasswordStep1Success.type,
+		onError: resetPasswordStep1Failed.type,
 	});
 ///selectors
 

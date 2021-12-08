@@ -3,7 +3,7 @@ import InputIconField from '../components/commons/inputIconField';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { socialLogin, resetPassword } from '../store/authSlice';
+import { socialLogin, resetPassword1 } from '../store/authSlice';
 
 import purple from '../assets/img/Artboard 1.png';
 
@@ -20,7 +20,7 @@ const ResetPassword = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(formData);
-		// dispatch(resetPassword(email));
+		dispatch(resetPassword1(email));
 	};
 	// const isAuthenticated = useSelector((auth) => auth.auth.isAuthenticated);
 
