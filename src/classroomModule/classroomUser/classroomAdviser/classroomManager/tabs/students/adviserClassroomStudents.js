@@ -82,12 +82,12 @@ const AdviserClassroomStudents = () => {
 
 	return (
 		<>
-			<Steps
+			{/* <Steps
 				enabled={stepsEnabled}
 				steps={tourSteps}
 				initialStep={initialStep}
 				onExit={onExit}
-			/>
+			/> */}
 
 			<div className='flex flex-col space-x-4'>
 				<div className='flex w-full justify-end'>
