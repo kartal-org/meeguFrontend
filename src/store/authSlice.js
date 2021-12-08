@@ -323,23 +323,17 @@ export const logout = () =>
 		onError: logoutFailed.type,
 	});
 
-export const editProfile = (first_name, last_name, username, email, about, id) =>
+export const editProfile = (link, formData) =>
 	apiCallBegan({
-		url: `/api/user/me/edit/${id}/`,
-		method: 'put',
+		url: link,
+		method: 'patch',
 		headers: {
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
-			'Content-Type': 'application/json',
-			accept: 'application/json',
+			'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+			accept: '*/*',
 		},
 		type: 'regular',
-		data: {
-			first_name,
-			last_name,
-			email,
-			about,
-			username,
-		},
+		data: formData,
 		onStart: userEditRequest.type,
 		onSuccess: userEditSuccess.type,
 		onError: userEditFailed.type,

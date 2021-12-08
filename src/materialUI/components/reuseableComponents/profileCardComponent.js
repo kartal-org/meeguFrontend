@@ -2,6 +2,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { Avatar, Button, Card, CardContent, CardMedia, IconButton } from '@mui/material';
 import ProfilePicture from '../../../components/profilePicture';
 import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 const Input = styled('input')({
 	display: 'none',
 });
@@ -11,14 +12,15 @@ const ProfileCardComponent = ({ item, setItem, dispatchAction, editButton }) => 
 		switch (e.target.name) {
 			case 'image':
 				console.log(e.target.files[0]);
-				form_data.append('image', e.target.files[0], e.target.files[0].name);
+				form_data.append('profileImage', e.target.files[0], e.target.files[0].name);
 				break;
 			case 'cover':
-				form_data.append('cover', e.target.files[0], e.target.files[0].name);
+				form_data.append('profileCover', e.target.files[0], e.target.files[0].name);
 				break;
 		}
 		dispatchAction(form_data);
 	};
+
 	return (
 		<>
 			<Card variant='outlined' sx={{ maxWidth: '100%' }}>

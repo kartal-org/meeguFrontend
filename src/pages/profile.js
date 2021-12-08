@@ -37,12 +37,20 @@ const Profile = ({ match }) => {
 	};
 	const handleEdit = () => {
 		const { first_name, last_name, about, username, email } = profile;
-		dispatch(editProfile(first_name, last_name, username, email, about, user.id));
+		console.log(first_name, last_name, username, email, about, user.id);
+		let formdata = new FormData();
+		formdata.append('first_name', first_name);
+		formdata.append('last_name', last_name);
+		formdata.append('username', username);
+		formdata.append('email', email);
+		formdata.append('about', about);
+		dispatch(editProfile(`/api/user/me/edit/${user.id}/`, formdata));
 	};
 	const onChange = (e) => {
-		e.preventDefault();
+		// e.preventDefault();
 		setProfile({ ...profile, [e.target.name]: e.target.value });
 	};
+	// console.log(profile);
 
 	const tabs = [
 		// {
@@ -168,7 +176,7 @@ const Profile = ({ match }) => {
 									fullWidth
 									label='About'
 									name='about'
-									value={profile.email}
+									value={profile.about}
 									onChange={(e) => onChange(e)}
 									multiline
 									minRows={8}
