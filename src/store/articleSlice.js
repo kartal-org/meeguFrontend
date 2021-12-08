@@ -34,9 +34,9 @@ export const articleSlice = createSlice({
 		articleRetrieveSuccess: (state, action) => {
 			state.isLoading = false;
 			state.currentArticle = action.payload;
+
 			toast.update(toastId, {
 				render: 'Retreived successfully',
-				autoClose: 3000,
 				type: 'success',
 				isLoading: false,
 			});
@@ -49,9 +49,8 @@ export const articleSlice = createSlice({
 				type: 'error',
 				isLoading: false,
 			});
-		},
-		publishArticleRequest: (state, action) => {
-			state.status = 'loading';
+			// toast.update(toastId, {
+			// 	render: "Retreived successfully",
 			toastId = toast.loading('Request is being processed');
 		},
 		publishArticleSuccess: (state, action) => {
