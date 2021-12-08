@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./actions/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+let toastId;
 
 export const articleSlice = createSlice({
 	name: "article",
@@ -25,26 +29,25 @@ export const articleSlice = createSlice({
 		},
 		articleRetrieveRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading("Request is being processed");
 		},
 		articleRetrieveSuccess: (state, action) => {
 			state.isLoading = false;
 			state.currentArticle = action.payload;
-			toast.update(toastId, {
-				render: "Retreived successfully",
-				autoClose: 3000,
-				type: "success",
-				isLoading: false,
-			});
+			// toast.update(toastId, {
+			// 	render: "Retreived successfully",
+			// 	autoClose: 3000,
+			// 	type: "success",
+			// 	isLoading: false,
+			// });
 		},
 		articleRetrieveFailed: (state, action) => {
 			// alert('Article Load Failed!');
-			toast.update(toastId, {
-				render: "Failed to retreive",
-				autoClose: 3000,
-				type: "error",
-				isLoading: false,
-			});
+			// toast.update(toastId, {
+			// 	render: "Failed to retreive",
+			// 	autoClose: 3000,
+			// 	type: "error",
+			// 	isLoading: false,
+			// });
 		},
 		publishArticleRequest: (state, action) => {
 			state.status = "loading";
@@ -73,7 +76,7 @@ export const articleSlice = createSlice({
 		},
 		loadCategoryRequest: (state, action) => {
 			state.status = "loading";
-			toastId = toast.loading("Request is being processed");
+			// toastId = toast.loading("Request is being processed");
 		},
 		loadCategorySuccess: (state, action) => {
 			state.status = "article category load success";
