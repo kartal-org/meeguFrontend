@@ -111,11 +111,11 @@ const Home = ({ item, feed }) => {
 
 	return (
 		<>
-			<div className=''>
+			{/* <div className=''>
 				<p className='text-xl text-gray-800 font-semibold '>Discover</p>
-			</div>
+			</div> */}
 
-			<Divider sx={{ mt: 2, mb: 1 }} />
+			{/* <Divider sx={{ mb: 1 }} /> */}
 
 			<PageManagerComponent value={value} handleChange={handleChange} tabs={tabs} />
 
