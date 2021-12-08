@@ -1,3 +1,11 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import useFetch from "../../../../../hooks/useFetch";
+import Paypal from "../../../../../materialUI/components/paypal";
+import CardComponent from "../../../../../materialUI/components/reuseableComponents/cardComponent";
+import { getInstitutionPlans } from "../../../../../store/subscriptionSlice";
+
 //mui
 import {
 	Card,
@@ -21,6 +29,7 @@ import DialogComponent from '../../../../../materialUI/components/reuseableCompo
 import NewBannerComponent from '../../../../../materialUI/components/reuseableComponents/newBannerComponent';
 import { getMySubscriptions } from '../../../../../store/subscriptionSlice';
 import { format } from 'date-fns';
+
 function createData(date, plan, storage_add, price) {
 	return { date, plan, storage_add, price };
 }
@@ -32,8 +41,20 @@ const rows = [
 ];
 
 const ModeratorInstitutionSettings = () => {
-	const { id } = useParams();
+	const currentInstitution = useSelector(
+		(state) => state.institution.currentInstitution
+	);
 	const dispatch = useDispatch();
+	const planStates = useFetch;
+  
+	useEffect(() => {
+		dispatch(getInstitutionPlans());
+	}, []);
+	const fetchedPlans = useSelector((state) => state.subscription.plans);
+	const { items: plans, setItems: setPlans } = planStates(fetchedPlans);
+	console.log(fetchedPlans);
+
+	const { id } = useParams();
 	const subscriptionState = useFetch;
 
 	useEffect(() => {
@@ -138,6 +159,37 @@ const ModeratorInstitutionSettings = () => {
 									</TableBody>
 								</Table>
 							</TableContainer>
+              
+              <div className="mt-5">
+							<DialogComponent
+								maxWidth="md"
+								title="Upgrade Your Subscription"
+								button={
+									<Button className="join" variant="contained">
+										Upgrade Subscription
+									</Button>
+								}
+							>
+								<div className="flex w-full justify-center items-center mt-5">
+									{plans.map((item) => (
+										<DialogComponent
+											title="Pay Thru:"
+											button={<CardComponent item={item} />}
+										>
+											{currentInstitution ? (
+												<Paypal
+													item={item}
+													productID={currentInstitution.id}
+													productlabel="institution"
+													dispatchLink={`/subscription/buy/institution/${currentInstitution.id}`}
+												/>
+											) : null}
+										</DialogComponent>
+									))}
+								</div>
+							</DialogComponent>
+						</div>
+            
 						</DialogComponent>
 					</NewBannerComponent>
 				</div>

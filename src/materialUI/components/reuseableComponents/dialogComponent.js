@@ -7,8 +7,17 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 
 const DialogComponent = (props) => {
-	const { title, context, action, maxWidth, maxHeight, name, button, secondAction, noAction } =
-		props;
+	const {
+		title,
+		context,
+		action,
+		maxWidth,
+		maxHeight,
+		name,
+		button,
+		secondAction,
+		noAction,
+	} = props;
 	const [open, setOpen] = useState(false);
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -35,9 +44,7 @@ const DialogComponent = (props) => {
 					{props.children}
 				</DialogContent>
 
-
-				<DialogActions sx={{ marginBottom: '20px', marginRight: '20px' }}>
-
+				<DialogActions sx={{ marginBottom: "20px", marginRight: "20px" }}>
 					{action ? (
 						<Button
 							onClick={() => {
@@ -52,11 +59,11 @@ const DialogComponent = (props) => {
 							{action.label}
 						</Button>
 					) : null}
-					{!noAction ? <Button onClick={handleClose}>Cancel</Button> : null}
+					{!noAction ? <Button onClick={handleClose}>Close</Button> : null}
 
 					{secondAction ? (
 						<Button
-							color='secondary'
+							color="secondary"
 							onClick={() => {
 								handleClose();
 								if (secondAction.param) {
