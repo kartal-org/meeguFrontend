@@ -89,12 +89,12 @@ const AdviserResourceTab = () => {
 
 	return (
 		<>
-			<Steps
+			{/* <Steps
 				enabled={stepsEnabled}
 				steps={tourSteps}
 				initialStep={initialStep}
 				onExit={onExit}
-			/>
+			/> */}
 
 			<div class='flex flex-col w-full space-y-4'>
 				<BannerComponent

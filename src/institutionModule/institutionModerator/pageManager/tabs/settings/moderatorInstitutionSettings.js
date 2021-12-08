@@ -8,8 +8,7 @@ import Paypal from "../../../../../materialUI/components/paypal";
 import CardComponent from "../../../../../materialUI/components/reuseableComponents/cardComponent";
 import DialogComponent from "../../../../../materialUI/components/reuseableComponents/dialogComponent";
 import NewBannerComponent from "../../../../../materialUI/components/reuseableComponents/newBannerComponent";
-import { getInstitutionPlans } from "../../../../../store/subscriptionSlice";
-import { getMySubscriptions } from "../../../../../store/subscriptionSlice";
+import { getInstitutionPlans, getMySubscriptions  } from "../../../../../store/subscriptionSlice";
 
 //mui
 import {
@@ -38,11 +37,14 @@ const rows = [
 ];
 
 const ModeratorInstitutionSettings = () => {
+	const { id } = useParams();
+	const dispatch = useDispatch();
+	const subscriptionState = useFetch;
+	const planStates = useFetch;
+
 	const currentInstitution = useSelector(
 		(state) => state.institution.currentInstitution
 	);
-	const dispatch = useDispatch();
-	const planStates = useFetch;
 
 	useEffect(() => {
 		dispatch(getInstitutionPlans());
@@ -50,9 +52,6 @@ const ModeratorInstitutionSettings = () => {
 	const fetchedPlans = useSelector((state) => state.subscription.plans);
 	const { items: plans, setItems: setPlans } = planStates(fetchedPlans);
 	console.log(fetchedPlans);
-
-	const { id } = useParams();
-	const subscriptionState = useFetch;
 
 	useEffect(() => {
 		dispatch(getMySubscriptions(`/subscription/buy/institution/${id}`));
