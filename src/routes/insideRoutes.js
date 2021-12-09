@@ -44,6 +44,7 @@ import InstitutionStaffManager from "../institutionModule/institutionStaff/pageM
 import JoinedDepartmentTabManager from "../institutionModule/institutionStaff/pageManager/tabs/department/joinedDepartmentTabManager";
 import FinalMessage from "../finalmessageModule/finalMessage";
 import AdviserWorkspaceManager from "../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/workspaces/adviserWorkspaceManager";
+import DepartmentResourceManager from "../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/departmentResourceManager";
 
 export default [
 	<Route
@@ -81,6 +82,11 @@ export default [
 		exact
 		path="/institution/staff/department/:id"
 		component={JoinedDepartmentTabManager}
+	/>,
+	<Route
+		exact
+		path="/institution/moderator/department/resources/:id"
+		component={DepartmentResourceManager}
 	/>,
 	<Route
 		exact
