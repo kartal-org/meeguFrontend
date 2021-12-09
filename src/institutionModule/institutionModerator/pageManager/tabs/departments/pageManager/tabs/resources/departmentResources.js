@@ -11,7 +11,6 @@ import BannerComponent from "../../../../../../../../materialUI/components/reuse
 import DialogComponent from "../../../../../../../../materialUI/components/reuseableComponents/dialogComponent";
 import CardHolder from "../../../../../../../../materialUI/components/reuseableComponents/cardHolder";
 import CardComponent from "../../../../../../../../materialUI/components/reuseableComponents/cardComponent";
-
 //mui
 import { Button, TextField, Typography } from "@mui/material";
 
@@ -24,10 +23,13 @@ const DepartmentResources = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const resourcesStates = useFetch;
+	const fetchDepartment = useFetch;
+
 	useEffect(() => {
 		dispatch(getResources(`/resource/institution/department?search=${id}`));
 	}, []);
 	const fetchedResources = useSelector((state) => state.newResource.resources);
+	// const { items: resources, setItems: setResources } = fetchDepartment(fetchedResources);
 	const { items: resources } = resourcesStates(fetchedResources);
 	// use resources variable to map
 
@@ -52,10 +54,18 @@ const DepartmentResources = () => {
 		resolver: yupResolver(validationMsg),
 	});
 
-	const onSubmit = (data) => {
+	const handleCreateResource = (data) => {
 		console.log(JSON.stringify(data, null, 2));
 		// const { description } = inputForm;
 		// dispatch(addResource(`resource/department/${id}`, data.name, description));
+
+		const { description } = inputForm;
+		let formData = new FormData();
+		formData.append("name", data.name);
+		formData.append("description", description);
+		formData.append("department", id);
+		// dispatch(addResource(`/resource​/institution​/department`, formData));
+		dispatch(addResource(`/resource/institution/department`, formData));
 	};
 
 	return (
@@ -75,7 +85,7 @@ const DepartmentResources = () => {
 						context="Guide your students to grow."
 					>
 						<form
-							onSubmit={handleSubmit(onSubmit)}
+							onSubmit={handleSubmit(handleCreateResource)}
 							className="flex flex-col space-y-4"
 						>
 							<div className="flex flex-col space-y-4 mt-4">
