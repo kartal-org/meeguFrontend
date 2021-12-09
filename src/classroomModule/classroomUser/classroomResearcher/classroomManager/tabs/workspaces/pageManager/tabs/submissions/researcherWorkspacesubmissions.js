@@ -34,7 +34,7 @@ const ResearcherWorkspaceSubmissions = () => {
 		formData.append('title', submissionForm.title);
 		formData.append('description', submissionForm.description);
 		formData.append('status', submissionForm.status);
-		dispatch(editSubmission(`submission/workspace/change/${item.id}`, formData));
+		dispatch(editSubmission(`submission/change/${item.id}`, formData));
 	};
 
 	const handleClickDialog = (item) => {
@@ -52,7 +52,7 @@ const ResearcherWorkspaceSubmissions = () => {
 		}
 	};
 	const handleDelete = (item) => {
-		dispatch(deleteSubmission(`submission/workspace/change/${item.id}`));
+		dispatch(deleteSubmission(`submission/change/${item.id}`));
 	};
 
 	return (
