@@ -77,6 +77,36 @@ export const memberSlice = createSlice({
 				isLoading: false,
 			});
 		},
+
+		//remove members
+		removeMemberRequest: (state, action) => {
+			state.status = "loading";
+			toastId = toast.loading("Request is being processed");
+		},
+		removeMemberSuccess: (state, action) => {
+			state.status = "member remove success";
+			const filtered = state.members.filter(
+				(val) => val.id !== action.payload.id
+			);
+			state.members = filtered;
+
+			toast.update(toastId, {
+				render: "Successfully removed",
+				autoClose: 3000,
+				type: "success",
+				isLoading: false,
+			});
+		},
+		removeMemberFailed: (state, action) => {
+			state.status = "member remove failed";
+
+			toast.update(toastId, {
+				render: "Failed to remove",
+				autoClose: 3000,
+				type: "error",
+				isLoading: false,
+			});
+		},
 	},
 });
 
@@ -93,6 +123,9 @@ const {
 	addMemberRequest,
 	addMemberSuccess,
 	addMemberFailed,
+	removeMemberRequest,
+	removeMemberSuccess,
+	removeMemberFailed,
 } = memberSlice.actions;
 
 export default memberSlice.reducer;
@@ -123,9 +156,9 @@ export const getMembers2 = (link) =>
 			accept: "application/json",
 		},
 		type: "regular",
-		onStart: loadMemberRequest.type,
-		onSuccess: loadMemberSuccess.type,
-		onError: loadMemberFailed.type,
+		onStart: loadMemberRequest2.type,
+		onSuccess: loadMemberSuccess2.type,
+		onError: loadMemberFailed2.type,
 	});
 export const getMemberTypes = (link) =>
 	apiCallBegan({
@@ -155,4 +188,20 @@ export const addMember = (link, formdata) =>
 		onStart: addMemberRequest.type,
 		onSuccess: addMemberSuccess.type,
 		onError: addMemberFailed.type,
+	});
+
+export const removeMember = (link) =>
+	apiCallBegan({
+		url: link,
+		method: "delete",
+		headers: {
+			Authorization: "Bearer " + localStorage.getItem("access_token"),
+			"Content-Type": "application/json",
+			accept: "application/json",
+		},
+		// data: form_Data,
+		type: "regular",
+		onStart: removeMemberRequest.type,
+		onSuccess: removeMemberSuccess.type,
+		onError: removeMemberFailed.type,
 	});

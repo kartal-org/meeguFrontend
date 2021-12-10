@@ -1,29 +1,32 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 
-import useFetch from '../../../../../../hooks/useFetch';
-import BannerComponent from '../../../../../../materialUI/components/reuseableComponents/bannerComponent';
-import CardComponent from '../../../../../../materialUI/components/reuseableComponents/cardComponent';
-import CardHolder from '../../../../../../materialUI/components/reuseableComponents/cardHolder';
-import DialogComponent from '../../../../../../materialUI/components/reuseableComponents/dialogComponent';
-import DialogStepperComponent from '../../../../../../materialUI/components/reuseableComponents/dialogStepperComponent';
-import { createWorkspace, getWorkspaces } from '../../../../../../store/workspaceSlice';
+import useFetch from "../../../../../../hooks/useFetch";
+import BannerComponent from "../../../../../../materialUI/components/reuseableComponents/bannerComponent";
+import CardComponent from "../../../../../../materialUI/components/reuseableComponents/cardComponent";
+import CardHolder from "../../../../../../materialUI/components/reuseableComponents/cardHolder";
+import DialogComponent from "../../../../../../materialUI/components/reuseableComponents/dialogComponent";
+import DialogStepperComponent from "../../../../../../materialUI/components/reuseableComponents/dialogStepperComponent";
+import {
+	createWorkspace,
+	getWorkspaces,
+} from "../../../../../../store/workspaceSlice";
 
-import AddMember from './createSteps/addMember';
-import WorkspaceDetail from './createSteps/workspaceDetails';
+import AddMember from "./createSteps/addMember";
+import WorkspaceDetail from "./createSteps/workspaceDetails";
 
 //mui
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from "@mui/material";
 
 //Tour
-import { Steps } from 'intro.js-react';
+import { Steps } from "intro.js-react";
 
 //validation
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 const ResearcherWorkspaceTab = () => {
 	const dispatch = useDispatch();
@@ -34,23 +37,24 @@ const ResearcherWorkspaceTab = () => {
 		dispatch(getWorkspaces(`/workspace/student/${id}`));
 	}, []);
 	const fetchedWorkspace = useSelector((state) => state.works.workspaces);
-	const { items: workspaces, setItems: setWorkspaces } = workspaceState(fetchedWorkspace);
+	const { items: workspaces, setItems: setWorkspaces } =
+		workspaceState(fetchedWorkspace);
 	const createProject = () => {};
 
 	const [formData, setFormData] = useState({
-		name: '',
-		description: '',
-		code: '',
+		name: "",
+		description: "",
+		code: "",
 	});
 	const onChange = (e) => {};
 
 	const steps = [
 		{
-			label: 'Workspace Details',
+			label: "Workspace Details",
 			component: <WorkspaceDetail />,
 		},
 		{
-			label: 'Add Members',
+			label: "Add Members",
 			component: <AddMember />,
 		},
 	];
@@ -58,9 +62,9 @@ const ResearcherWorkspaceTab = () => {
 	//validation
 	const validationMsg = Yup.object().shape({
 		code: Yup.string()
-			.required('Code is required.')
-			.min(8, 'Must only have 8 characters only.')
-			.max(8, 'Must only have 8 characters only.'),
+			.required("Code is required.")
+			.min(8, "Must only have 8 characters only.")
+			.max(8, "Must only have 8 characters only."),
 	});
 
 	const {
@@ -75,25 +79,27 @@ const ResearcherWorkspaceTab = () => {
 		console.log(data);
 	};
 	const handleJoinProject = (data) => {
-		dispatch(createWorkspace(`/workspace/student/${id}`, { workspace: data.code }));
+		dispatch(
+			createWorkspace(`/workspace/student/${id}`, { workspace: data.code })
+		);
 	};
 
 	//tour
-	const [stepsEnabled, setStepsEnabled] = useState('true');
+	const [stepsEnabled, setStepsEnabled] = useState("true");
 	const [initialStep, setInitialStep] = useState(0);
 
 	const tourSteps = [
 		{
-			element: '.create',
-			intro: 'Create your workspace here.',
+			element: ".create",
+			intro: "Create your workspace here.",
 		},
 		{
-			element: '.join',
-			intro: 'Create your workspace here.',
+			element: ".join",
+			intro: "Create your workspace here.",
 		},
 		{
-			element: '.cards',
-			intro: 'Manage your workspaces here.',
+			element: ".cards",
+			intro: "Manage your workspaces here.",
 		},
 	];
 
@@ -114,55 +120,68 @@ const ResearcherWorkspaceTab = () => {
 				onExit={onExit}
 			/> */}
 
-			<div class='flex flex-col w-full space-y-4'>
+			<div class="flex flex-col w-full space-y-4">
 				<BannerComponent
-					title='Welcome to Project Workspace!'
-					subtitle='Create and collaborate with your fellow researchers.'
+					title="Welcome to Project Workspace!"
+					subtitle="Create and collaborate with your fellow researchers."
 				>
-					<div className='flex space-x-2'>
+					<div className="flex space-x-2">
 						{/* Create Project */}
-						<DialogStepperComponent
+						{/* <DialogStepperComponent
 							button='Create Project'
 							title='Create Project Workspace'
 							context='Start your research journey today!'
 							maxWidth='md'
 							steps={steps}
 							tourIdentifier='create'
-						></DialogStepperComponent>
+						></DialogStepperComponent> */}
+						<DialogComponent
+							button={
+								<Button className="create" variant="contained">
+									Create Project
+								</Button>
+							}
+							title="Create Project Workspace"
+							maxWidth="sm"
+						>
+							<WorkspaceDetail />
+						</DialogComponent>
 						{/* Join Project */}
 						<DialogComponent
 							button={
-								<Button className='join' variant='contained'>
+								<Button className="join" variant="contained">
 									Join Project
 								</Button>
 							}
-							title='Join Project Workspace'
-							maxWidth='sm'
+							title="Join Project Workspace"
+							maxWidth="sm"
 							// action={{ label: 'Join', handler: handleJoinProject }}
 						>
 							<form
 								onSubmit={handleSubmit(handleJoinProject)}
-								className='flex flex-col space-y-4'
+								className="flex flex-col space-y-4"
 							>
-								<div class='flex flex-col p-4 space-y-4'>
+								<div class="flex flex-col p-4 space-y-4">
 									<TextField
-										label='Workspace Code'
-										type='text'
+										label="Workspace Code"
+										type="text"
 										fullWidth
-										variant='outlined'
-										name='code'
+										variant="outlined"
+										name="code"
 										// value={formData.code}
 										// onChange={(e) => onChange(e)}
-										{...register('code')}
+										{...register("code")}
 										error={errors.code ? true : false}
 									/>
-									<Typography sx={{ fontSize: '12px', color: 'red', fontStyle: 'italic' }}>
+									<Typography
+										sx={{ fontSize: "12px", color: "red", fontStyle: "italic" }}
+									>
 										{errors.code?.message}
 									</Typography>
 								</div>
 
 								<div>
-									<Button type='submit' variant='contained'>
+									<Button type="submit" variant="contained">
 										Join Project
 									</Button>
 								</div>
@@ -171,7 +190,7 @@ const ResearcherWorkspaceTab = () => {
 					</div>
 				</BannerComponent>
 
-				<CardHolder tourIdentifier='cards'>
+				<CardHolder tourIdentifier="cards">
 					{workspaces.map((item) => (
 						<CardComponent
 							item={item}
