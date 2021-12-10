@@ -26,7 +26,7 @@ const DepartmentResources = () => {
 	const fetchDepartment = useFetch;
 
 	useEffect(() => {
-		dispatch(getResources(`/resource/institution/department?search=${id}`));
+		dispatch(getResources(`/resource/department?search=${id}`));
 	}, []);
 	const fetchedResources = useSelector((state) => state.newResource.resources);
 	// const { items: resources, setItems: setResources } = fetchDepartment(fetchedResources);
@@ -65,7 +65,7 @@ const DepartmentResources = () => {
 		formData.append("description", description);
 		formData.append("department", id);
 		// dispatch(addResource(`/resource​/institution​/department`, formData));
-		dispatch(addResource(`/resource/institution/department`, formData));
+		dispatch(addResource(`/resource/department`, formData));
 	};
 
 	return (

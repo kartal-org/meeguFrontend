@@ -8,7 +8,10 @@ import Paypal from "../../../../../materialUI/components/paypal";
 import CardComponent from "../../../../../materialUI/components/reuseableComponents/cardComponent";
 import DialogComponent from "../../../../../materialUI/components/reuseableComponents/dialogComponent";
 import NewBannerComponent from "../../../../../materialUI/components/reuseableComponents/newBannerComponent";
-import { getInstitutionPlans, getMySubscriptions  } from "../../../../../store/subscriptionSlice";
+import {
+	getInstitutionPlans,
+	getMySubscriptions,
+} from "../../../../../store/subscriptionSlice";
 
 //mui
 import {
