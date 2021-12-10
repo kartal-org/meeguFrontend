@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 //Search Imports
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { format } from 'date-fns';
 //Select Imports
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +18,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getArticles, removeArticle } from '../../store/librarySlice';
 import ArticleCards from '../components/articlecards';
 import Button from '@mui/material/Button';
+import { Avatar, Card, Rating, Typography } from '@mui/material';
+import { useHistory } from 'react-router-dom';
+import useFetch from '../../hooks/useFetch';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -67,28 +70,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NewLibrary = ({ item }) => {
 	const dispatch = useDispatch();
-	const [age, setAge] = React.useState('');
-	const [articles, setArticles] = React.useState([]);
+	const [age, setAge] = useState('');
+	const libraryState = useFetch;
+	const history = useHistory();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		dispatch(getArticles());
 	}, []);
 
 	const fetchLibrary = useSelector((state) => state.library.articles);
-
-	React.useEffect(() => {
-		if (fetchLibrary) {
-			setArticles(fetchLibrary);
-		}
-	}, [fetchLibrary]);
+	const { items: articles } = libraryState(fetchLibrary);
 
 	const handleChange = (event) => {
 		setAge(event.target.value);
 	};
-	const deleteItem = (id) => {
+	const handleDelete = (id) => {
 		dispatch(removeArticle(id));
-		dispatch(getArticles());
 	};
+	function handleOpen(feedId) {
+		history.push(`/article/${feedId}`);
+	}
 
 	return (
 		<>
@@ -132,13 +133,72 @@ const NewLibrary = ({ item }) => {
 					maxHeight: '595px',
 				}}
 			>
-				{articles.map((item) => (
-					<ArticleCards
-						article={item}
-						retrieveID={item.itemID}
-						button={<Button onClick={() => deleteItem(item.id)}>Remove</Button>}
-					/>
-				))}
+				{articles &&
+					articles.map((feed) => (
+						<Card
+							sx={{
+								width: '800px',
+								padding: 2,
+								border: 1,
+								borderColor: '#e6e6e6',
+								mb: 2,
+							}}
+						>
+							<Typography
+								variant='body2'
+								color='text.secondary'
+								sx={{
+									fontSize: '18px',
+									fontWeight: 700,
+								}}
+							>
+								{feed.publication.title}
+							</Typography>
+
+							<p className='text-sm text-gray-400 ml-2'>
+								{format(new Date(feed.publication.publishedDate), 'MMM-dd h:m b')}
+							</p>
+
+							<div className=' flex flex-row items-center'>
+								<p className='bg-purple-200 text-purple-500 text-sm w-20 px-2 py-1 flex items-center justify-center rounded-md'>
+									Article
+								</p>
+
+								{feed.publication.rating ? feed.publication.rating.toFixed(2) : 0}
+								<Rating
+									name='half-rating'
+									defaultValue={feed.publication.rating ? feed.publication.rating : 0}
+									precision={0.25}
+									readOnly
+								/>
+							</div>
+
+							<div className='mt-4 flex flex-row items-center'>
+								<Avatar
+									alt='Remy Sharp'
+									src='https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+									sx={{ width: 20, height: 20, ml: 1 }}
+								/>
+								<p className='text-sm text-gray-600 ml-1'>{feed.publication.authors}</p>
+							</div>
+
+							<Divider sx={{ m: 2 }} />
+
+							<div className='flex flex-row justify-between'>
+								<Button
+									onClick={() => handleOpen(feed.publication.id)}
+									variant='contained'
+									sx={{ ml: 2 }}
+								>
+									open article
+								</Button>
+
+								<Button onClick={() => handleDelete(feed.id)} variant='text'>
+									Remove To Library
+								</Button>
+							</div>
+						</Card>
+					))}
 			</div>
 		</>
 	);

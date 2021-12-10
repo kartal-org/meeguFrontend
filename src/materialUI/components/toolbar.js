@@ -261,7 +261,17 @@ export default function PrimarySearchAppBar(props) {
 						<SearchIconWrapper sx={{ display: { xs: 'none', md: 'flex' } }}>
 							<SearchIcon />
 						</SearchIconWrapper>
-						<StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+						<StyledInputBase
+							onKeyPress={(ev) => {
+								if (ev.key === 'Enter') {
+									ev.preventDefault();
+									console.log(`Pressed keyCode ${ev.target.value}`);
+									history.push(`/search/${ev.target.value}?tab=all`);
+								}
+							}}
+							placeholder='Search…'
+							inputProps={{ 'aria-label': 'search' }}
+						/>
 					</Search>
 					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 						<IconButton

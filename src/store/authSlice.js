@@ -21,6 +21,7 @@ export const userSlice = createSlice({
 	name: 'auth',
 	initialState: {
 		user: null,
+		people: [],
 		image: null,
 		status: 'idle',
 		isAuthenticated: false,
@@ -166,6 +167,17 @@ export const userSlice = createSlice({
 			alert('Send Link failed');
 			state.status = 'failed';
 		},
+		searchPeopleRequest: (state, action) => {
+			state.status = 'loading';
+		},
+		searchPeopleSuccess: (state, action) => {
+			// alert('Send Link Success!');
+			state.people = action.payload;
+		},
+		searchPeopleFailed: (state, action) => {
+			alert('Search people failed');
+			state.status = 'failed';
+		},
 	},
 });
 
@@ -197,12 +209,29 @@ const {
 	resetPasswordStep1Request,
 	resetPasswordStep1Success,
 	resetPasswordStep1Failed,
+	searchPeopleRequest,
+	searchPeopleSuccess,
+	searchPeopleFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer;
 
 //action creators
 
+export const searchPeople = (link) =>
+	apiCallBegan({
+		url: link,
+		method: 'get',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		onStart: searchPeopleRequest.type,
+		onSuccess: searchPeopleSuccess.type,
+		onError: searchPeopleFailed.type,
+	});
 export const verifyUser = (token) =>
 	apiCallBegan({
 		url: `/api/user/email-verify?token=` + token,

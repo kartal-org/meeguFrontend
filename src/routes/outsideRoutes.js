@@ -13,6 +13,7 @@ import Signup from '../pages/signup';
 
 import Tour from '../experiments/intro/Tour';
 import ActivationGuard from '../pages/activationGuard';
+import PDFConverter from '../experiments/PdfConverter';
 
 export default [
 	<Route exact path='/activation/guard' component={ActivationGuard} />,
@@ -29,4 +30,5 @@ export default [
 	<Route path='/dummy-dashboard' component={DummyDashboard} />,
 	<Route path='/subscription' component={Subscription} />,
 	<Route path='/tour' component={Tour} />,
+	<Route path='/pdfConvert' component={PDFConverter} />,
 ];

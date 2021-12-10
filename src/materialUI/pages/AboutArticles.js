@@ -32,6 +32,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DialogComponent from '../components/reuseableComponents/dialogComponent';
 import useFetch from '../../hooks/useFetch';
 import { format } from 'date-fns';
+import { addArticle } from '../../store/librarySlice';
 
 // const labels = {
 // 	0.5: "Useless",
@@ -90,8 +91,9 @@ const AboutArticles = () => {
 	const viewPdf = () => {
 		history.push('/fileViewer?filePath=' + article.archiveFile);
 	};
-	const addArticle = () => {
-		console.log(article.id);
+	const handleAddArticle = () => {
+		dispatch(addArticle(`/library/`, { user: currentUser.id, publication: article.id }));
+		// console.log(article.id);
 	};
 
 	//ratings
@@ -236,7 +238,11 @@ const AboutArticles = () => {
 								<Button onClick={viewPdf} variant='outlined' endIcon={<PictureAsPdfIcon />}>
 									View PDF
 								</Button>
-								<Button onClick={addArticle} variant='outlined' endIcon={<TiDocumentAdd />}>
+								<Button
+									onClick={handleAddArticle}
+									variant='outlined'
+									endIcon={<TiDocumentAdd />}
+								>
 									Add to Library
 								</Button>
 							</div>

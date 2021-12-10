@@ -45,6 +45,7 @@ import JoinedDepartmentTabManager from '../institutionModule/institutionStaff/pa
 import FinalMessage from '../finalmessageModule/finalMessage';
 import AdviserWorkspaceManager from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/workspaces/adviserWorkspaceManager';
 import DepartmentResourceManager from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/departmentResourceManager';
+import SearchPage from '../search/search';
 
 export default [
 	<Route
@@ -130,8 +131,9 @@ export default [
 	<Route exact path='/classroom' component={Classroom} />,
 	<Route path='/library' component={NewLibrary} />,
 	<Route exact path='/notes' component={Notes} />,
-	<Route path='/profile' component={Profile} />,
 	<Route path='/home' component={Home} />,
+	<Route path='/profile' component={Profile} />,
+	<Route path='/search/:key' component={SearchPage} />,
 	<Route path='/joined/:id' component={JoinProfile} />,
 
 	// <Route path='/myinstitution/:id' component={MyInstitutionManager} />,

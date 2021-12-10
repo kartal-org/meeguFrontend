@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "./actions/api";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { createSlice } from '@reduxjs/toolkit';
+import { apiCallBegan } from './actions/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 let toastId;
 
 export const librarySlice = createSlice({
-	name: "library",
+	name: 'library',
 	initialState: {
 		currentArticle: null,
 		articles: [],
@@ -21,32 +21,40 @@ export const librarySlice = createSlice({
 			state.articles = action.payload;
 		},
 		articleLoadFailed: (state, action) => {
-			alert("Articles Load Failed!");
+			alert('Articles Load Failed!');
+		},
+		articleAddRequest: (state, action) => {
+			state.isLoading = true;
+		},
+		articleAddSuccess: (state, action) => {
+			state.isLoading = false;
+			state.articles.unshift(action.payload);
+		},
+		articleAddFailed: (state, action) => {
+			alert('Articles Load Failed!');
 		},
 		articleDeleteRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading("Request is being processed");
+			toastId = toast.loading('Request is being processed');
 		},
 		articleDeleteSuccess: (state, action) => {
 			state.isLoading = false;
-			const filtered = state.articles.filter(
-				(val) => val.id == action.payload.id
-			);
+			const filtered = state.articles.filter((val) => val.id !== action.payload.id);
 			state.articles = filtered;
 			// alert('Articles Delete Success!');
 			toast.update(toastId, {
-				render: "Deleted successfully",
+				render: 'Deleted successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
 		articleDeleteFailed: (state, action) => {
 			// alert('Articles Delete Failed!');
 			toast.update(toastId, {
-				render: "Failed to delete",
+				render: 'Failed to delete',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -60,6 +68,9 @@ const {
 	articleDeleteRequest,
 	articleDeleteSuccess,
 	articleDeleteFailed,
+	articleAddRequest,
+	articleAddSuccess,
+	articleAddFailed,
 } = librarySlice.actions;
 
 export default librarySlice.reducer;
@@ -68,43 +79,43 @@ export default librarySlice.reducer;
 
 export const getArticles = () =>
 	apiCallBegan({
-		url: "/library",
-		method: "get",
+		url: '/library/',
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleLoadRequest.type,
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
 	});
-export const addArticle = (content) =>
+export const addArticle = (link, formdata) =>
 	apiCallBegan({
-		url: "/library/add",
-		method: "post",
+		url: link,
+		method: 'post',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		data: { content },
-		type: "regular",
-		onStart: articleLoadRequest.type,
-		onSuccess: articleLoadSuccess.type,
-		onError: articleLoadFailed.type,
+		data: formdata,
+		type: 'regular',
+		onStart: articleAddRequest.type,
+		onSuccess: articleAddSuccess.type,
+		onError: articleAddFailed.type,
 	});
 export const removeArticle = (id) =>
 	apiCallBegan({
-		url: "/library/" + id,
-		method: "delete",
+		url: '/library/change/' + id,
+		method: 'delete',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: articleDeleteRequest.type,
 		onSuccess: articleDeleteSuccess.type,
 		onError: articleDeleteFailed.type,
