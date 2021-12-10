@@ -51,6 +51,7 @@ export const userSlice = createSlice({
 
 			toast.update(toastId, {
 				render: 'Login Failed!',
+				autoClose: 3000,
 				type: 'error',
 				isLoading: false,
 			});

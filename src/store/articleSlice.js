@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 let toastId;
+let toastId1;
 
 export const articleSlice = createSlice({
 	name: 'article',
@@ -12,6 +13,8 @@ export const articleSlice = createSlice({
 		fileToUpload: null,
 		categories: [],
 		articles: [],
+		comments: [],
+		rating: [],
 		status: 'idle',
 		isLoading: false,
 	},
@@ -29,29 +32,29 @@ export const articleSlice = createSlice({
 		},
 		articleRetrieveRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading('Request is being processed');
+			// toastId1 = toast.loading('Request is being processed xxx');
 		},
 		articleRetrieveSuccess: (state, action) => {
 			state.isLoading = false;
 			state.currentArticle = action.payload;
 
-			toast.update(toastId, {
-				render: 'Retreived successfully',
-				type: 'success',
-				isLoading: false,
-			});
+			// toast.update(toastId1, {
+			// 	render: 'Retreived successfully',
+			// 	type: 'success',
+			// 	isLoading: false,
+			// });
 		},
 		articleRetrieveFailed: (state, action) => {
 			// alert('Article Load Failed!');
-			toast.update(toastId, {
-				render: 'Failed to retreive',
-				autoClose: 3000,
-				type: 'error',
-				isLoading: false,
-			});
+			// toast.update(toastId1, {
+			// 	render: 'Failed to retreive',
+			// 	autoClose: 3000,
+			// 	type: 'error',
+			// 	isLoading: false,
+			// });
 			// toast.update(toastId, {
 			// 	render: "Retreived successfully",
-			toastId = toast.loading('Request is being processed');
+			// toastId = toast.loading('Request is being processed');
 		},
 		publishArticleSuccess: (state, action) => {
 			state.status = 'article publish success';
@@ -90,6 +93,55 @@ export const articleSlice = createSlice({
 			console.log(action.payload);
 			state.fileToUpload = action.payload;
 		},
+
+		loadCommentsRequest: (state, action) => {
+			state.status = 'loading';
+			// toastId = toast.loading('Request is being processed');
+		},
+		loadCommentsSuccess: (state, action) => {
+			state.status = 'article comments load success';
+			state.comments = action.payload;
+		},
+		loadCommentsFailed: (state, action) => {
+			state.status = 'article failed success';
+			alert('Article comments load Failed!');
+		},
+		addCommentRequest: (state, action) => {
+			state.status = 'loading';
+			// toastId = toast.loading('Request is being processed');
+		},
+		addCommentSuccess: (state, action) => {
+			state.status = 'article comment add success';
+			state.comments.unshift(action.payload);
+		},
+		addCommentFailed: (state, action) => {
+			state.status = 'article failed success';
+			alert('Article comment add  Failed!');
+		},
+		loadRatingRequest: (state, action) => {
+			state.status = 'loading';
+			// toastId = toast.loading('Request is being processed');
+		},
+		loadRatingSuccess: (state, action) => {
+			state.status = 'article rating load success';
+			state.rating = action.payload;
+		},
+		loadRatingFailed: (state, action) => {
+			state.status = 'article failed success';
+			alert('Article rating load  Failed!');
+		},
+		createRatingRequest: (state, action) => {
+			state.status = 'loading';
+			// toastId = toast.loading('Request is being processed');
+		},
+		createRatingSuccess: (state, action) => {
+			state.status = 'article rating load success';
+			state.rating.push(action.payload);
+		},
+		createRatingFailed: (state, action) => {
+			state.status = 'article failed success';
+			alert('Article rate  Failed!');
+		},
 	},
 });
 
@@ -106,6 +158,18 @@ const {
 	loadCategoryRequest,
 	loadCategorySuccess,
 	loadCategoryFailed,
+	loadCommentsRequest,
+	loadCommentsSuccess,
+	loadCommentsFailed,
+	addCommentRequest,
+	addCommentSuccess,
+	addCommentFailed,
+	loadRatingRequest,
+	loadRatingSuccess,
+	loadRatingFailed,
+	createRatingRequest,
+	createRatingSuccess,
+	createRatingFailed,
 } = articleSlice.actions;
 
 export const { setFileToUpload } = articleSlice.actions;
@@ -142,6 +206,20 @@ export const getCategories = (link) =>
 		onSuccess: loadCategorySuccess.type,
 		onError: loadCategoryFailed.type,
 	});
+export const getComments = (link) =>
+	apiCallBegan({
+		url: link,
+		method: 'get',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		onStart: loadCommentsRequest.type,
+		onSuccess: loadCommentsSuccess.type,
+		onError: loadCommentsFailed.type,
+	});
 export const getnewArticles = (link) =>
 	apiCallBegan({
 		url: link,
@@ -156,9 +234,9 @@ export const getnewArticles = (link) =>
 		onSuccess: articleLoadSuccess.type,
 		onError: articleLoadFailed.type,
 	});
-export const retrieveArticle = (id) =>
+export const retrieveArticle = (link) =>
 	apiCallBegan({
-		url: '/post/change/' + id,
+		url: link,
 		method: 'get',
 		headers: {
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
@@ -213,4 +291,48 @@ export const publishArticle = (link, formData) =>
 		onStart: publishArticleRequest.type,
 		onSuccess: publishArticleSuccess.type,
 		onError: publishArticleFailed.type,
+	});
+export const addComment = (link, formData) =>
+	apiCallBegan({
+		url: link,
+		method: 'post',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		data: formData,
+		onStart: addCommentRequest.type,
+		onSuccess: addCommentSuccess.type,
+		onError: addCommentFailed.type,
+	});
+export const getMyRating = (link) =>
+	apiCallBegan({
+		url: link,
+		method: 'get',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		type: 'regular',
+		onStart: loadRatingRequest.type,
+		onSuccess: loadRatingSuccess.type,
+		onError: loadRatingFailed.type,
+	});
+export const addRating = (link, formData) =>
+	apiCallBegan({
+		url: link,
+		method: 'post',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
+		},
+		data: formData,
+		type: 'regular',
+		onStart: createRatingRequest.type,
+		onSuccess: createRatingSuccess.type,
+		onError: createRatingFailed.type,
 	});

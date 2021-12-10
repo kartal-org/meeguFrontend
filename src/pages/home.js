@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
 import queryString from 'query-string';
 
 import { getArticles, getCategories } from '../store/articleSlice';
@@ -52,6 +52,7 @@ const Home = ({ item, feed }) => {
 	const categoryStates = useFetch;
 	const articlesStates = useFetch;
 	const location = useLocation();
+	const history = useHistory();
 	const { id } = useParams();
 	// const dispatch = useDispatch();
 	const { tab } = queryString.parse(location.search);
@@ -108,6 +109,10 @@ const Home = ({ item, feed }) => {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
+
+	function handleOpen(feedId) {
+		history.push(`/article/${feedId}`);
+	}
 
 	return (
 		<>
@@ -192,7 +197,7 @@ const Home = ({ item, feed }) => {
 
 							<p className='text-sm text-gray-400 ml-2'>{feed.date}</p>
 
-							{feed.rating ? feed.rating : 0}
+							{feed.rating ? feed.rating.toFixed(2) : 0}
 							<Rating
 								name='half-rating'
 								defaultValue={feed.rating ? feed.rating : 0}
@@ -213,7 +218,7 @@ const Home = ({ item, feed }) => {
 						<Divider sx={{ m: 2 }} />
 
 						<div className='flex flex-row justify-between'>
-							<Button variant='contained' sx={{ ml: 2 }}>
+							<Button onClick={() => handleOpen(feed.id)} variant='contained' sx={{ ml: 2 }}>
 								open article
 							</Button>
 
