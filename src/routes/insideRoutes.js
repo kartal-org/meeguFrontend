@@ -46,6 +46,7 @@ import FinalMessage from '../finalmessageModule/finalMessage';
 import AdviserWorkspaceManager from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/workspaces/adviserWorkspaceManager';
 import DepartmentResourceManager from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/departmentResourceManager';
 import SearchPage from '../search/search';
+import NewWorkspaceFileViewer from '../classroomModule/classroomUser/classroomResearcher/classroomManager/tabs/workspaces/pageManager/tabs/files/fileViewer/file/newWorkspaceFileViewer';
 
 export default [
 	<Route
@@ -135,6 +136,7 @@ export default [
 	<Route path='/profile' component={Profile} />,
 	<Route path='/search/:key' component={SearchPage} />,
 	<Route path='/joined/:id' component={JoinProfile} />,
+	<Route path='/newFileViewerWorkspace' component={NewWorkspaceFileViewer} />,
 
 	// <Route path='/myinstitution/:id' component={MyInstitutionManager} />,
 	<Route exact path='/institutions' component={Institution} />,

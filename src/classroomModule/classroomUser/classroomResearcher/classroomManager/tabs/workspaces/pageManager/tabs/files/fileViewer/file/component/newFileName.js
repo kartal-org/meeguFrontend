@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
-import { Button, IconButton, InputBase } from '@mui/material';
+import { Button, IconButton, InputBase, Tooltip } from '@mui/material';
 import { FiArrowLeftCircle } from 'react-icons/fi';
 import { editFile } from '../../../../../../../../../../../../store/classResourceSlice';
+import { RiFileInfoLine } from 'react-icons/ri';
+import DialogComponent from '../../../../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent';
 
-const FileName = () => {
+const NewFileName = () => {
 	const history = useHistory();
 	const { id } = useParams();
 	const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const FileName = () => {
 			<IconButton aria-label='back' size='large' onClick={() => history.goBack()}>
 				<FiArrowLeftCircle fontSize='inherit' />
 			</IconButton>
-			<div className='flex w-11/12 justify-between items-center'>
+			<div className='flex w-full justify-between items-center'>
 				<InputBase
 					sx={{
 						flex: 1,
@@ -48,12 +50,25 @@ const FileName = () => {
 					size='medium'
 					inputProps={{ 'aria-label': 'search google maps' }}
 				/>
-				<Button variant='contained' onClick={handleEdit} disabled={edit}>
-					Save Edit
-				</Button>
+				<DialogComponent
+					title='Hello'
+					button={
+						<Tooltip title='Edit File Info' placement='left'>
+							<IconButton>
+								<RiFileInfoLine className='h-6 w-6' />
+							</IconButton>
+						</Tooltip>
+					}
+				>
+					Hello
+				</DialogComponent>
+
+				{/* <IconButton variant='contained' onClick={handleEdit} disabled={edit}>
+					Edit File Info
+				</IconButton> */}
 			</div>
 		</>
 	);
 };
 
-export default FileName;
+export default NewFileName;

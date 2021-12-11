@@ -19,46 +19,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getnotification } from '../store/notificationSlice';
 import useFetch from '../hooks/useFetch';
 import { format } from 'date-fns';
+import { useHistory } from 'react-router-dom';
 
 const Notifications = () => {
 	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const notificationState = useFetch;
 	useEffect(() => {
 		dispatch(getnotification(`/notification/`));
 	}, []);
 	const fetchedNotifs = useSelector((state) => state.notification.notifications);
-	const { items: notifications } = notificationState(fetchedNotifs);
+	const { items: notifications, setItems: setNotifications } = notificationState(fetchedNotifs);
+
+	function handleOnClickVerification(notif) {
+		console.log(notif);
+		history.push(`/institutions/moderator/${notif.id}?tab=wall`);
+	}
 	return (
 		<>
-			<Paper
-				sx={{
-					width: 1300,
-					maxWidth: '100%',
-					border: 1,
-					borderColor: '#e3e3e3',
-					maxHeight: '600px',
-					minHeight: '600px',
-					overflowY: 'auto',
-				}}
-			>
+			<div className='flex flex-col w-full space-y-2'>
 				<List>
-					{notifications.map((val) => (
-						<ListItemButton selected={!val.isRead}>
-							<ListItemIcon>
-								<GoCommentDiscussion fontSize='large' />
-							</ListItemIcon>
-							<div className='flex w-full items-center'>
-								{/* <p className='font-semibold mr-1'>Name</p> */}
-								<p className='text-sm text-gray-500'>{val.message}</p>
-								<p className='ml-auto text-xs text-gray-400'>
-									{' '}
-									{format(new Date(val.dateCreated), 'MMM-dd h:mm b')}
-								</p>
-							</div>
-						</ListItemButton>
-					))}
-					{/* <MenuItem>
+					{notifications.map((val) => {
+						if (val.type == 'verification') {
+							return (
+								<ListItemButton
+									onClick={() => handleOnClickVerification(val)}
+									selected={!val.isRead}
+								>
+									<ListItemIcon>
+										<MdOutlineSchool fontSize='large' />
+									</ListItemIcon>
+									<div className='flex w-full items-center'>
+										{/* <p className='font-semibold mr-1'>Name</p> */}
+										<p className='text-sm text-gray-500'>{val.message}</p>
+										<p className='ml-auto text-xs text-gray-400'>
+											{' '}
+											{format(new Date(val.dateCreated), 'MMM-dd h:mm b')}
+										</p>
+									</div>
+								</ListItemButton>
+							);
+						}
+					})}
+					<MenuItem>
 						<ListItemIcon>
 							<HiOutlineSpeakerphone fontSize='large' />
 						</ListItemIcon>
@@ -84,7 +88,7 @@ const Notifications = () => {
 							<MdOutlineSchool fontSize='large' />
 						</ListItemIcon>
 						<div className='flex w-full items-center'>
-							{/* <p className="font-semibold mr-1">Name</p> 
+							<p className='font-semibold mr-1'>Name</p>
 							<p className='text-sm text-gray-500 mr-1'>
 								Your page is now verified. You have now successfully created your
 								insititutional page
@@ -102,9 +106,9 @@ const Notifications = () => {
 							</p>
 							<p className='ml-auto text-xs text-gray-400'> MM-DD-YYYY ● </p>
 						</div>
-					</MenuItem> */}
+					</MenuItem>
 				</List>
-			</Paper>
+			</div>
 		</>
 	);
 };

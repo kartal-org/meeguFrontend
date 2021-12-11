@@ -88,6 +88,7 @@ const NewLibrary = ({ item }) => {
 		dispatch(removeArticle(id));
 	};
 	function handleOpen(feedId) {
+		// alert(feedId);
 		history.push(`/article/${feedId}`);
 	}
 
