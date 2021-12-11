@@ -22,14 +22,15 @@ import { styled } from "@mui/material/styles";
 import useFetch from "../../../../../../../../../hooks/useFetch";
 import ProductDetailComponent from "../../../../../../../../../materialUI/components/reuseableComponents/dashboardComponentCopy";
 import DialogComponent from "../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent";
+import FolderMenu from "./components/folderMenu";
+import FileMenu from "./components/fileMenu";
+import DepartmentResourceContent from "./components/departmentResourceContent";
 
 import {
 	deleteResource,
 	editResource,
 	retrieveResource,
 } from "../../../../../../../../../store/newResourceSlice";
-import FolderMenu from "../../../../../../../../../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/resources/resourceManager/component/folderMenu";
-import FileMenu from "../../../../../../../../../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/resources/resourceManager/component/fileMenu";
 
 // const Input = styled("input")({
 // 	display: "none",
@@ -42,7 +43,8 @@ const DepartmentResourceManager = () => {
 	const useResource = useFetch;
 
 	useEffect(() => {
-		dispatch(retrieveResource(`/resource/institution/change/${id}`));
+		dispatch(retrieveResource(`/resource/department/change/${id}`));
+		// alert(id);
 	}, []);
 	const fetchedResource = useSelector(
 		(state) => state.newResource.currentResource
@@ -85,11 +87,11 @@ const DepartmentResourceManager = () => {
 		form_data.append("name", name);
 		form_data.append("description", description);
 		form_data.append("status", status);
-		dispatch(editResource(`/resource/institution/change/${id}`, form_data));
+		dispatch(editResource(`/resource/department/change/${id}`, form_data));
 	};
 
 	const handleDelete = () => {
-		dispatch(deleteResource(`/resource/institution/change/${id}`));
+		dispatch(deleteResource(`/resource/department/change/${id}`));
 	};
 
 	useEffect(() => {
@@ -214,6 +216,8 @@ const DepartmentResourceManager = () => {
 						</div>
 					</div>
 				</ProductDetailComponent>
+
+				<DepartmentResourceContent />
 			</div>
 		</>
 	);
