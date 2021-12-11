@@ -21,6 +21,7 @@
 		"@popperjs/core": "^2.10.2",
 		"@react-pdf-viewer/core": "^2.4.1",
 		"@react-pdf-viewer/default-layout": "^2.9.1",
+		"@react-pdf-viewer/highlight": "^2.11.0",
 		"@reduxjs/toolkit": "^1.6.1",
 		"@testing-library/jest-dom": "^5.14.1",
 		"@testing-library/react": "^11.2.7",

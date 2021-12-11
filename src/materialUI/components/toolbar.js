@@ -19,7 +19,7 @@ import { useHistory } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { logout } from '../../store/authSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pusher from 'pusher-js';
 
 import { Link } from 'react-router-dom';
@@ -79,6 +79,7 @@ export default function PrimarySearchAppBar(props) {
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 	const isMobileNotifOpen = Boolean(mobileMoreAnchorEl);
 	let history = useHistory();
+	const dispatch = useDispatch();
 
 	// For Real Time Messaging
 	let allNotification = [];
@@ -116,6 +117,7 @@ export default function PrimarySearchAppBar(props) {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleNotificationsOpen = () => {
+		setNotifications([]);
 		history.push('/notif');
 	};
 
