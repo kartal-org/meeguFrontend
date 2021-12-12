@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Pusher from 'pusher-js';
 
 import { Link } from 'react-router-dom';
+import { getnotification } from '../../store/notificationSlice';
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -118,6 +119,7 @@ export default function PrimarySearchAppBar(props) {
 	};
 	const handleNotificationsOpen = () => {
 		setNotifications([]);
+		dispatch(getnotification(`/notification/`));
 		history.push('/notif');
 	};
 

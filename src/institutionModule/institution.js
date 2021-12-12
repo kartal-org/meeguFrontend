@@ -23,7 +23,7 @@ const Institution = () => {
 	const tabs = [
 		{
 			label: 'Owned',
-			link: `/institutions?ref=managing`,
+			link: `/institutions?ref=managing&navTab=institutions&currentStep=0`,
 			value: 'managing',
 			component: <ModeratorInstitution />,
 		},

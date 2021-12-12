@@ -41,12 +41,15 @@ const ClassroomSubscriptionPlan = () => {
 								</CardComponent>
 							}
 						>
-							{currentClassroom ? (
+							{localStorage.getItem('createdClassroom') ? (
 								<Paypal
 									item={item}
 									productlabel='classroom'
-									productID={currentClassroom.id}
-									dispatchLink={'/subscription/buy/classroom/' + currentClassroom.id}
+									productID={localStorage.getItem('createdClassroom')}
+									dispatchLink={
+										'/subscription/buy/classroom/' +
+										localStorage.getItem('createdClassroom')
+									}
 								/>
 							) : null}
 						</DialogComponent>

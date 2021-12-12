@@ -41,14 +41,13 @@ const ClassroomAffliate = () => {
 	const { status } = useSelector((state) => state.class);
 	const { loading } = useStatus(status);
 	const handleClassroomAffliate = () => {
-		let form_data = new FormData();
-		form_data.append('institution', selectInstitution);
-		for (var pair of form_data.entries()) {
-			console.log(pair[0] + ', ' + pair[1]);
+		if (localStorage.getItem('createdClassroom')) {
+			let form_data = new FormData();
+			form_data.append('institution', selectInstitution);
+			dispatch(editClassroom(`classroom/change/${currentClassroom.id}`, form_data, 'patch'));
+		} else {
+			alert("Sorry but it seems you haven't created a classroom yet.");
 		}
-		// console.log(form_data.entries());
-		console.log(selectInstitution);
-		dispatch(editClassroom(`classroom/change/${currentClassroom.id}`, form_data, 'patch'));
 	};
 	return (
 		<>

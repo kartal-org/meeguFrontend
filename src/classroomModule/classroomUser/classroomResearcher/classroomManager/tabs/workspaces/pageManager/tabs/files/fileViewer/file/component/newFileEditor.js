@@ -5,6 +5,7 @@ import 'quill/dist/quill.snow.css';
 import QuillEditor from '../../../../../../../../../../../../materialUI/components/reuseableComponents/quillEditor';
 import { editfile } from '../../../../../../../../../../../../store/newFileSlice';
 import { useParams } from 'react-router';
+// import './styles.css';
 
 const NewFileEditor = () => {
 	const { id } = useParams();

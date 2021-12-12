@@ -186,7 +186,7 @@ export default function MiniDrawer(props) {
 			icon: <MdSchool className='w-6 h-6 ' />,
 			toolTip: 'Institutions',
 			onClick: () => {
-				history.push('/institutions?ref=managing&navTab=institutions');
+				history.push('/institutions?ref=managing&navTab=institutions&currentStep=0');
 				setPageTitle('Institutions');
 			},
 			selected: 'institutions',

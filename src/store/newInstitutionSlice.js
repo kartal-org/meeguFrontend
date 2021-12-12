@@ -42,6 +42,7 @@ export const institutionSlice = createSlice({
 			state.status = 'success';
 			state.institutions.unshift(action.payload);
 			state.currentInstitution = action.payload;
+			localStorage.setItem('createdInstitution', action.payload.id);
 			// alert('Institution Create Success!');
 			toast.update(toastId, {
 				render: 'Created successfully',

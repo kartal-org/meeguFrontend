@@ -16,7 +16,7 @@ import { GoCommentDiscussion } from 'react-icons/go';
 import { HiOutlineSpeakerphone, HiOutlineClock } from 'react-icons/hi';
 import { MdOutlineFactCheck, MdOutlineSchool } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { getnotification } from '../store/notificationSlice';
+import { getnotification, updatenotification } from '../store/notificationSlice';
 import useFetch from '../hooks/useFetch';
 import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
@@ -32,37 +32,52 @@ const Notifications = () => {
 	const fetchedNotifs = useSelector((state) => state.notification.notifications);
 	const { items: notifications, setItems: setNotifications } = notificationState(fetchedNotifs);
 
-	function handleOnClickVerification(notif) {
+	function handleOnClick(notif) {
 		console.log(notif);
-		history.push(`/institutions/moderator/${notif.id}?tab=wall`);
+		if (!notif.isRead) {
+			dispatch(updatenotification(`/notification/change/${notif.id}`, { isRead: true }));
+		}
+		switch (notif.type) {
+			case 'verification':
+				history.push(`/institutions/moderator/${notif.redirectID}?tab=wall`);
+				break;
+			case 'submission':
+				history.push(`/classroom/adviser/${notif.redirectID}?tab=submissions`);
+				break;
+			case 'recommendation':
+				history.push(`/institutions/moderator/department/${notif.redirectID}?tab=submissions`);
+				break;
+		}
 	}
+
 	return (
 		<>
 			<div className='flex flex-col w-full space-y-2'>
 				<List>
-					{notifications.map((val) => {
-						if (val.type == 'verification') {
-							return (
-								<ListItemButton
-									onClick={() => handleOnClickVerification(val)}
-									selected={!val.isRead}
-								>
-									<ListItemIcon>
-										<MdOutlineSchool fontSize='large' />
-									</ListItemIcon>
-									<div className='flex w-full items-center'>
-										{/* <p className='font-semibold mr-1'>Name</p> */}
-										<p className='text-sm text-gray-500'>{val.message}</p>
-										<p className='ml-auto text-xs text-gray-400'>
-											{' '}
-											{format(new Date(val.dateCreated), 'MMM-dd h:mm b')}
-										</p>
-									</div>
-								</ListItemButton>
-							);
-						}
-					})}
-					<MenuItem>
+					{notifications.map((val) => (
+						<ListItemButton onClick={() => handleOnClick(val)} selected={!val.isRead}>
+							{val.type == 'verification' ? (
+								<ListItemIcon>
+									<MdOutlineSchool fontSize='large' />
+								</ListItemIcon>
+							) : null}
+							{val.type == 'submission' || val.type == 'recommendation' ? (
+								<ListItemIcon>
+									<MdOutlineFactCheck fontSize='large' />
+								</ListItemIcon>
+							) : null}
+
+							<div className='flex w-full items-center'>
+								{/* <p className='font-semibold mr-1'>Name</p> */}
+								<p className='text-sm text-gray-500'>{val.message}</p>
+								<p className='ml-auto text-xs text-gray-400'>
+									{' '}
+									{format(new Date(val.dateCreated), 'MMM-dd h:mm b')}
+								</p>
+							</div>
+						</ListItemButton>
+					))}
+					{/* <MenuItem>
 						<ListItemIcon>
 							<HiOutlineSpeakerphone fontSize='large' />
 						</ListItemIcon>
@@ -106,7 +121,7 @@ const Notifications = () => {
 							</p>
 							<p className='ml-auto text-xs text-gray-400'> MM-DD-YYYY ● </p>
 						</div>
-					</MenuItem>
+					</MenuItem> */}
 				</List>
 			</div>
 		</>
