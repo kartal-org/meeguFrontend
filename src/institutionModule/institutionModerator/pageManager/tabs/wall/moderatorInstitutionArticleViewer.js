@@ -26,10 +26,10 @@ const ModeratorInstitutionArticleViewer = () => {
 
 	return (
 		<div className='flex w-full flex-wrap overflow-y-auto bg-gray-200 items-center justify-center'>
-			{article.file && (
+			{article.archiveFile && (
 				<>
 					<Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
-						<Viewer fileUrl={article.file} plugins={[defaultLayoutPluginInstance]} />
+						<Viewer fileUrl={article.archiveFile} plugins={[defaultLayoutPluginInstance]} />
 					</Worker>
 				</>
 			)}

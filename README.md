@@ -99,3 +99,7 @@ const { items: classrooms, setItems: setClassrooms } = useFetch(classes); # usin
 ```
 
 > Note: Assign alias name for the returned **_items_** and **_setItems_** to avoid confusion and improve code readablity
+
+py manage.py createpostscategory
+py manage.py createinstitutionstafftype
+py manage.py createsubscriptionsplans
