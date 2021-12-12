@@ -56,6 +56,12 @@ export const articleSlice = createSlice({
 			// 	render: "Retreived successfully",
 			// toastId = toast.loading('Request is being processed');
 		},
+		publishArticleRequest: (state, action) => {
+			state.status = 'loading';
+			// alert('article publish success');
+
+			toastId = toast.loading('Request is being processed');
+		},
 		publishArticleSuccess: (state, action) => {
 			state.status = 'article publish success';
 			// alert('article publish success');
