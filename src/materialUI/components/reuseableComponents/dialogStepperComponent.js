@@ -28,7 +28,7 @@ const DialogStepperComponent = (props) => {
 
 	// stepper component
 
-	const [activeStep, setActiveStep] = useState(parseInt(currentStep));
+	const [activeStep, setActiveStep] = useState(0);
 	const [completed, setCompleted] = useState({});
 
 	const totalSteps = () => {

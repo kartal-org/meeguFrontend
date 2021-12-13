@@ -50,6 +50,7 @@ import NewWorkspaceFileViewer from '../classroomModule/classroomUser/classroomRe
 import DepartmentResourceFileViewer from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/fileViewers/fileviewerDepartmentResource';
 import CreateFileViewerDepartment from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/fileViewers/createdFileViewerDepartment';
 import NewFileViewerClass from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/resources/resourceManager/fileViewers/file/newFileViewerResourceClass';
+import DepartmentResourceTabStaff from '../institutionModule/institutionStaff/pageManager/tabs/department/tabs/departmentResourceTab';
 
 export default [
 	<Route
@@ -84,6 +85,11 @@ export default [
 		exact
 		path='/institution/moderator/department/resources/:id'
 		component={DepartmentResourceManager}
+	/>,
+	<Route
+		exact
+		path='/institution/staff/department/resources/:id'
+		component={DepartmentResourceTabStaff}
 	/>,
 	<Route
 		exact

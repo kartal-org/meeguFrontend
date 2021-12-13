@@ -21,7 +21,6 @@ const DepartmentResourceTabStaff = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
 	const resourcesStates = useFetch;
-	const fetchDepartment = useFetch;
 
 	useEffect(() => {
 		dispatch(getResources(`/resource/department?search=${id}`));

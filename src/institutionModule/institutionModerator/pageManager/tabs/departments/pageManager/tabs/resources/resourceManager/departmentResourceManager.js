@@ -29,8 +29,10 @@ import DepartmentResourceContent from './components/departmentResourceContent';
 import {
 	deleteResource,
 	editResource,
+	getResources,
 	retrieveResource,
 } from '../../../../../../../../../store/newResourceSlice';
+import { addFile2 } from '../../../../../../../../../store/newFileSlice';
 
 // const Input = styled("input")({
 // 	display: "none",
@@ -41,21 +43,36 @@ const DepartmentResourceManager = () => {
 	const { id } = useParams();
 	const history = useHistory();
 	const useResource = useFetch;
+	const useResources = useFetch;
 
 	useEffect(() => {
 		dispatch(retrieveResource(`/resource/department/change/${id}`));
-
-		// alert(id);
 	}, []);
 	const fetchedResource = useSelector((state) => state.newResource.currentResource);
+	const fetchedResources = useSelector((state) => state.newResource.resources);
+	const currentUser = useSelector((state) => state.auth.user);
 	const { status } = useSelector((state) => state.newResource);
 
+	useEffect(() => {
+		if (currentUser) {
+			// alert('hello');
+			dispatch(getResources(`/resource/classroom/relevant?search=${currentUser.id}`));
+		}
+	}, [currentUser]);
+
 	const { items: resource, setItems: setResource } = useResource(fetchedResource);
+	const { items: resources } = useResources(fetchedResources);
 	useEffect(() => {
 		if (fetchedResource) {
 			setResource({ ...fetchedResource, coverFile: fetchedResource.cover });
 		}
 	}, [fetchedResource]);
+
+	const [selectedResource, setSelectedResource] = useState('');
+
+	const handleChange = (event) => {
+		setSelectedResource(event.target.value);
+	};
 
 	const onChange = (e) => {
 		e.preventDefault();
@@ -98,6 +115,15 @@ const DepartmentResourceManager = () => {
 			history.goBack();
 		}
 	}, [status]);
+
+	function handleImport() {
+		// resource
+		// classresource
+
+		dispatch(
+			addFile2(`/resource/import-department`, { classresource: selectedResource, resource: id })
+		);
+	}
 
 	const EditDialog = () => {
 		return (
@@ -211,8 +237,27 @@ const DepartmentResourceManager = () => {
 								<DialogComponent
 									title='Use This Resource'
 									button={<Button variant='contained'>Import Resource</Button>}
+									action={{ label: 'Import', handler: handleImport }}
 								>
-									Hello
+									<div className='mt-4'>
+										<FormControl fullWidth>
+											<InputLabel id='demo-simple-select-label'>
+												Select Resource
+											</InputLabel>
+											<Select
+												labelId='demo-simple-select-label'
+												id='demo-simple-select'
+												value={selectedResource}
+												label='Status'
+												name='status'
+												onChange={handleChange}
+											>
+												{resources.map((val) => (
+													<MenuItem value={val.id}>{val.name}</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+									</div>
 								</DialogComponent>
 								<FolderMenu />
 								<FileMenu />
