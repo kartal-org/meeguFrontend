@@ -67,6 +67,7 @@ const FileMenu = () => {
 		formData.append('name', data.name);
 		formData.append('content', '<h1>Welcome to Meegu!</h1>');
 		formData.append('folder', folder);
+		formData.append('size', 0);
 		dispatch(addFile(`/workspace/file`, formData));
 	};
 	const handleUploadFile = () => {

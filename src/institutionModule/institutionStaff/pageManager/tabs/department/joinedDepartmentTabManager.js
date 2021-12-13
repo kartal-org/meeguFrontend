@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router";
-import queryString from "query-string";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router';
+import queryString from 'query-string';
 
-import useFetch from "../../../../../hooks/useFetch";
-import ProductDetailComponent from "../../../../../materialUI/components/reuseableComponents/dashboardComponent";
-import DialogComponent from "../../../../../materialUI/components/reuseableComponents/dialogComponent";
-import PageManagerComponent from "../../../../../materialUI/components/reuseableComponents/pageManagerComponent";
-import { retrieveDepartment } from "../../../../../store/departmentSlice";
+import useFetch from '../../../../../hooks/useFetch';
+import ProductDetailComponent from '../../../../../materialUI/components/reuseableComponents/dashboardComponent';
+import DialogComponent from '../../../../../materialUI/components/reuseableComponents/dialogComponent';
+import PageManagerComponent from '../../../../../materialUI/components/reuseableComponents/pageManagerComponent';
+import { retrieveDepartment } from '../../../../../store/departmentSlice';
 
 import {
 	Avatar,
@@ -20,8 +20,9 @@ import {
 	Select,
 	TextField,
 	PhotoCamera,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import DepartmentResourceTabStaff from './tabs/departmentResourceTab';
 
 const JoinedDepartmentTabManager = () => {
 	const location = useLocation();
@@ -42,9 +43,7 @@ const JoinedDepartmentTabManager = () => {
 	useEffect(() => {
 		dispatch(retrieveDepartment(id));
 	}, []);
-	const fetchProfile = useSelector(
-		(state) => state.department.currentDepartment
-	);
+	const fetchProfile = useSelector((state) => state.department.currentDepartment);
 	const status = useSelector((state) => state.department.status);
 	const [department, setDepartment] = useState({});
 	const [defaultImage, setDefaultImage] = useState();
@@ -58,63 +57,59 @@ const JoinedDepartmentTabManager = () => {
 
 	const tabs = [
 		{
-			label: "Wall",
+			label: 'Wall',
 			link: `/institution/staff/department/${id}?tab=wall`,
-			value: "wall",
-			component: "<Wall />",
+			value: 'wall',
+			component: '<Wall />',
 		},
 		{
-			label: "Articles",
+			label: 'Articles',
 			link: `/institution/staff/department/${id}?tab=articles`,
-			value: "articles",
-			component: "articles",
+			value: 'articles',
+			component: 'articles',
 		},
 
 		{
-			label: "Staff",
+			label: 'Staff',
 			link: `/institution/staff/department/${id}?tab=staff`,
 
-			value: "staff",
-			component: "staff",
+			value: 'staff',
+			component: 'staff',
 		},
 		{
-			label: "Resources",
-			link: `/institution/staff/department/${id}?tab=resourcess`,
-			value: "resources",
-			component: "Resources",
+			label: 'Resources',
+			link: `/institution/staff/department/${id}?tab=resources`,
+			value: 'resources',
+			component: <DepartmentResourceTabStaff />,
 		},
 	];
 
 	return (
 		<>
-			<div className="flex flex-col space-y-4">
+			<div className='flex flex-col space-y-4'>
 				<ProductDetailComponent
-					dialogTitle="Department Detail"
+					dialogTitle='Department Detail'
 					isEdit={false}
-					productType="Department"
+					productType='Department'
 					setProduct={setDepartment}
 					product={department}
 					image={department.image}
 				>
-					<div className="flex flex-col space-y-4 ml-4">
-						<div className="grid grid-cols-4 gap-4">
-							<div className="flex ">
+					<div className='flex flex-col space-y-4 ml-4'>
+						<div className='grid grid-cols-4 gap-4'>
+							<div className='flex '>
 								<p>
 									<b>Name:</b>
 								</p>
 							</div>
-							<div className="col-span-3">
+							<div className='col-span-3'>
 								<p>{department.name}</p>
 							</div>
 						</div>
 					</div>
 				</ProductDetailComponent>
 
-				<PageManagerComponent
-					tabs={tabs}
-					value={value}
-					handleChange={handleChange}
-				/>
+				<PageManagerComponent tabs={tabs} value={value} handleChange={handleChange} />
 			</div>
 		</>
 	);

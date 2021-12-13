@@ -1,21 +1,21 @@
-import DialogComponent from "./dialogComponent";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import {
-	Dialog,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-} from "@mui/material";
+import DialogComponent from './dialogComponent';
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepButton from '@mui/material/StepButton';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { useState } from 'react';
+import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
+import { useEffect } from 'react';
 
 const DialogStepperComponent = (props) => {
-	const { title, steps, context, name, button, maxWidth, tourIdentifier } =
-		props;
+	const { title, steps, context, name, button, maxWidth, tourIdentifier, baseURL } = props;
+	const history = useHistory();
+	const location = useLocation();
+	const { currentStep } = queryString.parse(location.search);
 
 	// dialog component
 	const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ const DialogStepperComponent = (props) => {
 
 	// stepper component
 
-	const [activeStep, setActiveStep] = useState(0);
+	const [activeStep, setActiveStep] = useState(parseInt(currentStep));
 	const [completed, setCompleted] = useState({});
 
 	const totalSteps = () => {
@@ -46,7 +46,7 @@ const DialogStepperComponent = (props) => {
 	const allStepsCompleted = () => {
 		return completedSteps() === totalSteps();
 	};
-
+	let currentURL = location.pathname + location.search;
 	const handleNext = () => {
 		const newActiveStep =
 			isLastStep() && !allStepsCompleted()
@@ -55,6 +55,16 @@ const DialogStepperComponent = (props) => {
 				  steps.findIndex((step, i) => !(i in completed))
 				: activeStep + 1;
 		setActiveStep(newActiveStep);
+		if (currentStep) {
+			// debugger;
+			console.log(newActiveStep);
+			console.log(
+				currentURL.replace(`&currentStep=${currentStep}`, `&currentStep=${newActiveStep}`)
+			);
+			history.push(
+				currentURL.replace(`&currentStep=${currentStep}`, `&currentStep=${newActiveStep}`)
+			);
+		}
 	};
 
 	const handleBack = () => {
@@ -70,7 +80,7 @@ const DialogStepperComponent = (props) => {
 		newCompleted[activeStep] = true;
 		setCompleted(newCompleted);
 		handleNext();
-		console.log("step complete");
+		console.log('step complete');
 
 		if (allStepsCompleted()) {
 			handleReset();
@@ -80,34 +90,41 @@ const DialogStepperComponent = (props) => {
 
 	const handleReset = () => {
 		setActiveStep(0);
+		if (baseURL) {
+			history.push(baseURL);
+		}
 		setCompleted({});
 	};
+
+	useEffect(() => {
+		// set previous step to be completed
+	}, [currentStep]);
 
 	return (
 		<>
 			<Button
-				variant="contained"
+				variant='contained'
 				onClick={handleClickOpen}
-				className={tourIdentifier ? tourIdentifier : ""}
+				className={tourIdentifier ? tourIdentifier : ''}
 			>
 				{button}
 			</Button>
 			<Dialog
-				component="div"
+				component='div'
 				fullWidth={true}
 				name={name}
-				maxWidth={maxWidth ? maxWidth : "lg"}
+				maxWidth={maxWidth ? maxWidth : 'lg'}
 				open={open}
 				onClose={handleClose}
 			>
 				<DialogTitle>{title}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>{context}</DialogContentText>
-					<div class="flex flex-col p-4 space-y-4">
+					<div class='flex flex-col p-4 space-y-4'>
 						<Stepper activeStep={activeStep}>
 							{steps.map((step, index) => (
 								<Step key={step.label} completed={completed[index]}>
-									<StepButton color="inherit">{step.label}</StepButton>
+									<StepButton color='inherit'>{step.label}</StepButton>
 								</Step>
 							))}
 						</Stepper>
@@ -116,8 +133,8 @@ const DialogStepperComponent = (props) => {
 								<Typography sx={{ mt: 2, mb: 1 }}>
 									All steps completed - you&apos;re finished
 								</Typography>
-								<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-									<Box sx={{ flex: "1 1 auto" }} />
+								<Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+									<Box sx={{ flex: '1 1 auto' }} />
 									<Button
 										onClick={() => {
 											handleClose();
@@ -130,11 +147,9 @@ const DialogStepperComponent = (props) => {
 							</>
 						) : (
 							<>
-								<div style={{ minHeight: "300px" }}>
-									{steps[activeStep].component}
-								</div>
+								<div style={{ minHeight: '300px' }}>{steps[activeStep].component}</div>
 
-								<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+								<Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
 									{/* <Button
 										color='inherit'
 										disabled={activeStep === 0}
@@ -143,7 +158,7 @@ const DialogStepperComponent = (props) => {
 									>
 										Back
 									</Button> */}
-									<Box sx={{ flex: "1 1 auto" }} />
+									<Box sx={{ flex: '1 1 auto' }} />
 									{/* <Button onClick={handleNext} sx={{ mr: 1 }}>
 										Next
 									</Button> */}
@@ -157,17 +172,12 @@ const DialogStepperComponent = (props) => {
 										))} */}
 									{activeStep !== steps.length &&
 										(completed[activeStep] ? (
-											<Typography
-												variant="caption"
-												sx={{ display: "inline-block" }}
-											>
+											<Typography variant='caption' sx={{ display: 'inline-block' }}>
 												Step {activeStep + 1} already completed
 											</Typography>
 										) : (
 											<Button onClick={handleComplete}>
-												{completedSteps() === totalSteps() - 1
-													? "Finish"
-													: "Next"}
+												{completedSteps() === totalSteps() - 1 ? 'Finish' : 'Next'}
 											</Button>
 										))}
 								</Box>

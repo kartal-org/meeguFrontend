@@ -26,7 +26,6 @@ const DepartmentRecommendationPDFViewer = () => {
 	const { items: file } = fileState(fetchedFile);
 
 	const defaultLayoutPluginInstance = defaultLayoutPlugin();
-	console.log(file);
 
 	return (
 		<div className='flex w-full flex-wrap h-screen overflow-y-auto bg-gray-200 items-center justify-center'>
