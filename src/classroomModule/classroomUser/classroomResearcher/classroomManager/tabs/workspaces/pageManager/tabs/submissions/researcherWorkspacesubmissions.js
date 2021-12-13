@@ -48,7 +48,7 @@ const ResearcherWorkspaceSubmissions = () => {
 			history.push(`/classroom/researcher/workspace/file/${file.file.id}`);
 		}
 		if (file.file.file) {
-			alert('is an upload file');
+			history.push(`/classroom/researcher/workspace/upload-file/${file.file.id}`);
 		}
 	};
 	const handleDelete = (item) => {

@@ -30,7 +30,7 @@ const ResearcherWorkspaceUploadFileViewer = () => {
 	console.log(file);
 	return (
 		<div className='flex w-full flex-wrap h-full overflow-y-auto bg-gray-200 items-center justify-center'>
-			{file && (
+			{file.file && (
 				<>
 					<Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
 						<Viewer fileUrl={file.file} plugins={[defaultLayoutPluginInstance]} />
