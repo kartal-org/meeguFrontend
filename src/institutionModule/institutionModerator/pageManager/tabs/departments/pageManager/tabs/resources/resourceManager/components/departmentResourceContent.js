@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
-import { useLocation, useParams, useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
+import React, { useEffect } from 'react';
+import { useLocation, useParams, useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import queryString from 'query-string';
 
-import useFetch from "../../../../../../../../../../hooks/useFetch";
-import { getFolders } from "../../../../../../../../../../store/newFolderSlice";
-import {
-	deletefile,
-	getfiles,
-} from "../../../../../../../../../../store/newFileSlice";
-import FolderList from "../../../../../../../../../../materialUI/pages/workspaceModule/tabs/files/folderList";
-import FileTable from "../../../../../../../../../../materialUI/pages/workspaceModule/tabs/files/fileTable";
+import useFetch from '../../../../../../../../../../hooks/useFetch';
+import { getFolders } from '../../../../../../../../../../store/newFolderSlice';
+import { deletefile, getfiles } from '../../../../../../../../../../store/newFileSlice';
+import FolderList from '../../../../../../../../../../materialUI/pages/workspaceModule/tabs/files/folderList';
+import FileTable from '../../../../../../../../../../materialUI/pages/workspaceModule/tabs/files/fileTable';
 
 const DepartmentResourceContent = () => {
 	const { id } = useParams();
@@ -37,37 +34,33 @@ const DepartmentResourceContent = () => {
 	const fetchedFiles = useSelector((state) => state.file.files);
 	const { items: files, setItems: setFiles } = fileState(fetchedFiles);
 
-	// const handMeID = (item) => {
-	// 	if (item.file) {
-	// 		alert('is an upload file');
-	// 	} else {
-	// 		history.push(`/institution/department/resources/file/${item.id}`);
-	// 		console.log(item);
-	// 	}
-	// };
+	const handMeID = (item) => {
+		if (item.file) {
+			history.push(`/institution/department/resources/uploadfile/${item.id}`);
+		} else {
+			history.push(`/institution/department/resources/file/${item.id}`);
+			console.log(item);
+		}
+	};
 	const delete_File = (item) => {
 		dispatch(deletefile(`resource/department/file/change/${item.id}`));
 	};
 
 	return (
 		<>
-			<div className="grid grid-rows-7 grid-flow-row gap-2  min-w-full">
-				<div className="row-span-4 grid grid-cols-6 gap-4">
+			<div className='grid grid-rows-7 grid-flow-row gap-2  min-w-full'>
+				<div className='row-span-4 grid grid-cols-6 gap-4'>
 					<div>
 						<FolderList
 							folders={folders}
 							link={`/institution/moderator/department/resources/${id}`}
 						/>
 					</div>
-					<div className=" col-span-5 border-2 rounded-md">
-						<FileTable
-							files={files}
-							//  handMeID={handMeID}
-							delete_File={delete_File}
-						/>
+					<div className=' col-span-5 border-2 rounded-md'>
+						<FileTable files={files} handMeID={handMeID} delete_File={delete_File} />
 					</div>
 				</div>
-				<div className="row-span-2"></div>
+				<div className='row-span-2'></div>
 			</div>
 		</>
 	);

@@ -27,20 +27,20 @@ const ResearcherResourceContent = () => {
 	// Files
 	useEffect(() => {
 		if (folder) {
-			dispatch(getfiles(`resource/classroom/file/${folder}`));
+			dispatch(getfiles(`resource/classroom/file?search=${folder}`));
 		}
 	}, [folder]);
 	const fetchedFiles = useSelector((state) => state.file.files);
 	const { items: files, setItems: setFiles } = fileState(fetchedFiles);
 
-	// Upload Files
-	useEffect(() => {
-		if (folder) {
-			dispatch(getfiles(`resource/classroom/uploadfile/${folder}`));
-		}
-	}, [folder]);
-	const fetchedUploadFiles = useSelector((state) => state.file.uploadFiles);
-	const { items: uploadFiles, setItems: setUploadFiles } = fileState(fetchedUploadFiles);
+	// // Upload Files
+	// useEffect(() => {
+	// 	if (folder) {
+	// 		dispatch(getfiles(`resource/classroom/uploadfile/${folder}`));
+	// 	}
+	// }, [folder]);
+	// const fetchedUploadFiles = useSelector((state) => state.file.uploadFiles);
+	// const { items: uploadFiles, setItems: setUploadFiles } = fileState(fetchedUploadFiles);
 
 	const handMeID = (item) => {
 		if (item.hasOwnProperty('content')) {
@@ -56,7 +56,7 @@ const ResearcherResourceContent = () => {
 					<FolderList folders={folders} link={`/classroom/researcher/resources/${id}`} />
 				</div>
 				<div className=' col-span-5 border-2 rounded-md'>
-					<FileTable files={files} uploadFiles={uploadFiles} handMeID={handMeID} />
+					<FileTable files={files} handMeID={handMeID} />
 				</div>
 			</div>
 			<div className='row-span-2'></div>

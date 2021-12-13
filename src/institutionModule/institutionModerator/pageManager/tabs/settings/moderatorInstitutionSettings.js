@@ -59,7 +59,7 @@ const ModeratorInstitutionSettings = () => {
 	const { items: subscriptions } = subscriptionState(fetchedSubscription);
 	return (
 		<>
-			{subscriptions[0] && (
+			{subscriptions[0] ? (
 				<div className='bg-red-100'>
 					<NewBannerComponent
 						title={subscriptions[0].plan.name}
@@ -186,6 +186,33 @@ const ModeratorInstitutionSettings = () => {
 						</DialogComponent>
 					</NewBannerComponent>
 				</div>
+			) : (
+				<NewBannerComponent title="Sorry You Don't have any subscription yet">
+					<DialogComponent
+						title='Buy Subscription'
+						maxWidth='md'
+						button={
+							<Button className='join' variant='contained'>
+								Buy Subscriptions
+							</Button>
+						}
+					>
+						<div className='flex w-full justify-center items-center mt-5'>
+							{plans.map((item) => (
+								<DialogComponent title='Pay Thru:' button={<CardComponent item={item} />}>
+									{currentInstitution ? (
+										<Paypal
+											item={item}
+											productID={currentInstitution.id}
+											productlabel='classroom'
+											dispatchLink={`/subscription/buy/classroom/${currentInstitution.id}`}
+										/>
+									) : null}
+								</DialogComponent>
+							))}
+						</div>
+					</DialogComponent>
+				</NewBannerComponent>
 			)}
 		</>
 	);

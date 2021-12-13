@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Link, Switch, useLocation } from "react-router-dom";
-import { useParams, Route, useHistory } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import queryString from "query-string";
+import { useState, useEffect } from 'react';
+import { Link, Switch, useLocation } from 'react-router-dom';
+import { useParams, Route, useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import queryString from 'query-string';
 
 import {
 	Button,
@@ -15,22 +15,22 @@ import {
 	Select,
 	MenuItem,
 	Avatar,
-} from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { styled } from "@mui/material/styles";
+} from '@mui/material';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { styled } from '@mui/material/styles';
 
-import useFetch from "../../../../../../../../../hooks/useFetch";
-import ProductDetailComponent from "../../../../../../../../../materialUI/components/reuseableComponents/dashboardComponentCopy";
-import DialogComponent from "../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent";
-import FolderMenu from "./components/folderMenu";
-import FileMenu from "./components/fileMenu";
-import DepartmentResourceContent from "./components/departmentResourceContent";
+import useFetch from '../../../../../../../../../hooks/useFetch';
+import ProductDetailComponent from '../../../../../../../../../materialUI/components/reuseableComponents/dashboardComponentCopy';
+import DialogComponent from '../../../../../../../../../materialUI/components/reuseableComponents/dialogComponent';
+import FolderMenu from './components/folderMenu';
+import FileMenu from './components/fileMenu';
+import DepartmentResourceContent from './components/departmentResourceContent';
 
 import {
 	deleteResource,
 	editResource,
 	retrieveResource,
-} from "../../../../../../../../../store/newResourceSlice";
+} from '../../../../../../../../../store/newResourceSlice';
 
 // const Input = styled("input")({
 // 	display: "none",
@@ -44,15 +44,13 @@ const DepartmentResourceManager = () => {
 
 	useEffect(() => {
 		dispatch(retrieveResource(`/resource/department/change/${id}`));
+
 		// alert(id);
 	}, []);
-	const fetchedResource = useSelector(
-		(state) => state.newResource.currentResource
-	);
+	const fetchedResource = useSelector((state) => state.newResource.currentResource);
 	const { status } = useSelector((state) => state.newResource);
 
-	const { items: resource, setItems: setResource } =
-		useResource(fetchedResource);
+	const { items: resource, setItems: setResource } = useResource(fetchedResource);
 	useEffect(() => {
 		if (fetchedResource) {
 			setResource({ ...fetchedResource, coverFile: fetchedResource.cover });
@@ -61,7 +59,7 @@ const DepartmentResourceManager = () => {
 
 	const onChange = (e) => {
 		e.preventDefault();
-		if (e.target.name == "cover") {
+		if (e.target.name == 'cover') {
 			let reader = new FileReader();
 			let file = e.target.files[0];
 
@@ -82,58 +80,59 @@ const DepartmentResourceManager = () => {
 		let form_data = new FormData();
 		const { name, description, cover, coverFile, status } = resource;
 		if (coverFile != cover) {
-			form_data.append("cover", coverFile, coverFile.name);
+			form_data.append('cover', coverFile, coverFile.name);
 		}
-		form_data.append("name", name);
-		form_data.append("description", description);
-		form_data.append("status", status);
+		form_data.append('name', name);
+		form_data.append('description', description);
+		form_data.append('status', status);
 		dispatch(editResource(`/resource/department/change/${id}`, form_data));
 	};
 
 	const handleDelete = () => {
 		dispatch(deleteResource(`/resource/department/change/${id}`));
 	};
+	const handMeID = () => {};
 
 	useEffect(() => {
-		if (status == "Resources Delete success") {
+		if (status == 'Resources Delete success') {
 			history.goBack();
 		}
 	}, [status]);
 
 	const EditDialog = () => {
 		return (
-			<div className="flex flex-col space-y-4 ">
-				<Card sx={{ maxWidth: "100%" }}>
+			<div className='flex flex-col space-y-4 '>
+				<Card sx={{ maxWidth: '100%' }}>
 					<CardMedia
-						component="div"
+						component='div'
 						image={resource.cover}
-						className="flex justify-end items-center"
+						className='flex justify-end items-center'
 						sx={{
-							height: "120px",
-							display: "flex",
-							justifyContent: "flex-end",
-							alignItems: "end",
+							height: '120px',
+							display: 'flex',
+							justifyContent: 'flex-end',
+							alignItems: 'end',
 						}}
 					>
-						<label htmlFor="contained-button-file">
+						<label htmlFor='contained-button-file'>
 							<Input
-								accept="image/*"
-								id="contained-button-file"
-								name="cover"
+								accept='image/*'
+								id='contained-button-file'
+								name='cover'
 								onChange={onChange}
-								type="file"
+								type='file'
 							/>
 							<Button
-								variant="contained"
+								variant='contained'
 								startIcon={<PhotoCamera />}
 								style={{
-									marginRight: "10px",
-									marginBottom: "10px",
-									backgroundColor: "white",
-									color: "rgba(55, 65, 81, 1)",
-									textTransform: "capitalize",
+									marginRight: '10px',
+									marginBottom: '10px',
+									backgroundColor: 'white',
+									color: 'rgba(55, 65, 81, 1)',
+									textTransform: 'capitalize',
 								}}
-								component="span"
+								component='span'
 							>
 								Change Cover Photo
 							</Button>
@@ -141,40 +140,40 @@ const DepartmentResourceManager = () => {
 					</CardMedia>
 				</Card>
 				<TextField
-					label="Resource Name"
-					variant="outlined"
-					name="name"
+					label='Resource Name'
+					variant='outlined'
+					name='name'
 					value={resource.name}
 					onChange={(e) => onChange(e)}
 				/>
 				<FormControl fullWidth>
-					<InputLabel id="demo-simple-select-label">Status</InputLabel>
+					<InputLabel id='demo-simple-select-label'>Status</InputLabel>
 					<Select
-						labelId="demo-simple-select-label"
-						id="demo-simple-select"
+						labelId='demo-simple-select-label'
+						id='demo-simple-select'
 						value={resource.status}
-						label="Status"
-						name="status"
+						label='Status'
+						name='status'
 						onChange={(e) => onChange(e)}
 					>
-						<MenuItem value={"draft"}>Draft</MenuItem>
-						<MenuItem value={"publish"}>Publish</MenuItem>
+						<MenuItem value={'draft'}>Draft</MenuItem>
+						<MenuItem value={'publish'}>Publish</MenuItem>
 					</Select>
 				</FormControl>
 				<TextField
-					label="Description"
-					variant="outlined"
-					name="description"
+					label='Description'
+					variant='outlined'
+					name='description'
 					value={resource.description}
 					onChange={(e) => onChange(e)}
 					multiline
 					minRows={4}
 				/>
-				<div className="flex w-full space-x-2">
-					<Button variant="contained" onClick={handleEdit}>
+				<div className='flex w-full space-x-2'>
+					<Button variant='contained' onClick={handleEdit}>
 						Save Changes
 					</Button>
-					<Button color="error" onClick={handleDelete}>
+					<Button color='error' onClick={handleDelete}>
 						Delete
 					</Button>
 				</div>
@@ -184,31 +183,36 @@ const DepartmentResourceManager = () => {
 
 	return (
 		<>
-			<div className="flex flex-col space-y-4">
+			<div className='flex flex-col space-y-4'>
 				<ProductDetailComponent product={resource}>
-					<div className="grid grid-cols-2 w-full gap-2 ">
-						<div className="flex flex-col space-y-4 ">
-							<h5 className="text-2xl font-bold text-gray-700">
-								{resource.name}
-							</h5>
-							<div className="mt-1 flex flex-row items-center">
+					<div className='grid grid-cols-2 w-full gap-2 '>
+						<div className='flex flex-col space-y-4 '>
+							<h5 className='text-2xl font-bold text-gray-700'>{resource.name}</h5>
+							<div className='mt-1 flex flex-row items-center'>
 								<Avatar
-									alt="Remy Sharp"
-									src="https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+									alt='Remy Sharp'
+									src='https://images.unsplash.com/photo-1579783483458-83d02161294e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
 								/>
-								<p className="text-sm text-gray-600 ml-2">{resource.owner}</p>
+								<p className='text-sm text-gray-600 ml-2'>{resource.owner}</p>
 							</div>
 							{/* <p>{resource.description}</p> */}
 						</div>
 
-						<div className="flex flex-col justify-between items-end space-y-4">
-							<div className="flex justify-between"></div>
-							<div className="flex justify-between space-x-2">
+						<div className='flex flex-col justify-between items-end space-y-4'>
+							<div className='flex justify-between'></div>
+							<div className='flex justify-between space-x-2'>
 								<DialogComponent
-									title="Edit Resource Info"
-									button={<Button variant="contained">Edit Resource</Button>}
+									title='Edit Resource Info'
+									button={<Button variant='contained'>Edit Resource</Button>}
 								>
 									<EditDialog />
+								</DialogComponent>
+
+								<DialogComponent
+									title='Use This Resource'
+									button={<Button variant='contained'>Import Resource</Button>}
+								>
+									Hello
 								</DialogComponent>
 								<FolderMenu />
 								<FileMenu />

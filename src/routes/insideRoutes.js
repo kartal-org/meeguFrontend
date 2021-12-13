@@ -47,6 +47,9 @@ import AdviserWorkspaceManager from '../classroomModule/classroomUser/classroomA
 import DepartmentResourceManager from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/departmentResourceManager';
 import SearchPage from '../search/search';
 import NewWorkspaceFileViewer from '../classroomModule/classroomUser/classroomResearcher/classroomManager/tabs/workspaces/pageManager/tabs/files/fileViewer/file/newWorkspaceFileViewer';
+import DepartmentResourceFileViewer from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/fileViewers/fileviewerDepartmentResource';
+import CreateFileViewerDepartment from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/fileViewers/createdFileViewerDepartment';
+import NewFileViewerClass from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/resources/resourceManager/fileViewers/file/newFileViewerResourceClass';
 
 export default [
 	<Route
@@ -96,11 +99,7 @@ export default [
 	<Route exact path='/validate' component={Validate} />,
 	<Route exact path='/experiments' component={StepperExp} />,
 	<Route exact path='/works/fileEditor/:id' component={WorkspaceFileEditor} />,
-	<Route
-		exact
-		path='/classroom/adviser/resources/file/:id'
-		component={AdviserResourceFileViewer}
-	/>,
+	<Route exact path='/classroom/adviser/resources/file/:id' component={NewFileViewerClass} />,
 
 	<Route path='/notif' component={Notifications} />,
 	<Route path='/intro' component={Intro} />,
@@ -120,6 +119,16 @@ export default [
 		exact
 		path='/classroom/researcher/workspace/upload-file/:id'
 		component={ResearcherWorkspaceUploadFileViewer}
+	/>,
+	<Route
+		exact
+		path='/institution/department/resources/uploadfile/:id'
+		component={DepartmentResourceFileViewer}
+	/>,
+	<Route
+		exact
+		path='/institution/department/resources/file/:id'
+		component={CreateFileViewerDepartment}
 	/>,
 
 	<Route exact path='/works/:id' component={ProjectManager} />,
