@@ -167,6 +167,17 @@ export const userSlice = createSlice({
 			alert('Send Link failed');
 			state.status = 'failed';
 		},
+		resetPasswordCompleteRequest: (state, action) => {
+			state.status = 'loading';
+		},
+		resetPasswordCompleteSuccess: (state, action) => {
+			alert('Password Reset Success!');
+			state.status = 'success';
+		},
+		resetPasswordCompleteFailed: (state, action) => {
+			alert('Password Reset failed');
+			state.status = 'failed';
+		},
 		searchPeopleRequest: (state, action) => {
 			state.status = 'loading';
 		},
@@ -212,6 +223,9 @@ const {
 	searchPeopleRequest,
 	searchPeopleSuccess,
 	searchPeopleFailed,
+	resetPasswordCompleteRequest,
+	resetPasswordCompleteSuccess,
+	resetPasswordCompleteFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer;
@@ -425,9 +439,9 @@ export const resetPasswordConfirm = (data) =>
 		},
 		type: 'regular',
 		data: data,
-		onStart: resetPasswordStep1Request.type,
-		onSuccess: resetPasswordStep1Success.type,
-		onError: resetPasswordStep1Failed.type,
+		onStart: resetPasswordCompleteRequest.type,
+		onSuccess: resetPasswordCompleteSuccess.type,
+		onError: resetPasswordCompleteFailed.type,
 	});
 ///selectors
 

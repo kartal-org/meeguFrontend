@@ -35,7 +35,7 @@ const AdviserResourceContent = () => {
 
 	const handMeID = (item) => {
 		if (item.file) {
-			alert('is an upload file');
+			history.push(`/classroom/adviser/resources/pdf/${item.id}`);
 		} else {
 			history.push(`/classroom/adviser/resources/file/${item.id}`);
 			console.log(item);

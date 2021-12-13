@@ -51,11 +51,9 @@ const CreateRecommendations = () => {
 						label='Select From Accepted Submissions'
 						onChange={handleSelectArticle}
 					>
-						{submissions.map((val) => {
-							if (val.responseStatus === 'accepted') {
-								return <MenuItem value={val.id}>{val.title}</MenuItem>;
-							}
-						})}
+						{submissions.map((val) => (
+							<MenuItem value={val.id}>{val.title}</MenuItem>
+						))}
 					</Select>
 				</FormControl>
 				<FormControl fullWidth>

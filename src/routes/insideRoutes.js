@@ -51,6 +51,7 @@ import DepartmentResourceFileViewer from '../institutionModule/institutionModera
 import CreateFileViewerDepartment from '../institutionModule/institutionModerator/pageManager/tabs/departments/pageManager/tabs/resources/resourceManager/fileViewers/createdFileViewerDepartment';
 import NewFileViewerClass from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/resources/resourceManager/fileViewers/file/newFileViewerResourceClass';
 import DepartmentResourceTabStaff from '../institutionModule/institutionStaff/pageManager/tabs/department/tabs/departmentResourceTab';
+import AdviserResourcePDFViewer from '../classroomModule/classroomUser/classroomAdviser/classroomManager/tabs/resources/resourceManager/fileViewers/uploadFile/adviserResourcePDFViewer';
 
 export default [
 	<Route
@@ -106,6 +107,7 @@ export default [
 	<Route exact path='/experiments' component={StepperExp} />,
 	<Route exact path='/works/fileEditor/:id' component={WorkspaceFileEditor} />,
 	<Route exact path='/classroom/adviser/resources/file/:id' component={NewFileViewerClass} />,
+	<Route exact path='/classroom/adviser/resources/pdf/:id' component={AdviserResourcePDFViewer} />,
 
 	<Route path='/notif' component={Notifications} />,
 	<Route path='/intro' component={Intro} />,

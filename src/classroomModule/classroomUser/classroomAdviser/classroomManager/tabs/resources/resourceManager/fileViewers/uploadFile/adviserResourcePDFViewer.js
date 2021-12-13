@@ -1,3 +1,9 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import useFetch from '../../../../../../../../../hooks/useFetch';
+import { retrieveFile } from '../../../../../../../../../store/newFileSlice';
+
 // Import the main component
 import { Viewer } from '@react-pdf-viewer/core'; // install this library
 // Plugins
@@ -8,18 +14,13 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 // Worker
 import { Worker } from '@react-pdf-viewer/core'; // install this library
 
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import useFetch from '../../../../../../../hooks/useFetch';
-import { retrieveFile } from '../../../../../../../store/newFileSlice';
-
-const AdviserSubmissionPDFViewer = () => {
+const AdviserResourcePDFViewer = () => {
 	const { id } = useParams();
-	const fileState = useFetch;
 	const dispatch = useDispatch();
+	const fileState = useFetch;
+
 	useEffect(() => {
-		dispatch(retrieveFile(`/submission/change/${id}`));
+		dispatch(retrieveFile(`/resource/classroom/file/change/${id}`));
 	}, []);
 
 	const fetchedFile = useSelector((state) => state.file.currentFile);
@@ -27,14 +28,12 @@ const AdviserSubmissionPDFViewer = () => {
 
 	const defaultLayoutPluginInstance = defaultLayoutPlugin();
 	console.log(file);
-
 	return (
-		<div className='flex w-full flex-wrap h-screen overflow-y-auto bg-gray-200 items-center justify-center'>
-			{/* show pdf conditionally (if we have one)  */}
+		<div className='flex w-full flex-wrap h-full overflow-y-auto bg-gray-200 items-center justify-center'>
 			{file.file && (
 				<>
 					<Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
-						<Viewer fileUrl={file.file.file} plugins={[defaultLayoutPluginInstance]} />
+						<Viewer fileUrl={file.file} plugins={[defaultLayoutPluginInstance]} />
 					</Worker>
 				</>
 			)}
@@ -42,4 +41,4 @@ const AdviserSubmissionPDFViewer = () => {
 	);
 };
 
-export default AdviserSubmissionPDFViewer;
+export default AdviserResourcePDFViewer;

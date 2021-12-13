@@ -93,7 +93,6 @@ const ResearcherWorkspaceManager = () => {
 		const { name, description, status, cover, coverFile, code } = workspace;
 		console.log(coverFile, cover);
 		if (coverFile != cover) {
-			alert('Picture is change');
 			form_data.append('cover', coverFile, coverFile.name);
 		}
 		form_data.append('name', name);
