@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "./actions/api";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { createSlice } from '@reduxjs/toolkit';
+import { apiCallBegan } from './actions/api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 let toastId;
 
 export const noteSlice = createSlice({
-	name: "notes",
+	name: 'notes',
 	initialState: {
 		currentNotes: null,
 		notes: [],
@@ -23,20 +23,20 @@ export const noteSlice = createSlice({
 		noteLoadFailed: (state, action) => {
 			state.isLoading = false;
 			state.notes = [];
-			alert("Notes Load Failed!");
+			alert('Notes Load Failed!');
 		},
 		noteAddRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading("Request is being processed");
+			toastId = toast.loading('Request is being processed');
 		},
 		noteAddSuccess: (state, action) => {
 			state.isLoading = false;
 			state.notes.unshift(action.payload);
 			// alert('Notes Create Success!');
 			toast.update(toastId, {
-				render: "Created successfully",
+				render: 'Created successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -44,23 +44,23 @@ export const noteSlice = createSlice({
 			state.isLoading = false;
 			// alert('Notes Create Failed!');
 			toast.update(toastId, {
-				render: "Failed to create",
+				render: 'Failed to create',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
 		noteUpdateRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading("Request is being processed");
+			toastId = toast.loading('Request is being processed');
 		},
 		noteUpdateSuccess: (state, action) => {
 			state.isLoading = false;
 			// alert('Notes Update Success!');
 			toast.update(toastId, {
-				render: "Updated successfully",
+				render: 'Updated successfully',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -68,23 +68,23 @@ export const noteSlice = createSlice({
 			state.isLoading = false;
 			// alert('Notes Update Failed!');
 			toast.update(toastId, {
-				render: "Failed to update",
+				render: 'Failed to update',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
 		noteDeleteRequest: (state, action) => {
 			state.isLoading = true;
-			toastId = toast.loading("Request is being processed");
+			toastId = toast.loading('Request is being processed');
 		},
 		noteDeleteSuccess: (state, action) => {
 			state.isLoading = false;
 			// alert('Delete note success please refresh the page');
 			toast.update(toastId, {
-				render: "Deleted successfully, please refresh page",
+				render: 'Deleted successfully, please refresh page',
 				autoClose: 3000,
-				type: "success",
+				type: 'success',
 				isLoading: false,
 			});
 		},
@@ -92,9 +92,9 @@ export const noteSlice = createSlice({
 			state.isLoading = false;
 			// alert('Delete Note Failed!');
 			toast.update(toastId, {
-				render: "Failed to delete",
+				render: 'Failed to delete',
 				autoClose: 3000,
-				type: "error",
+				type: 'error',
 				isLoading: false,
 			});
 		},
@@ -122,28 +122,28 @@ export default noteSlice.reducer;
 
 export const getNotes = () =>
 	apiCallBegan({
-		url: "/note/",
-		method: "get",
+		url: '/note/',
+		method: 'get',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		onStart: noteLoadRequest.type,
 		onSuccess: noteLoadSuccess.type,
 		onError: noteLoadFailed.type,
 	});
 export const createNotes = (title, content, owner) =>
 	apiCallBegan({
-		url: "/note/",
-		method: "post",
+		url: '/note/',
+		method: 'post',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		data: { title, content, owner },
 		onStart: noteAddRequest.type,
 		onSuccess: noteAddSuccess.type,
@@ -151,14 +151,14 @@ export const createNotes = (title, content, owner) =>
 	});
 export const updateNote = (title, content, owner, id) =>
 	apiCallBegan({
-		url: "/note/" + id,
-		method: "put",
+		url: '/note/change/' + id,
+		method: 'put',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 		data: { title, content, owner },
 		onStart: noteUpdateRequest.type,
 		onSuccess: noteUpdateSuccess.type,
@@ -166,14 +166,14 @@ export const updateNote = (title, content, owner, id) =>
 	});
 export const deleteNote = (id) =>
 	apiCallBegan({
-		url: "/note/" + id,
-		method: "delete",
+		url: '/note/change/' + id,
+		method: 'delete',
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("access_token"),
-			"Content-Type": "application/json",
-			accept: "application/json",
+			Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+			'Content-Type': 'application/json',
+			accept: 'application/json',
 		},
-		type: "regular",
+		type: 'regular',
 
 		onStart: noteDeleteRequest.type,
 		onSuccess: noteDeleteSuccess.type,
