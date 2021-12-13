@@ -81,6 +81,7 @@ const FileMenu = () => {
 		let formData = new FormData();
 		formData.append('name', data.name);
 		formData.append('folder', folder);
+		formData.append('size', 0);
 		dispatch(addFile(`/resource/classroom/file`, formData));
 	};
 

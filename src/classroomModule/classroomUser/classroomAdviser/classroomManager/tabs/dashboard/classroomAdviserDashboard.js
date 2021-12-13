@@ -241,7 +241,7 @@ const ClassroomDashboard = () => {
 														{row.plan.name}
 													</TableCell>
 													<TableCell component='th' scope='row' align='center'>
-														+{row.plan.limitations.storage / 1000000000} GB
+														+{row.plan.limitations / 1000000000} GB
 													</TableCell>
 													<TableCell component='th' scope='row' align='center'>
 														₱ {row.plan.price}
