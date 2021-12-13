@@ -31,10 +31,10 @@ const DepartmentRecommendationPDFViewer = () => {
 	return (
 		<div className='flex w-full flex-wrap h-screen overflow-y-auto bg-gray-200 items-center justify-center'>
 			{/* show pdf conditionally (if we have one)  */}
-			{file && (
+			{file.file && (
 				<>
 					<Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
-						<Viewer fileUrl={file} plugins={[defaultLayoutPluginInstance]} />
+						<Viewer fileUrl={file.file} plugins={[defaultLayoutPluginInstance]} />
 					</Worker>
 				</>
 			)}
