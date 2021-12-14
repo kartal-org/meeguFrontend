@@ -43,10 +43,15 @@ const ResearcherResourceContent = () => {
 	// const { items: uploadFiles, setItems: setUploadFiles } = fileState(fetchedUploadFiles);
 
 	const handMeID = (item) => {
-		if (item.hasOwnProperty('content')) {
+		if (item.file) {
+			history.push(`/classroom/researcher/resources/pdf/${item.id}`);
+		} else {
 			history.push(`/classroom/researcher/resources/file/${item.id}`);
-			console.log(item);
 		}
+		// if (item.hasOwnProperty('content')) {
+
+		// 	console.log(item);
+		// }
 	};
 
 	return (
