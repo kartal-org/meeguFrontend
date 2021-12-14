@@ -143,7 +143,7 @@ export default [
 
 	<Route exact path='/works/:id' component={ProjectManager} />,
 
-	<Route exact path='/fileViewer' component={FileViewer} />,
+	<Route exact path='/fileViewer/:id' component={FileViewer} />,
 	<Route exact path='/works' component={WorkSpace} />,
 	<Route exact path='/messages' component={FinalMessage} />,
 	<Route exact path='/classroom/researcher/:id' component={ResearcherClassroomManager} />,

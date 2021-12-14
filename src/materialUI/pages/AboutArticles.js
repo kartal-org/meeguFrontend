@@ -89,7 +89,9 @@ const AboutArticles = () => {
 	}, [fetchArticle]);
 
 	const viewPdf = () => {
-		history.push('/fileViewer?filePath=' + article.archiveFile);
+		if (article) {
+			history.push('/fileViewer/' + article.id);
+		}
 	};
 	const handleAddArticle = () => {
 		dispatch(addArticle(`/library/`, { user: currentUser.id, publication: article.id }));
