@@ -120,9 +120,9 @@ export default noteSlice.reducer;
 
 //action creators
 
-export const getNotes = () =>
+export const getNotes = (link) =>
 	apiCallBegan({
-		url: '/note/',
+		url: link,
 		method: 'get',
 		headers: {
 			Authorization: 'Bearer ' + localStorage.getItem('access_token'),

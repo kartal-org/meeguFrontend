@@ -8,10 +8,13 @@ const Notes = () => {
 	const [items, setItems] = useState([]);
 	const dispatch = useDispatch();
 	const { notes, isLoading } = useSelector((state) => state.note);
+	const currentUser = useSelector((state) => state.auth.user);
 
 	useEffect(() => {
-		dispatch(getNotes());
-	}, []);
+		if (currentUser) {
+			dispatch(getNotes(`/note/?search=${currentUser.id}`));
+		}
+	}, [currentUser]);
 
 	useEffect(() => {
 		if (!isLoading) {
